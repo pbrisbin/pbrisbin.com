@@ -1,0 +1,19 @@
+---
+layout: default
+title: archives on pbrisbin dot com
+permalink: /archives/
+---
+
+<header>
+  <a href="/">Home</a>
+  <h1>Archives</h1>
+</header>
+
+<ul class="archives">
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      <span class="date">{{ post.date | date_to_string }}<span>
+    </li>
+  {% endfor %}
+</ul>

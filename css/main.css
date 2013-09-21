@@ -54,6 +54,11 @@ img {
   margin-bottom: 15px;
 }
 
-#boostrap-sucks {
-  text-align: center;
+.archives {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.archives .date {
+  color: #999;
 }
