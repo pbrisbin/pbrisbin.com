@@ -1,0 +1,59 @@
+body {
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  margin-top: 10px;
+  text-align: justify;
+}
+header {
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 10px;
+}
+header h1 .dot {
+  color: #999;
+}
+
+footer {
+  border-top: 1px solid #e5e5e5;
+  clear: both;
+  color: #999;
+  height: 200px;
+  margin-top: 10px;
+  padding-top: 5px;
+}
+footer #copyright {
+  text-align: center;
+}
+
+.note,
+.panel,
+.update {
+  background: #f1f1f1;
+  border: 1px solid #e5e5e5;
+  margin: 20px 0;
+  padding-bottom: 11px;
+  padding: 20px;
+
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+img {
+  margin: 5px;
+  margin-bottom: 25px;
+  max-width: 95%;
+
+  -webkit-box-shadow: 2px 12px 20px #888;
+     -moz-box-shadow: 2px 12px 20px #888;
+          box-shadow: 2px 12px 20px #888;
+}
+
+.meta {
+  color: #999;
+  font-size: 90%;
+  margin-bottom: 15px;
+}
+
+#boostrap-sucks {
+  text-align: center;
+}

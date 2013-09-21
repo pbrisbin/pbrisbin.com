@@ -1,0 +1,16 @@
+---
+layout: default
+---
+
+<header>
+  <p><a href="/">Home</a></p>
+  <h1>{{ page.title }}</h1>
+</header>
+
+{% for post in site.posts %}
+  {% for tag in post.tags %}
+    {% if tag == page.tag %}
+      {% include post_summary.html %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}

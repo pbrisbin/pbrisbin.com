@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+
+    <meta name="description" content="pbrisbin dot com">
+    <meta name="author" content="Patrick Brisbin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/syntax.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="author" href="https://plus.google.com/103657657323567990861/posts">
+
+    <script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-22304237-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  <body>
+    <section class="container">
+
+      {{ content }}
+
+      <footer>
+        <section id="links">
+          <p>
+            follow me on <a href="https://github.com/pbrisbin">github</a>
+            and <a href="http://twitter.com/patbrisbin">twitter</a>,
+            email <strong>me at pbrisbin dot com</strong>.
+          </p>
+        </section>
+
+        <section id="copyright">
+          &copy; pbrisbin dot com 2013. <a href="#">source</a>.
+        </section>
+      </footer>
+    </section>
+  </body>
+</html>

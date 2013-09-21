@@ -1,0 +1,12 @@
+<h1>{{ post.title }}</h1>
+
+{{ post.content | markdownify }}
+
+<p class="meta">
+  <a href="{{ post.url }}">published</a>
+  on {{ post.date | date_to_string }}, tagged with
+
+  {% for tag in post.tags %}
+    <a href="/tags/{{ tag | uri_escape }}">{{ tag}} </a>
+  {% endfor %}
+</p>
