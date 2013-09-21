@@ -15,7 +15,7 @@ this?*
 
 I find one well-known stage is *how can I automount my USB drives?* This 
 usually comes early on as a new Arch user ditches GNOME or KDE in favor 
-of something lighter, something more minimalistic, something he can 
+of something lighter, something more minimalistic, something they can 
 actually be proud to show off in the screenshot thread. Well, ditch the 
 DE and you lose all those nifty little automagical tools, like 
 gnome-volume-manager and the like.
