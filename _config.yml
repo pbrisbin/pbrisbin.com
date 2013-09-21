@@ -2,4 +2,4 @@ name: pbrisbin dot com
 markdown: redcarpet
 pygments: true
 permalink: '/posts/:title'
-exclude: [".git", "README.md", "deploy.sh"]
+exclude: [".git", "README.md", "newpost.sh", "deploy.sh"]
