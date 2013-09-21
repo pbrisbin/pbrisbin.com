@@ -1,17 +1,11 @@
 #!/usr/bin/env sh
 set -e
 
-remote="162.243.3.84"
-timestamp="$(date +%Y%m%d%H%M)"
-
-cd "$HOME/Code/pbrisbin"
+tag="v$(date +%Y%m%d%H%M)"
+host='pbrisbin.com'
 
 jekyll build
 
-tar czf - _site | ssh "$remote" 'tar xzf -'
+rsync -e ssh --archive _site/ "$host:/srv/http/site/"
 
-ssh -t "$remote" "
-  mv _site '/srv/http/site/releases/$timestamp'
-  rm /srv/http/site/current
-  ln -s 'releases/$timestamp' '/srv/http/site/current'
-"
+git tag -a -m "$tag" "$tag"
