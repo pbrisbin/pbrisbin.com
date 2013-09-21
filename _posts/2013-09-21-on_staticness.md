@@ -89,7 +89,7 @@ three things:
 These are all useful things, but there's never any real discussion going 
 on between commenters; it's all just a note to me. So I've decided to 
 let these come in as emails. My hope is folks who might've commented are 
-OK sending it in an email. The address is the in the footer pretty much 
+OK sending it in an email. The address is in the footer pretty much 
 where you'd expected a Comments section to be. I'll make sure that any 
 corrections or additional info sent via email will make it back into the 
 main content of the post.
