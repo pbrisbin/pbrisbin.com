@@ -35,7 +35,7 @@ mutt is trying to give me.
 Assuming you're using my [python helper][] for offlineimap, you can very 
 easily exclude some of the noise from being synced:
 
-[python helper]: https://github.com/pbrisbin/dotfiles/blob/master/offlineimap.py
+[python helper]: https://github.com/pbrisbin/dotfiles/blob/master/host-teal/offlineimap.py
 
 **~/.offlineimaprc**
 
@@ -142,7 +142,7 @@ understand if it's not for everyone.
 
 In the cases that I do want to mark the whole mailbox read including any 
 closed threads, I just use this second macro to open everything before 
-running the above, then closing it up again after:
+running the above, then close it up again after:
 
 ```
 macro index ,R "<collapse-all>,r<collapse-all>" "mark all as read (collapsed)"
