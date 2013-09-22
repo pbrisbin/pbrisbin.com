@@ -22,8 +22,8 @@ all very much, but the educational value of maintaining my personal blog
 as a locally-hosted web-app is just not there any more. With that value 
 gone, things like power outages, harddrive failures, Comcast, etc which 
 bring my site down become unacceptable. It's too easy to have something 
-which requires almost no maintenance while still giving me the control I 
-want over how it's configured and served.
+which requires almost no maintenance while still giving me the control 
+and work-flow I want.
 
 I realize I could've moved my site as-is to a VPS and no longer been at 
 the whim of Comcast and NSTAR, but that wouldn't decrease the 
