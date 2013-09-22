@@ -85,162 +85,83 @@ while only mimicking the `stdout`, `stderr`, and exit code of what it's
 mocking. A command that creates files, for example, which are used by 
 other parts of the script could not be mocked this way.
 
-## The Source, Luke
+## Mucking with PATH
 
-One way to intercept calls to executables is to declare a function by 
-the same name. Unfortunately, this only works if the program logic (the 
-caller of the executable) is in the same script as the function 
-definitions. Fortunately, any script can be easily modified so that, in 
-stead of being called directly, it can be sourced into another and 
-called via an entry function.
+One way to intercept calls to executables is to prepend `$PATH` with 
+some controllable directory. Files placed in this leading directory will 
+be found first in command lookups, allowing us to handle the calls.
 
-First, move the "active" part of the script (meaning not a function 
-definition or variable assignment) into a new function, and replace it 
-with a call to that function.
-
-So,
-
-```bash 
-# program functions...
-
-initialize "$@"
-
-if searching; then
-  perform_search
-else
-  upgrading && add_available_upgrades
-  resolving && resolve_dependencies
-
-  setup_targets
-  process_targets
-fi
-```
-
-Becomes:
-
-```bash 
-# program functions...
-
-main() {
-  initialize "$@"
-
-  if searching; then
-    perform_search
-  else
-    upgrading && add_available_upgrades
-    resolving && resolve_dependencies
-
-    setup_targets
-    process_targets
-  fi
-}
-
-main "$@"
-```
-
-Then just make it so that function is only called when you want it to 
-be. In our case, we want to prevent the call if we're in a cram test:
-
-```bash 
-main() {
-  # ...
-}
-
-[[ -n "$TESTDIR" ]] && return
-
-main "$@"
-```
-
-Now, actual invocations like this:
-
-```
-$ my-script --foo --bar
-Expected output
-```
-
-Can be accurately reflected in a test like this:
-
-```
-  $ source my-script
-
-Test foo and bar
-
-  $ main --foo --bar
-  Expected output
-
-```
-
-Except that we now have a chance to do things in between the `source` 
-and the `main` -- like define functions to modify script behavior.
-
-## Halp
-
-To easily override commands with same-named functions, we'll move things 
-into a helper file:
+I like to write my cram tests so that the first thing they do is source 
+a `test/helper.sh`, so this makes a nice place to do such a thing:
 
 **test/helper.sh**
 
-```bash 
-curl() {
-  echo "zomg you called curl with $*"
-}
-
-source "$TESTDIR/../my-script"
+```bash
+export PATH="$TESTDIR/..:$TESTDIR/bin:$PATH"
 ```
 
-And source it at the top of every cram test:
+This ensures that a) the executable in the source directory is used and 
+b) anything in `test/bin` will take precedence over system commands.
 
-```
-  $ source "$TESTDIR/helper.sh"
-
-Test the thing...
-```
+Now all we have to do to mock `foo` is add a `test/bin/foo` which will 
+be executed whenever our Subject Under Test calls `foo`.
 
 ## Record/Replay
 
-The logic of what to do in that `curl` function is pretty simple:
+The logic of what to do in a mock script is straight forward:
 
 1. Build a unique identifier for the invocation
-
 2. Look up a stored "response" by that identifier
-
-3. If not found, run the program and record a response
-
+3. If not found, run the program and record said response
 4. Reply with the recorded response to satisfy the caller
 
-All this in **11** lines:
+We can easily abstract this in a generic, **12** line proxy:
 
-**test/bin/mock**
+**test/bin/act-like**
 
 ```bash 
 #!/usr/bin/env bash
 program="$1"; shift
+base="${program##*/}"
 
-fixtures="$TESTDIR/fixtures/$program/$(echo $* | md5sum | cut -d ' ' -f 1)"
+fixtures="${TESTDIR:-test}/fixtures/$base/$(echo $* | md5sum | cut -d ' ' -f 1)"
 
 if [[ ! -d "$fixtures" ]]; then
   mkdir -p "$fixtures"
-  $(which $program) "$@" >"$fixtures/stdout" 2>"$fixtures/stderr"
+  $program "$@" >"$fixtures/stdout" 2>"$fixtures/stderr"
   echo $? > "$fixtures/exit_code"
 fi
 
-read -r exit_code < "$fixtures/exit_code"
-
 cat "$fixtures/stdout"
 cat "$fixtures/stderr" >&2
+
+read -r exit_code < "$fixtures/exit_code"
+
 exit $exit_code
 ```
 
-With this generalized proxy in hand, we can record any invocation of 
-anything we like (so long as we only need to mimic the `stdout`, 
-`stderr`, and exit code).
+With this in hand, we can record any invocation of anything we like (so 
+long as we only need to mimic the `stdout`, `stderr`, and exit code).
 
-```bash 
-curl()    { "$TESTDIR/bin/mock" curl    "$@"; }
-makepkg() { "$TESTDIR/bin/mock" makepkg "$@"; }
-pacman()  { "$TESTDIR/bin/mock" pacman  "$@"; }
+**test/bin/curl**
 
-source "$TEST_DIR/../my-script"
+```bash
+#!/usr/bin/env bash
+act-like /usr/bin/curl "$@"
+```
+
+**test/bin/makepkg**
+
+```bash
+#!/usr/bin/env bash
+act-like /usr/bin/makepkg "$@"
+```
+
+**test/bin/pacman**
+
+```bash
+#!/usr/bin/env bash
+act-like /usr/bin/pacman "$@"
 ```
 
 ## Success!
