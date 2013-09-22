@@ -1,4 +1,6 @@
 name: pbrisbin dot com
+description: pbrisbin dot com
+url: http://pbrisbin.com
 markdown: redcarpet
 pygments: true
 permalink: '/posts/:title'
