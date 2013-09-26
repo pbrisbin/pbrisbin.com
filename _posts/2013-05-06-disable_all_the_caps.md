@@ -26,7 +26,7 @@ The setup is fairly simple in the end, but I found enough minor traps
 that I thought it was appropriate to document things once I got it 
 working.
 
-<div class="note">
+<div class="well">
 It has come to my attention that configuring this via `xorg.conf.d` 
 actually does affect hot-plugged keyboards.
 

@@ -185,7 +185,7 @@ server {
 }
 ```
 
-<div class="note">
+<div class="well">
 It's been my experience that starting only the keter service will not 
 then bring up nginx. Not sure if this is intended or a bug; just be 
 aware that you need to start the nginx service yourself. Keter only 
@@ -314,7 +314,7 @@ ExecStart=/usr/bin/keter /etc/keter.yaml
 WantedBy=multi-user.target
 ```
 
-<div class="note">
+<div class="well">
 Recently, a post of mine made it to the front page of Hacker News and I 
 was bombarded with traffic for about 5 hours. Aside from the general 
 network slowness of serving from behind a residential Comcast IP, the 

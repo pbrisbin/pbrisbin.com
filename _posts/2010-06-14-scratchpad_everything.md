@@ -45,7 +45,7 @@ So of course, we'll need to add
 `import XMonad.Util.NamedScratchpad` to the top of our config
 file.
 
-<div class="note">
+<div class="well">
 Please refer back to my previous [post](/posts/xmonad_scratchpad/) for 
 information regarding some boilerplate code. This writeup assumes you 
 have a main-do block that calls out `myManageHook` and `myKeys` to be 
@@ -63,7 +63,7 @@ specified to fully describe a scratchpad:
 -   A Query Bool: The way to find the window once it's running
 -   A ManageHook: The way to manage the window when we call it up
 
-<div class="note">
+<div class="well">
 Those last two data types might sound scary, but they aren't. If
 you think of the fact that most users define custom window
 management in a list of `(Query Bool --> ManageHook)` and one
@@ -114,7 +114,7 @@ So you can see I have a list containing two scratchpads. The
 datatype syntax requires the "NS" plus the four things I've listed
 above.
 
-<div class="note">
+<div class="well">
 You'll notice I liberally use sub-functions via where clauses. You
 can think of these as simple variables and if parenthesized and
 placed directly where they're called out, they would work exactly
@@ -147,7 +147,7 @@ myKeys = [ ...
            scratchMixer = namedScratchpadAction myScratchPads "mixer"
 ```
 
-<div class="note">
+<div class="well">
 I'm using 
 [EZConfig](http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Util-EZConfig.html) 
 notation in my keybindings.

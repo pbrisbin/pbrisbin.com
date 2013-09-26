@@ -19,7 +19,7 @@ like one bar across the top of your screen. The left fed by an xmonad
 [urgencyHooks][]), the current layout and the current window title. The
 right fed by conky to show music, system stats and of course the time.
 
-<div class="note">
+<div class="well">
 Many thanks go to moljac and lifeafter2am on the Arch forums. They
 offered their xmonad.hs's to me and helped get me setup this way.
 </div>

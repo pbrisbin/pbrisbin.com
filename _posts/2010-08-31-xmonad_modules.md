@@ -11,7 +11,7 @@ tags:
 This page is to serve as both an apology and an announcement. I've
 recently modularized my `xmonad.hs`. I'm sorry.
 
-<div class="note">
+<div class="well">
 This is no longer true. I've since gone through a bit of a config
 cleanse, deciding it makes my life easier to live closer to defaults and
 not carry around a lot of extra configuration or features (that I don't

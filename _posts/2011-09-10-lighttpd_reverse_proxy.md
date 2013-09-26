@@ -20,7 +20,7 @@ then proxy certain urls through to it via lighttpd.
 This how-to will outline the steps needed to get this setup and comment 
 a little bit on what all the moving parts do.
 
-<div class="note">
+<div class="well">
 This guide assumes your code is structured roughly like the 0.9.1 
 scaffolder, and your `Application.hs` exports that `withYourApp` 
 function which is used by `main.hs` and compiled into a binary and 

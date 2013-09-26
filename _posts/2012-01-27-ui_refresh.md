@@ -28,7 +28,7 @@ The change does make the site less-then-great on less-than-wide
 monitors, but I'm not sure how many people are viewing this on mobile 
 devices, etc. We'll see if I need to bring back my `@media` queries.
 
-<div class="update">
+<div class="well">
 Bootstrap 2.0 brings a "responsive" grid, so now the site looks pretty 
 good on just about any device.
 

@@ -80,7 +80,7 @@ I've defined the function `standardLayouts`, which we'll use on all
 workspaces. Then for "3-im", I define `imLayout` which uses the `withIM`
 modifier.
 
-<div class="note">
+<div class="well">
 This really highlights what XMonad brings as a WM, something you don't
 get with most other tilers; because we are using haskell as the config
 language, we have all kinds of native tricks at our disposal. The reason
@@ -122,7 +122,7 @@ myManageHook = composeAll
 This will move all IM windows to the IM workspace, and float anything 
 that's of the IM Class but not the roster's Role.
 
-<div class="note">
+<div class="well">
 You can use the commandline tool `xprop` to find out a window's
 properties for use in these `manageHook`s.
 </div>

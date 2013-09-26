@@ -31,20 +31,6 @@ pre code {
   white-space: pre;
 }
 
-.note,
-.panel,
-.update {
-  background: #f1f1f1;
-  border: 1px solid #e5e5e5;
-  margin: 20px 0;
-  padding-bottom: 11px;
-  padding: 20px;
-
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
-}
-
 img {
   margin: 5px;
   margin-bottom: 25px;

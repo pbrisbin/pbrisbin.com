@@ -93,7 +93,7 @@ spot because I'm expecting a call. In stead, I'll see this:
 
 The source for this script can be found in my [github][].
 
-<div class="update">
+<div class="well">
 In my continued attempts to learn some C, I decided to combine the 
 netcat and message parsing functions of the above into a small C app.
 

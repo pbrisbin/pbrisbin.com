@@ -142,7 +142,7 @@ myLogHook h = dynamicLogWithPP $ defaultPP
   }
 ```
 
-<div class="note">
+<div class="well">
 The above requires other contrib modules, changes to main, and special 
 imports to get working. As I've said, I'm leaving it as an exercise for 
 the reader to set up his or her own logHook.

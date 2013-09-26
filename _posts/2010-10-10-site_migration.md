@@ -76,7 +76,7 @@ appreciate them greatly. I still have them and I'll continue to look
 into ways to port them over to disqus, but so far, it's not looking too 
 promising.
 
-<div class="note">
+<div class="well">
 I've changed my approach to posts and am now using pandoc to write them. 
 This means that I don't need gist anymore thanks to pandoc's great 
 syntax highlighting features. I'm also working on my own Yesod module 

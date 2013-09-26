@@ -33,7 +33,7 @@ Udev has a little folder called `/etc/udev/rules.d`. In this folder, are
 one each time some udev 'event' occurs, like, say, plugging in a 
 flashdrive.
 
-<div class="note">
+<div class="well">
 Go google udev rules, there's alot out there for all sorts of nifty 
 things.
 

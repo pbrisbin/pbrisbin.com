@@ -21,7 +21,7 @@ search-as-you-type interface.
 
 [search]: http://sphinxsearch.com/
 
-<div class="note">
+<div class="well">
 For the full context, including required imports and supporting 
 packages, please see this feature in the [wild][].
 
@@ -204,7 +204,7 @@ within that skinny handler.
 Anyway, I digress -- Here's the sphinx interface implemented as 
 `Helpers.Search` leveraging gweber's great [sphinx][] package:
 
-<div class="note">
+<div class="well">
 The below helper actually violates my second "design pattern": *Keep 
 Helpers generic* and could be generalized away from anything 
 app-specific by simply passing a few extra arguments around. You can see 

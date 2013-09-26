@@ -11,7 +11,7 @@ Mutt can be really great with multiple accounts, but it's not exactly
 intuitive to setup. Here I'll document how I access two Gmail accounts 
 together in one mutt instance.
 
-<div class="note">
+<div class="well">
 If you haven't yet seen my previous mutt post, please go read [that][] 
 now. I recommend using that post to get a single account setup first 
 before coming back here. Even if you plan to jump right into a 
@@ -66,7 +66,7 @@ realdelete = no
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 ```
 
-<div class="note">
+<div class="well">
 Obviously, if either of these accounts weren't a Gmail server, the 
 configuration blocks would be different.
 </div>
@@ -172,7 +172,7 @@ macro index S \
         "mark message as spam"
 ```
 
-<div class="note">
+<div class="well">
 Notice the `color` line which changes the status bar depending on what 
 account I'm "in" at any given moment.
 </div>

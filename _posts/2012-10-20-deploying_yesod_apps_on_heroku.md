@@ -8,7 +8,7 @@ tags:
   - cloud
 ---
 
-<div class="note">
+<div class="well">
 **Update** This post describes compiling a Yesod application locally 
 using a VM to achieve the compilation on a Heroku-like machine, then 
 pushing the binary up to Heroku to be run. This is an annoying route 
@@ -21,7 +21,7 @@ follow it. Instead follow [this][] guide.
 The following are the steps I followed to get a non-trivial Yesod 
 application running on Heroku.
 
-<div class="note">
+<div class="well">
 This guide assumes you know what Heroku is, you've got the Toolbelt 
 installed, and your ssh keys are set up. The wiki I followed can be 
 found [here][wiki]. The Heroku "Getting started" guides were also very 
@@ -56,7 +56,7 @@ $ cat package.json
 }
 ```
 
-<div class="note">
+<div class="well">
 The package.json file tricks Heroku into running us as if we were a 
 node.js app which really just means executing the command in the 
 Procfile.
@@ -110,7 +110,7 @@ Production:
   sslmode: require
 ```
 
-<div class="note">
+<div class="well">
 As mentioned in the comments, putting credentials for a world-reachable 
 database into publicly shared source code is a Bad Idea. In my case, the 
 applications I place on Heroku are throw away prototypes for which this 
@@ -126,7 +126,7 @@ from the environment.
 
 ## Build
 
-<div class="note">
+<div class="well">
 If your local hardware doesn't match Heroku's, **you're gonna have a bad 
 time**
 </div>
@@ -157,7 +157,7 @@ $ vagrant ssh
 [guest]$ cabal build
 ```
 
-<div class="note">
+<div class="well">
 These steps will take a long time the first time around because you're 
 compiling GHC, the Haskell Platform, then installing all your Yesod 
 dependencies. As long as you don't destroy the VM, subsequent rebuilds 
@@ -187,7 +187,7 @@ If you get an Application error when viewing your freshly deployed site,
 you can check to see what's wrong via `heroku logs`. I direct you back 
 to the original [wiki][] for some trouble shooting tips.
 
-<div class="note">
+<div class="well">
 Pushing to Heroku requires you setup SSH keys (like any hosting service 
 should). When you initially `heroku login` it will look for an existing 
 key and use it or create a default `id_rsa.pub` for you.
@@ -251,7 +251,7 @@ the easiest way I've found is to use the Zerigo DNS add-on:
 $ heroku addons:add zerigo_dns:basic
 ```
 
-<div class="note">
+<div class="well">
 The add-on is free, but they do require you verify your account and add 
 billing information to install it.
 </div>

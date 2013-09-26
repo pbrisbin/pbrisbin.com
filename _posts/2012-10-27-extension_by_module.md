@@ -25,7 +25,7 @@ appropriate to add behavior to just that instance.
 If you're intention is to make `String`s greppable, opening up the 
 `String` class might look appealing
 
-<div class="note">
+<div class="well">
 I'm aware that `Enumerable` already provides this functionality. It's 
 just an example.
 </div>

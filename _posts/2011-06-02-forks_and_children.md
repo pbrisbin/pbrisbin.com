@@ -177,7 +177,7 @@ int main() {
 
 That's it, no more zombies.
 
-<div class="update">
+<div class="well">
 I noticed in the source for `dzen2` that they use a double-fork approach 
 which also prevents zombies -- with no need for signal handlers (yay 
 KISS!):

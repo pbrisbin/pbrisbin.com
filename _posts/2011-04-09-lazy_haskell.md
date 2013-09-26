@@ -57,7 +57,7 @@ stringIsEven s = even $ length s
 stringIsEven = even . length
 ```
 
-<div class="note">
+<div class="well">
 Remember, `$` is function *application* while `.` is function 
 *composition*.
 
@@ -80,7 +80,7 @@ its arguments is `True`.
 -- False
 ```
 
-<div class="note">
+<div class="well">
 Curious how `(||)` is defined in haskell's Prelude?
 
 ```haskell 
@@ -170,7 +170,7 @@ recursion to be type safe.
 Often, the types `a` and `b` are the same (as in `sum'` explained 
 below), but this is not required.
 
-<div class="note">
+<div class="well">
 `foldr` and `foldl` are different in the direction of the fold: folding 
 to the right or folding to the left. In some cases this doesn't matter, 
 in others it does.
@@ -310,7 +310,7 @@ any'    p list = foldr ((||)   . p)         False  list
 liftAny p list = foldr ((<||>) . p) (return False) list
 ```
 
-<div class="note">
+<div class="well">
 `return False` is simply the *lifted* version of `False` just like 
 `(=?)` is the *lifted* version of `(==)`...
 

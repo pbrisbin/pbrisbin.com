@@ -9,7 +9,7 @@ tags:
 
 *subtitle: how to stay sane when developing for the web in haskell*
 
-<div class="note">
+<div class="well">
 This post was originally about how I structure my Yesod applications and 
 where it differs from the scaffold tool. I've since done a bit of a 180 
 and started to really like the scaffold tool and its structure.
@@ -67,7 +67,7 @@ could still chose tiny, or database-driven and get all that setup at
 this point too). Then, `yesod scaffold --whatever` commands could be 
 used to build up a CRUD interface with your actual data types.
 
-<div class="note">
+<div class="well">
 Hmm, that turned into a bit of a wine about how rails is better than 
 yesod -- that is not my opinion in general. There are tons of reasons I 
 prefer yesod overall, I was just really impressed with rails scaffolding 
@@ -166,7 +166,7 @@ By using the cabal file, deployments are pretty easy. I use lighttpd as
 my server-of-choice (I also let it do the static file serving), so I 
 need to compile to fastcgi.
 
-<div class="note">
+<div class="well">
 I keep exactly one copy of any static files (including my main css) and 
 it lives only in  the production location. To support this, I define a 
 `staticLink` function in `Settings.hs` which is conditional on the 

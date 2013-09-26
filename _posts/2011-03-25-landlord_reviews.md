@@ -62,7 +62,7 @@ works.
 
 A beautiful thing.
 
-<div class="note">
+<div class="well">
 I use [slicehost][]. They have an Arch image. They rock.
 
 </div>

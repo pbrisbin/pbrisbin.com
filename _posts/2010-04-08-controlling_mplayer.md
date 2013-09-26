@@ -91,7 +91,7 @@ myKeys = [ ...
            mPlay s = spawn $ "echo " ++ s ++ " > $HOME/.mplayer_fifo"
 ```
 
-<div class="note">
+<div class="well">
 I'm using 
 [EZConfig](http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Util-EZConfig.html) 
 notation in my keybindings.

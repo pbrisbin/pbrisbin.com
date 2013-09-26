@@ -38,7 +38,7 @@ actual terminal to be a bit stabler, especially port forwarding.
 On older versions this is a physical toggle, but in the version I have 
 it's a software switch:
 
-<div class="note">
+<div class="well">
 This process is effectively a factory reset. Though, if you have data on 
 there you're worried about, you're Doing It Wrong.
 </div>
@@ -74,7 +74,7 @@ browser.
 The shell opens in `/` but you do have a proper `~/` at 
 `/home/chronos/user`. Let's `cd` there and setup a few niceties.
 
-<div class="note">
+<div class="well">
 The bundled `vim` is built with only the "tiny" featureset and is not 
 very fun to use. I might even go so far as to recommend `cat`ting the 
 content into these files.

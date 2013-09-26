@@ -17,7 +17,7 @@ Maybe can help us understand them.
 Shortly thereafter, I was bored on the train one day and decided to 
 implement Maybe and its functor instance in ruby.
 
-<div class="note">
+<div class="well">
 In this post I'll be relying on the fact that `obj.(args)` is translated 
 to `obj.call(args)` in newer rubies. I find it makes the example read 
 better.
@@ -164,7 +164,7 @@ get_len_with_bar = compose(get_len, add_bar)
 get_len_with_bar.("foo") # => 7
 ```
 
-<div class="note">
+<div class="well">
 This is all **so much easier** in Haskell...
 </div>
 
@@ -188,7 +188,7 @@ fmap = ->(f, x) do
 end
 ```
 
-<div class="note">
+<div class="well">
 Strictly speaking, `fmap`'s behavior is type-dependant. So a real 
 implementation (for some definition of "real") would probably make a 
 method on `Object` which needs to be overridden by any classes that are 

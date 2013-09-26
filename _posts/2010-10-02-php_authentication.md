@@ -85,7 +85,7 @@ authenticate($valid_users);
 Is it awesome? Is it safe? Is it secure? Probably not. But it
 serves the purpose I need. And, is it easy? Yes.
 
-<div class="note">
+<div class="well">
 The PHP `header()` function has to be the absolute first thing to
 generate any output from your page. This means you can't embed this
 authentication logic in a page with any printed HTML (static or

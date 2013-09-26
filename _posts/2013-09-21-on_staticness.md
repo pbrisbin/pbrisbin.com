@@ -111,8 +111,8 @@ Pandoc does it right. Everything else puts the literal text inside the
 `div`. This breaks all my posts horribly because I'll frequently do 
 something like:
 
-<div class="note">
-This is in a `div` with `class="note"`, and the content inside is 
+<div class="well">
+This is in a `div` with `class="well"`, and the content inside is 
 **still** markdown.
 </div>
 

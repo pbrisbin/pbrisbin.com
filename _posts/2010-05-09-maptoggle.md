@@ -32,7 +32,7 @@ Then, just map keys to that function:
 You'll even get a nice notification in your vim command prompt when
 you toggle the setting
 
-<div class="note">
+<div class="well">
 I believe I got this from [rson](http://rsontech.net)'s vimrc, but I'm 
 not sure; If I did, thanks rson.
 

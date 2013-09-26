@@ -138,7 +138,7 @@ functions. If you're having trouble seeing how an expression is
 leveraging the above laws to do what it does, it can be a good exercise 
 to de-sugar it by hand.
 
-<div class="note">
+<div class="well">
 The super interesting thing (I find) about the above instances of 
 `Functor` and `Maybe` is that we're not making `Maybe a` an instance of 
 anything, we're describing *only* the behavior of `Maybe`. The types 
@@ -216,7 +216,7 @@ I did just that at one point) -- but this concept of a `Functor`
 abstracts all that down to a simple generic `fmap` that can be used with 
 a zillion different compound "wrapper" types.
 
-<div class="note">
+<div class="well">
 Guess what? `IO` is a `Functor` too.
 
 ```haskell 
@@ -304,7 +304,7 @@ textToResponse t = do
 The `r <-` and `return r` is redundant but I think it shows more clearly 
 the interaction between the `a`s and `Maybe a`s.
 
-<div class="note">
+<div class="well">
 You can even mix `do` notations within each other:
 
 ```haskell 

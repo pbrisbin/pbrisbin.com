@@ -7,7 +7,7 @@ tags:
   - published
 ---
 
-<div class="note">
+<div class="well">
 The following was written for [issue 7][issue] of Web & PHP magazine. 
 Please, if you enjoy this article (or my articles in general), take the 
 two minutes to register there and download the full PDF to show your 
@@ -84,7 +84,7 @@ you a simple "hello world" site with important features like
 persistence, authentication and static file serving already coded out. 
 You can then edit and extend this site to quickly build out features.
 
-<div class="note">
+<div class="well">
 It's important to note that this is not *the* way to structure a Yesod 
 application, is just *one* way to do it. That said, this organisational 
 structure has been refined over a long period of time and comes with 
@@ -270,7 +270,7 @@ persisted to or restored from the database.
 
 Again, save the file and make sure it compiles.
 
-<div class="note">
+<div class="well">
 Notice that I used the `Maybe` type on `lemonadeOrder`. In Haskell, the 
 this type is defined as:
 
@@ -331,7 +331,7 @@ So, whenever a GET request comes in for "/", Yesod will now translate
 that URL into the data type `HomeR` and know to call `getHomeR` which is 
 a function that returns an HTML response (`RepHtml`).
 
-<div class="note">
+<div class="well">
 If you were to define a route like "/users/#UserId UsersR GET", then 
 your required function `getUsersR` would have the type `UserId -> 
 RepHtml`. Since your URL has a variable in it, that piece will match as 
@@ -497,7 +497,7 @@ adding that route to our app, we'd get a similar compiler error. No more
 dead links in your application, any URLs that don't resolve will 
 immediately show up as compiler errors.
 
-<div class="note">
+<div class="well">
 If we had a route as mentioned before for users ("/users/#UserId") we'd 
 have to use something like `@{UsersR aUserId}` and the compiler would 
 infer and enforce that `aUserId` is, in fact, a `UserId`.
@@ -535,7 +535,7 @@ back to a value of type `Lemonade` when the form is processed. The lines
 that use `pure` provide values when processed, but don't actually show 
 any fields.
 
-<div class="note">
+<div class="well">
 Where going to cheat here and completely ignore `Price`. Dealing with 
 dependent fields (setting price based on size, for example) can get 
 tricky, so we're just going to set the price server-side after the size 

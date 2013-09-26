@@ -55,7 +55,7 @@ take some time, but once done, you should see the folders under
 Once you're satisfied syncing is working, we'll schedule a periodic sync 
 via cron.
 
-<div class="note">
+<div class="well">
 There are some tempting options offlineimap has for daemonizing itself 
 to handle periodic syncing for you -- in my experience these don't work. 
 Scheduling a full offlineimap run via cron is the only working setup 

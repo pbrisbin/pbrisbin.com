@@ -52,7 +52,7 @@ folderfilter = exclude([ '[Gmail]/All Mail'
                        ])
 ```
 
-<div class="note">
+<div class="well">
 Yes, I exclude the "Important" stuff. How ironical.
 </div>
 

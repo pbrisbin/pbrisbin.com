@@ -59,7 +59,7 @@ perfect sense: you're in a valid git repo; when executing a `push`, you
 wouldn't expect it to use anything *but* the `remote` that was defined 
 and stored in your `.git/config`.
 
-<div class="note">
+<div class="well">
 In some versions of git, I find that a submodule's `.git` is actually a 
 file pointing to a `.git/modules/name/` directory in the parent repo.
 </div>
