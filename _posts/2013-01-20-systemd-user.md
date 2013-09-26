@@ -257,17 +257,13 @@ what do we gain?
 Well, my OCD *loves* seeing a nice, isolated process group of everything 
 X-related:
 
-<div class="image centered">
 ![Process group](/img/htop-process-group.png)
-</div>
 
 We can also now use a consistent interface for working with services at 
 both the system and X level. Included in this interface is the super 
 useful `status`:
 
-<div class="image centered">
 ![Service status](/img/urxvtd-service-status.png)
-</div>
 
 Finally, we get the benefits of `journalctl` -- running it as our 
 non-root user will show us all the messages from our X-related 

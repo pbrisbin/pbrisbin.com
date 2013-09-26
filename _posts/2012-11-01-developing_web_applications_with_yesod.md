@@ -131,9 +131,7 @@ etc. Most importantly is "Devel application launched:
 http://localhost:3000". Go ahead and checkout the sample site by 
 visiting that URL in your browser.
 
-<div class="image">
 ![default screenshot](/img/lemonstand/default.png)
-</div>
 
 Now we're ready to hack!
 
@@ -507,9 +505,7 @@ There is a lot of functionality in Hamlet templates, some of which we'll
 get to when we build out our next page. What you can do right now is 
 refresh your browser and see your changes.
 
-<div class="image">
 ![homepage screenshot](/img/lemonstand/homepage.png)
-</div>
 
 ## Forms
 
@@ -641,9 +637,7 @@ create just "templates/checkout.hamlet":
 Simple variable interpolation is done via `#{ }`, while embedding one 
 template (like `form`) into another is done via `^{ }`.
 
-<div class="image">
 ![form screenshot](/img/lemonstand/form.png)
-</div>
 
 Now that we've got the form showing, we can replace our `undefined` 
 business logic with some actual updates:
@@ -722,9 +716,7 @@ getThankYouR oid = defaultLayout $ do
         |]
 ```
 
-<div class="image">
 ![thank you screenshot](/img/lemonstand/thank_you.png)
-</div>
 
 ## Conclusion
 

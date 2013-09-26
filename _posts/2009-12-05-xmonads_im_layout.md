@@ -17,9 +17,7 @@ Personally, I want my roster tiled in its own properly-sized location on
 one side, and all other IM related windows floating. I also want any of
 those IM windows to automatically be pushed to the IM workspace.
 
-<div class="image centered">
 [![IM Layout Screenshot][]][]
-</div>
 
 Here we can see that my roster is fit in its own little tile on the
 left, sized properly. The rest of the screen is tiled as a grid of

@@ -87,9 +87,7 @@ And there you go.
 The end product is no longer moving my charger away from its normal 
 spot because I'm expecting a call. In stead, I'll see this:
 
-<div class="image centered">
 ![Android Receiver Screenshot](/img/android_receiver.png)
-</div>
 
 The source for this script can be found in my [github][].
 

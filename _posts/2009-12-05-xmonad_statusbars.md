@@ -28,16 +28,12 @@ offered their xmonad.hs's to me and helped get me setup this way.
 
 Full desktop:
 
-<div class="image centered">
 [![XMonad Shot][]][]
-</div>
 
 And with an `urgencyHook` notification (Workspace turns a different
 color):
 
-<div class="image centered">
 [![XMonad Shot][1]][]
-</div>
 
 To achieve this, we set up a `dynamicLog` in `xmonad.hs` and adjust our
 `main` function to output to this bar and also spawn our right bar as

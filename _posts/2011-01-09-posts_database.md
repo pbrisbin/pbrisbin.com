@@ -443,9 +443,7 @@ At least that part is pretty easy after all the upfront forms work.
 Now, you can start up your test server and head to localhost:3000/manage 
 to try it out.
 
-<div class="image centered">
 ![Manage Posts Screenshot](/img/manage_posts.png)
-</div>
 
 The problem now is that if you were push this live, everyone could mess 
 with your data base. We need authentication.
@@ -536,8 +534,6 @@ getManagePostsR = do
 Now when you go to any page with authentication required, you're hit 
 with a Login box:
 
-<div class="image centered">
 ![Login Screenshot](/img/login_posts.png)
-</div>
 
 Login and manage your posts.
