@@ -20,7 +20,6 @@ and deploy Yesod applications.
 
 Note that this information is 0.8-specific and with the 0.9 and 1.0 
 versions of Yesod, this post will be obsolete (until I update it again).
-
 </div>
 
 I recently had the chance to do a coding exercise for a job interview. 
@@ -72,7 +71,6 @@ Hmm, that turned into a bit of a wine about how rails is better than
 yesod -- that is not my opinion in general. There are tons of reasons I 
 prefer yesod overall, I was just really impressed with rails scaffolding 
 abilities.
-
 </div>
 
 ## Scaffold
@@ -179,7 +177,6 @@ live location. When running in production, that function just returns
 
 I find this approach is way simpler than any other way I've done static 
 file serving.
-
 </div>
 
 My cabal file builds an executable from `config/mysite.hs` which looks 

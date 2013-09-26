@@ -17,7 +17,6 @@ process continue to loop.
 Many thanks go to falconindy who spoon fed me quite a bit as I was 
 wrapping my head around all of this knowledge I'm now shamelessly 
 presenting as my own.
-
 </div>
 
 In most languages you have some facility to group code into a logical 
@@ -203,5 +202,4 @@ wait(0);
 ```
 
 I like this approach better.
-
 </div>

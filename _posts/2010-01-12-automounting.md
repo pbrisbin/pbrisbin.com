@@ -36,7 +36,6 @@ flashdrive.
 <div class="well">
 Go google udev rules, there's alot out there for all sorts of nifty 
 things.
-
 </div>
 
 Someone smarter than I added a handful of useful rules to the Arch [udev 

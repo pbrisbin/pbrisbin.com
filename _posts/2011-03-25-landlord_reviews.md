@@ -64,7 +64,6 @@ A beautiful thing.
 
 <div class="well">
 I use [slicehost][]. They have an Arch image. They rock.
-
 </div>
 
 If you're interested, you can view the source on my [github][]; 

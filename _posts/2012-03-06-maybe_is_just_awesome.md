@@ -148,7 +148,6 @@ being wrapped up are irrelevant (they can even be further wrapped in
 Leaving those details out of it, or more importantly *being able* to 
 leave those details out of it is just another case of Haskell's type 
 system leading to elegant and generalized code.
-
 </div>
 
 ## Example Time
@@ -245,7 +244,6 @@ Coming back to our Monadic laws, you can imagine that if
 `getCurrentTime` failed in some way (and we know `IO` has *some* 
 implementation for `fail`) then the entire expression will be `fail` 
 simply because of the mechanics behind `>>=`.
-
 </div>
 
 Using `Maybe` as a `Monad` allows for even more verbose "stair-case" 
@@ -324,7 +322,6 @@ main = do
     -- and IO again
     sendResponse mresponse
 ```
-
 </div>
 
 So hopefully you've all learned a little bit through this post. I know 

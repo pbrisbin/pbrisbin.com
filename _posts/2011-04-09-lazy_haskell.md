@@ -60,7 +60,6 @@ stringIsEven = even . length
 <div class="well">
 Remember, `$` is function *application* while `.` is function 
 *composition*.
-
 </div>
 
 I think that gives you a general idea for how it works. Now let's 
@@ -94,7 +93,6 @@ Wow.
 Haskell's laziness means there's no special tricks needed to make if 
 statements "short circuit". Haskell won't evaluate the second expression 
 if the first is `True` because it's simply never needed.
-
 </div>
 
 OK, back to our function.
@@ -174,7 +172,6 @@ below), but this is not required.
 `foldr` and `foldl` are different in the direction of the fold: folding 
 to the right or folding to the left. In some cases this doesn't matter, 
 in others it does.
-
 </div>
 
 Let's look at a folding sum as a concrete example:
@@ -313,7 +310,6 @@ liftAny p list = foldr ((<||>) . p) (return False) list
 <div class="well">
 `return False` is simply the *lifted* version of `False` just like 
 `(=?)` is the *lifted* version of `(==)`...
-
 </div>
 
 Now my manage hooks can leverage a [list comprehension][listcomp] for a 

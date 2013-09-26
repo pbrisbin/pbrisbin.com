@@ -24,7 +24,6 @@ search-as-you-type interface.
 <div class="well">
 For the full context, including required imports and supporting 
 packages, please see this feature in the [wild][].
-
 </div>
 
 [wild]: https://github.com/pbrisbin/devsite
@@ -209,7 +208,6 @@ The below helper actually violates my second "design pattern": *Keep
 Helpers generic* and could be generalized away from anything 
 app-specific by simply passing a few extra arguments around. You can see 
 a more generic example [here][].
-
 </div>
 
 [sphinx]: http://hackage.haskell.org/package/sphinx

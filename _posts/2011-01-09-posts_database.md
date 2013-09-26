@@ -11,7 +11,6 @@ tags:
 This post is crazy out of date. If your interested in the updated ways 
 in which I accomplish the same goals on yesod 0.9, feel free to checkout 
 the site's [source][].
-
 </div>
 
 [source]: https://github.com/pbrisbin/devsite
@@ -470,7 +469,6 @@ I'd rather describe briefly how to use it.
 
 <div class="well">
 This has now been added to the main yesod-auth package.
-
 </div>
 
 After copying the source for the module into your app directory, make 

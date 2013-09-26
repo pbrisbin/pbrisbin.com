@@ -35,5 +35,4 @@ you toggle the setting
 <div class="well">
 I believe I got this from [rson](http://rsontech.net)'s vimrc, but I'm 
 not sure; If I did, thanks rson.
-
 </div>

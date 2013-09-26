@@ -90,5 +90,4 @@ The PHP `header()` function has to be the absolute first thing to
 generate any output from your page. This means you can't embed this
 authentication logic in a page with any printed HTML (static or
 coded) ahead of it.
-
 </div>

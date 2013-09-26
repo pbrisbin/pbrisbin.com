@@ -31,7 +31,6 @@ devices, etc. We'll see if I need to bring back my `@media` queries.
 <div class="well">
 Bootstrap 2.0 brings a "responsive" grid, so now the site looks pretty 
 good on just about any device.
-
 </div>
 
 I should be posting more in the coming weeks on some of the specific 

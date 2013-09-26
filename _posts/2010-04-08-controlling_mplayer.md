@@ -95,7 +95,6 @@ myKeys = [ ...
 I'm using 
 [EZConfig](http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Util-EZConfig.html) 
 notation in my keybindings.
-
 </div>
 
 I'll leave it up to you to figure out your WM's keybind

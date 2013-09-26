@@ -106,7 +106,6 @@ only the `handle_dzen()` function and renamed it to `dzen-handler` such
 that it can be used by any application that wants to toss up a brief 
 notification. This script is also available in that android-receiver 
 repo.
-
 </div>
 
 [Android notifier]: http://code.google.com/p/android-notifier/ "android notifier"

@@ -84,7 +84,6 @@ for [Comments][yesod-comments] to get things back the way it was on the
 old site. That's a bit of a work in progress at the moment and will be 
 its own post when it's done... I'll be keeping disqus around for a 
 while.
-
 </div>
 
 ## Lighttpd

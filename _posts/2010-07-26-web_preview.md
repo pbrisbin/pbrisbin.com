@@ -42,7 +42,6 @@ to do is `vim /srv/http/pages/foo.html` and I'm editing
 I'm not saying it's impossible to pull this off with a remote server, 
 this just makes things easier. It's up to you to port my script for use 
 in a remote server setting.
-
 </div>
 
 First thing you'll need is my 
@@ -57,7 +56,6 @@ environment. These variables are used to turn a filename like
 <div class="well">
 Recently the script has changed slightly to work with my new framework; 
 I now just define `file_url` as a direct modification of `$2`.
-
 </div>
 
 Make sure you've got uzbl installed and `uzbl-core` is also in your 
@@ -79,7 +77,6 @@ bar a little more pleasing on the eyes.
 <div class="well">
 Only the `socket_dir` declaration is actually needed for the script to 
 function.
-
 </div>
 
 Finally, add the following to your `~/.vimrc`:

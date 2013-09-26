@@ -29,7 +29,6 @@ executed.
 My application is called "DevSite" (I don't know why), so anywhere you 
 see that in this guide, just assume I mean your foundation type / app 
 name.
-
 </div>
 
 ## Why
