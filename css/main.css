@@ -23,6 +23,13 @@ footer {
 footer #copyright {
   text-align: center;
 }
+pre {
+  word-wrap: normal;
+  overflow-x: auto;
+}
+pre code {
+  white-space: pre;
+}
 
 .note,
 .panel,
