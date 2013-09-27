@@ -1,6 +1,4 @@
 body {
-  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
   margin-top: 10px;
   text-align: justify;
 }
@@ -14,7 +12,6 @@ header h1 .dot {
 
 footer {
   border-top: 1px solid #e5e5e5;
-  clear: both;
   color: #999;
   height: 200px;
   margin-top: 10px;
@@ -23,6 +20,7 @@ footer {
 footer #copyright {
   text-align: center;
 }
+
 pre {
   word-wrap: normal;
   overflow-x: auto;
@@ -51,7 +49,6 @@ img {
   list-style: none;
   padding-left: 0px;
 }
-
 .archives .date {
   color: #999;
 }
