@@ -10,7 +10,7 @@ layout: default
 <section class="meta">
   published on {{ page.date | date_to_string }}, tagged with
   {% for tag in page.tags %}
-    <a href="/tags/{{ tag | uri_escape }}">{{ tag}} </a>
+    <a href="/tags/{{ tag | uri_escape }}">{{ tag}}</a>
   {% endfor %}
 </section>
 
