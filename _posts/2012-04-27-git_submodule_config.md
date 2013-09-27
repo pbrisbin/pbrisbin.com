@@ -75,11 +75,23 @@ as I, *this is how you do that*:
 $ git submodule add https://github.com/you/repo some/dir
 $ git commit -m 'added submodule repo'
 $ cd some/dir
-$ git remote rm origin
-$ git remote add origin git@github.com:you/repo
+$ git remote set-url origin git@github.com:you/repo
 ```
 
 Now anyone who clones (recursively) will get the anonymous checkout 
 version (as defined in `.gitmodules`), but the `origin` remote in the 
 local submodule has been changed to the `git@github` version and is 
 pushable using ssh keys.
+
+<div class="well">
+I recently discovered that this can be solved much more elegantly by 
+adding the following to *~/.gitconfig*:
+
+```
+[url "git@github.com:pbrisbin/"]
+  pushInsteadOf = "https://github.com/pbrisbin/"
+```
+
+Now whenever `git` encounters the anonymous http remote, it'll silently 
+use the ssh-based url. Aces.
+</div>
