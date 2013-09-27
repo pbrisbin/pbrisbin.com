@@ -7,6 +7,6 @@ span.ch { color: #4070a0; }
 span.st { color: #4070a0; }
 span.co { color: #60a0b0; }
 span.ot { color: #007020; }
-span.al { color: #ff0000; font-weight: bold; }
+span.al { color: #ff0000; }
 span.fu { color: #06287e; }
-span.er { color: #ff0000; font-weight: bold; }
+span.er { color: #ff0000; }
