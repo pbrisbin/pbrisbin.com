@@ -9,3 +9,5 @@ jekyll build
 rsync -e ssh --archive _site/ "$host:/srv/http/site/"
 
 git tag -a -m "$tag" "$tag"
+
+printf "successfully deployed %s to %s\n" "$tag" "$host"
