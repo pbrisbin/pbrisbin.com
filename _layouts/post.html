@@ -10,23 +10,22 @@ layout: default
 <section class="meta">
   published on {{ page.date | date_to_string }}, tagged with
   {% for tag in page.tags %}
-    <a href="/tags/{{ tag | uri_escape }}">{{ tag}}</a>
+  <a href="/tags/{{ tag | uri_escape }}">{{ tag }}</a>
   {% endfor %}
 </section>
 
 {{ content }}
 
 <ul class="pager">
-  <!-- we reverse things because I think twitter got it backwards -->
   {% if page.next.url %}
-    <li class="previous">
-      <a href="{{ page.next.url }}">⇐ {{ page.next.title }}</a>
-    </li>
+  <li class="previous">
+    <a href="{{ page.next.url }}">⇐ {{ page.next.title }}</a>
+  </li>
   {% endif %}
 
   {% if page.previous.url %}
-    <li class="next">
-      <a href="{{ page.previous.url }}">{{ page.previous.title }} ⇒</a>
-    </li>
+  <li class="next">
+    <a href="{{ page.previous.url }}">{{ page.previous.title }} ⇒</a>
+  </li>
   {% endif %}
 </ul>
