@@ -11,9 +11,9 @@ permalink: /archives/
 
 <ul class="archives">
   {% for post in site.posts %}
-    <li>
-      <a href="{{ post.url }}">{{ post.title }}</a>
-      <span class="date">{{ post.date | date_to_string }}<span>
-    </li>
+  <li>
+    <a href="{{ post.url }}">{{ post.title }}</a>
+    <span class="date">{{ post.date | date_to_string }}</span>
+  </li>
   {% endfor %}
 </ul>
