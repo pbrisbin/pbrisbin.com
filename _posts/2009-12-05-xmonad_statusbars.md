@@ -28,12 +28,12 @@ offered their xmonad.hs's to me and helped get me setup this way.
 
 Full desktop:
 
-[![XMonad Shot][]][]
+![XMonad Shot](/img/status.png)\ 
 
 And with an `urgencyHook` notification (Workspace turns a different
 color):
 
-[![XMonad Shot][1]][]
+![XMonad Shot Urgent](/img/status-urgency.png)\ 
 
 To achieve this, we set up a `dynamicLog` in `xmonad.hs` and adjust our
 `main` function to output to this bar and also spawn our right bar as
@@ -146,9 +146,5 @@ myManageHook = manageDocks <+> {- whatever you had before ... -}
 
 Happy haskelling!
 
-  [dynamicLogWithPP]: http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Hooks-DynamicLog.html
-  [urgencyHooks]: http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Hooks-UrgencyHook.html
-  [XMonad Shot]: /img/status-thumb.png
-  [![XMonad Shot][]]: /img/status.png
-  [1]: /img/status-urgency-thumb.png
-  [![XMonad Shot][1]]: /img/status-urgency.png
+[dynamicLogWithPP]: http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Hooks-DynamicLog.html
+[urgencyHooks]: http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Hooks-UrgencyHook.html

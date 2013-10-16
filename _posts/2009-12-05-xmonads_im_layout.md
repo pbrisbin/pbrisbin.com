@@ -17,7 +17,7 @@ Personally, I want my roster tiled in its own properly-sized location on
 one side, and all other IM related windows floating. I also want any of
 those IM windows to automatically be pushed to the IM workspace.
 
-[![IM Layout Screenshot][]][]
+![IM Layout Screenshot](/img/xmonad_im_layout.png)\ 
 
 Here we can see that my roster is fit in its own little tile on the
 left, sized properly. The rest of the screen is tiled as a grid of
@@ -125,7 +125,4 @@ You can use the commandline tool `xprop` to find out a window's
 properties for use in these `manageHook`s.
 </div>
 
-
-  [IM layout]: http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Layout-IM.html
-  [IM Layout Screenshot]: /img/xmonad_im_layout-thumb.png
-  [![IM Layout Screenshot][]]: /img/xmonad_im_layout.png
+[IM layout]: http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Layout-IM.html
