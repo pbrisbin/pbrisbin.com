@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-die() { printf "%s\n" "$*" >&2: exit 1; }
+die() { printf "%s\n" "$*" >&2; exit 1; }
 
 [ $# -eq 0 ] && die "usage: ./newpost <Title of the Post>"
 
