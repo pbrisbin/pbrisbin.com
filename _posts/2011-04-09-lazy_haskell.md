@@ -339,7 +339,7 @@ myManageHook = composeAll [ matchAny s --> action | (s, action) <- myActions ]
 So why is this post about laziness?
 
 ```haskell 
-foldr (== True) False [False, False, True, undefined, undefined]
+foldr ((||) . (== True)) False [False, False, True, undefined, undefined]
 -- True
 ```
 
