@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+die() { printf "%s\n" "$*" >&2; exit 1; }
+
+[ $# -eq 0 ] && die "usage: new <Title of the Post>"
+
+title="$*"
+draft="_drafts/$(printf "$title" | sed 's/.*/\L&/; s/ \+/_/g').md"
+
+[ -e "$draft" ] && die "$draft exists."
+
+cat > "$draft" <<EOF
+---
+layout: post
+title: "$title"
+tags:
+  - TODO
+  - TODO
+---
+
+EOF
+
+if vim "$draft" +'normal Go'
+  printf "%s\n" "$draft"
+else
+  rm -v "$draft"
+fi
