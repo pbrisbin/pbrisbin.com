@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+host='pbrisbin.com'
+directory='/srv/http/site'
+archive="${1:-.}/${host}_$(date +%s).tar.gz"
+
+ssh "$host" tar cvzf - "$directory" | cat > "$archive" &&
+  printf "done. %s:%s -> %s\n" "$host" "$directory" "$archive"
