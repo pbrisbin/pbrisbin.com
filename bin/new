@@ -19,7 +19,7 @@ tags:
 
 EOF
 
-if vim "$draft" +'normal Go'
+if vim "$draft" +'normal Go'; then
   printf "%s\n" "$draft"
 else
   rm -v "$draft"
