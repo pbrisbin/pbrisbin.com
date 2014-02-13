@@ -241,7 +241,7 @@ If we remove `s` as a variable and specify some specific thing (our
 `StdGen` type), that becomes:
 
 ```haskell
-data RGenState a = RGenState (StdGen -> (StgGen a))
+data RGenState a = RGenState (StdGen -> (StgGen, a))
 ```
 
 This looks oddly similar to the type of our `cesaro` and `rand` 
