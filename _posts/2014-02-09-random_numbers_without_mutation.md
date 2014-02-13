@@ -395,7 +395,7 @@ estimatePi n = do
 -- even number is equal to 6/pi2?
 cesaroIO :: IO Bool
 cesaroIO = do
-  t <- getCurrenTime
+  t <- getCurrentTime
 
   return $ even $ utcDayTime t
 
