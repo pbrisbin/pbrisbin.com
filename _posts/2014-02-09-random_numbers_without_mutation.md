@@ -231,7 +231,7 @@ there is a `next` function with the type `StdGen -> (Int, StdGen)`.
 When we talk about some `State s a` what we're really describing is a 
 function which may modify a some value of type `s`. It must accept the 
 state as an argument and return the possibly modified state as part of 
-it's result:
+its result:
 
 ```haskell
 data State s a = State (s -> (s, a))
