@@ -339,8 +339,8 @@ with random-number-based experiments? That's weak.
 
 Not so fast.
 
-Remember that `RGenState` is just another Monad. Why is being a `Monad` 
-a useful thing? If code is not relying on you, but only on the fact that 
+Remember that `RGenState` is just another Monad. Why is being a Monad a 
+useful thing? If code is not relying on you, but only on the fact that 
 you're a Monad, that means you can be swapped out for any other Monad.
 
 For example, suppose the following refactoring:
@@ -374,7 +374,7 @@ random numbers, so it can be the one to *evaluate the Monad* which
 requires providing and managing the random number context. You didn't 
 realize that concerns could be so well separated, did you?
 
-`monteCarlo` can now work with *any Monad*! This makes perfect sense: 
+`monteCarlo` can now work with *any Monad!* This makes perfect sense: 
 The purpose of this function is to run experiments and tally outcomes. 
 The idea of an *experiment* only makes sense if there's some outside 
 force which might change the results from run to run, *but who cares 
@@ -387,7 +387,7 @@ with the same `monteCarlo` function just as easily:
 ```haskell
 estimatePi :: Int -> IO Double
 estimatePi n = do
-  let p = monteCarlo n cesaroIO
+  p <- monteCarlo n cesaroIO
 
   return $ sqrt (6 / p)
 
