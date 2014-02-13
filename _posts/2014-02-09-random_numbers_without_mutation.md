@@ -78,7 +78,7 @@ previously returned random value in order to provide the next.
 Sussman states that without this impure `rand` function, it would be 
 very difficult to decouple the `cesaro` function from the `monte_carlo` 
 one. Without utilizing (re)assignment and mutation, we would have to 
-write our estimation function like so:
+write our estimation function as one giant blob:
 
 ```ruby
 def estimate_pi(trials)
@@ -204,10 +204,17 @@ value. `monteCarlo` is responsible for creating an initial state and
 state is "faked" by passing a return value as argument to each 
 computation in turn.
 
-This process is a generic concern which has nothing to do with Cesaro's 
-method or performing Monte Carlo tests. We should be able to separate it 
-out of our main algorithm. Haskell's State Monad allows us to do exactly 
-that.
+You'll also notice this is a similar type signature as our `rand` 
+function:
+
+```haskell
+rand :: RGen -> (Int, RGen)
+```
+
+This similarity and process is a generic concern which has nothing to do 
+with Cesaro's method or performing Monte Carlo tests. We should be able 
+to leverage the similarities and separate this concern out of our main 
+algorithm. Haskell's State Monad allows us to do exactly that.
 
 ## RGenState
 
@@ -215,21 +222,63 @@ Haskell provides a parameterized type, `State s a` which has a `Monad`
 instance. With a simple type synonym, we can represent the state of our 
 random number generator as something we can treat as a Monad.
 
+We're going to use `System.Random.StdGen` which behaves just like our 
+`RGen` class above in that it can be initialized with some seed, and 
+there is a `next` function with the type `StdGen -> (Int, StdGen)`.
+
+### A Bit About State
+
+When we talk about some `State s a` what we're really describing is a 
+function which may modify a some value of type `s`. It must accept the 
+state as an argument and return the possibly modified state as part of 
+it's result:
+
+```haskell
+data State s a = State (s -> (s, a))
+```
+
+If we remove `s` as a variable and specify some specific thing (our 
+`StdGen` type), that becomes:
+
+```haskell
+data RGenState a = (StdGen -> (StgGen a))
+```
+
+This looks oddly similar to the type of our `cesaro` and `rand` 
+functions, doesn't it?
+
+Rather than declaring an entirely new type with the `data` keyword, 
+we'll use a type synonym to achieve the same result: `RGenState`
+
 ```haskell
 import Control.Monad.State
 import System.Random
 
--- System.Random.StdGen is basically our RGen class
 type RGenState a = State StdGen a
+```
 
+The `State` library also provides an `evalState` function which takes a 
+stateful computation and some initial state. It runs the computation 
+over the state for some result and discards the final state.
+
+We'll wrap this up as `withRGen` which initializes the generator with 
+some arbitrary seed, then runs the computation over that:
+
+```haskell
 withRGen :: RGenState a -> a
 withRGen f = evalState f (mkStdGen 1)
 ```
 
-And exactly like one might write a `readFile` function in the `IO` Monad 
-to access the outside world and provide you a file's contents, we can 
-write a `rand` function in the `RGenState` Monad which accesses the 
-random number generator to return you a random number.
+The reason the `Monad` instance is important is because it allows 
+multiple stateful computations to be run together as a single 
+computation. This means many calls to `cesaro` can be combined together 
+fluently and passed as one computation to `withRGen`.
+
+It also serves as a great teaching analogy. Exactly like one might write 
+a `readFile` function in the `IO` Monad to access the outside world and 
+provide you a file's contents, we can write a `rand` function in the 
+`RGenState` Monad which accesses the random number generator to return 
+you a random number.
 
 ```haskell
 rand :: RGenState Int
@@ -260,7 +309,7 @@ monteCarlo trials experiment = withRGen $ do
   return $ (length $ filter id outcomes) `divide` trials
 
   where
-    -- divide integers as floats
+    -- unimportant, just divides integers as floats
     divide :: Int -> Int -> Double
     divide a b = fromIntegral a / fromIntegral b
 ```
@@ -281,3 +330,79 @@ It works pretty well too:
 main = print $ estimatePi 100000
 -- => 3.1368931127763995
 ```
+
+## And For My Last Trick
+
+It's easy to fall into the trap of thinking that Haskell's type system 
+is limiting in some way. The `monteCarlo` function above can only work 
+with random-number-based experiments? That's weak.
+
+Not so fast.
+
+Remember that `RGenState` is just another Monad. Why is being a `Monad` 
+a useful thing? If code is not relying on you, but only on the fact that 
+you're a Monad, that means you can be swapped out for any other Monad.
+
+For example, suppose the following refactoring:
+
+```haskell
+estimatePi :: Int -> Double
+estimatePi n = sqrt $ 6 / withRGen (monteCarlo n cesaro)
+
+cesaro :: RGenState Bool
+cesaro = do
+  x1 <- rand
+  x2 <- rand
+
+  return $ gcd x1 x2 == 1
+
+monteCarlo :: Monad m => Int -> m Bool -> m Double
+monteCarlo trials experiment = do
+  outcomes <- replicateM trials experiment
+
+  return $ (length $ filter id outcomes) `divide` trials
+
+  where
+    -- unimportant, just divides integers as floats
+    divide :: Int -> Int -> Double
+    divide a b = fromIntegral a / fromIntegral b
+```
+
+The minor change made was moving the call to `withRGen` up into 
+`estimatePi`. It's the function which uses `cesaro` which requires 
+random numbers, so it can be the one to *evaluate the Monad* which 
+requires providing and managing the random number context. You didn't 
+realize that concerns could be so well separated, did you?
+
+`monteCarlo` can now work with *any Monad*! This makes perfect sense: 
+The purpose of this function is to run experiments and tally outcomes. 
+The idea of an *experiment* only makes sense if there's some outside 
+force which might change the results from run to run, *but who cares 
+what that outside force is?* Haskell don't care. Haskell requires we 
+only specify it as far as we need to: it's some Monad `m`, nothing more.
+
+This means we can run IO-based experiments via the Monte Carlo method 
+with the same `monteCarlo` function just as easily:
+
+```haskell
+estimatePi :: Int -> IO Double
+estimatePi n = do
+  let p = monteCarlo n cesaroIO
+
+  return $ sqrt (6 / p)
+
+-- What if Cesaro claimed the probability that the current second is an 
+-- even number is equal to 6/pi2?
+cesaroIO :: IO Bool
+cesaroIO = do
+  t <- getCurrenTime
+
+  return $ even $ utcDayTime t
+
+monteCarlo :: Monad m => Int -> m Bool -> m Double
+monteCarlo trials experiment = -- doesn't change at all!
+```
+
+I find the fact that this expressiveness, generality, and polymorphism 
+can share the same space as the strictness and incredible safety of this 
+type system fascinating.
