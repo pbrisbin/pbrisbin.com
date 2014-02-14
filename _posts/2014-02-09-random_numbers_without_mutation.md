@@ -214,80 +214,157 @@ rand :: RGen -> (Int, RGen)
 This similarity and process is a generic concern which has nothing to do 
 with Cesaro's method or performing Monte Carlo tests. We should be able 
 to leverage the similarities and separate this concern out of our main 
-algorithm. Haskell's State Monad allows us to do exactly that.
+algorithm. Monadic state allows us to do exactly that.
 
 ## RGenState
 
-Haskell provides a parameterized type, `State s a` which has a `Monad` 
-instance. With a simple type synonym, we can represent the state of our 
-random number generator as something we can treat as a Monad.
+Before I get into `RGenState`, note that in the following I'll be using 
+`System.Random.StdGen` in place of the `RGen` class we've been working 
+with so far. It is exactly like our `RGen` class above in that it can be 
+initialized with some seed, and there is a `next` function with the type 
+`StdGen -> (Int, StdGen)`. On to the Monads...
 
-We're going to use `System.Random.StdGen` which behaves just like our 
-`RGen` class above in that it can be initialized with some seed, and 
-there is a `next` function with the type `StdGen -> (Int, StdGen)`.
-
-### A Bit About State
-
-When we talk about some `State s a` what we're really describing is a 
-function which may modify some value of type `s`. It must accept the 
-state as an argument and return the possibly modified state as part of 
-its result:
+So we've got a handful of functions with the following basic type:
 
 ```haskell
-data State s a = State (s -> (s, a))
+(StdGen -> (a, StdGen))
 ```
 
-If we remove `s` as a variable and specify some specific thing (our 
-`StdGen` type), that becomes:
+The abstract thing we're lacking is a way to call those function 
+successively, passing the `StdGen` returned from one invocation as the 
+argument to the next invocation, all the while being able to access that 
+`a` (the random integer or experiment outcome) whenever needed. Haskell, 
+has just such an abstraction, it's in `Control.Monad.State`.
+
+Rather than use that here (which would be very easy and probably advised 
+in a "Real World" setting), I'm going to recreate it specifically for 
+our `StdGen` type.
+
+First we need to give this thing a name:
 
 ```haskell
-data RGenState a = RGenState (StdGen -> (StgGen, a))
-```
-
-This looks oddly similar to the type of our `cesaro` and `rand` 
-functions, doesn't it?
-
-Rather than declaring an entirely new type with the `data` keyword, 
-we'll use a type synonym to achieve the same result: `RGenState`
-
-```haskell
-import Control.Monad.State
 import System.Random
 
-type RGenState a = State StdGen a
+newtype RGenState a = RGenState
+  { runRandom :: (StdGen -> (a, StdGen)) }
+
+-- re-read the above carefully, until you know why this is basically
+--
+--   :: (StdGen -> (Int, StdGen))
+--
+rand :: RGenState Int
+rand = RGenState next
 ```
 
-The `State` library also provides an `evalState` function which takes a 
-stateful computation and some initial state. It runs the computation 
-over the state for some result and discards the final state.
+Now we come to the Monad. The simplest way I can describe a Monad is 
+it's an interface which describes a way to compose multiple values of 
+types with context into a single value of the same type with the 
+appropriate context.
 
-We'll wrap this up as `withRGen` which initializes the generator with 
-some arbitrary seed, then runs the computation over that:
+For example, if you've got two functions which have the type signature 
+above (they take a random number generator and return a new one), the 
+`StdGen` involved is the context. To compose two (or more) of these 
+functions means to call them successively while feeding the generator 
+returned by one into the other -- which is exactly what we need to do.
+
+So let's describe that by making our new type an instance of `Monad`:
+
+```haskell
+instance Monad RGenState where
+    (>>=) a f = RGenState $ \s ->
+        let (x, s2) = runRandom a s
+        in runRandom (f x) s2
+
+    return x = RGenState $ \s -> (x, s)
+```
+
+I feel your eyes glazing over. Let's break this down:
+
+```haskell
+instance Monad RGenState where
+```
+
+I'm saying that my type (`RGenState`) can be treated just like any other 
+Monad. To do this, I must satisfy some conditions, I satisfy them 
+because...
+
+```haskell
+    (>>=) a f = 
+```
+
+The monadic bind function (`(>>=)`) for my type, when given arguments 
+`a` (a value of my type) and `f` (a function from a normal value to one 
+of my type) is implemented as follows...
+
+```haskell
+    (>>=) a f = RGenState
+```
+
+My type constructor (so I'm building a value of my type)...
+
+```haskell
+    (>>=) a f = RGenState $ \s ->
+```
+
+Given a function of one argument, `s` which...
+
+```haskell
+        let (x, s2) = runRandom a s
+```
+
+Calls the stateful computation of the value `a` with that initial state 
+`s` and sets the result to `x` and the new state to `s2`, then...
+
+```haskell
+        in runRandom (f x) s2
+```
+
+Calls the function `f` on the normal value `x` to produce a new stateful 
+computation which I then execute on that new state, `s2`.
+
+```haskell
+    return x = 
+```
+
+I also must say that any normal value `x` can be made into a stateful 
+computation simply by...
+
+
+```haskell
+    return x = RGenState
+```
+
+Supplying my constructor...
+
+```haskell
+    return x = RGenState $ \s ->
+```
+
+With a function of one argument, `s`, which...
+
+```haskell
+    return x = RGenState $ \s -> (x, s)
+```
+
+Just returns that value with the state unmodified.
+
+Holy cow. Talking about that takes *way* longer than just coding it.
+
+## withRGen
+
+That takes care of composition. We'll also need some function which 
+evaluates a stateful computation on some initial state:
 
 ```haskell
 withRGen :: RGenState a -> a
-withRGen f = evalState f (mkStdGen 1)
+withRGen f = fst $ runRandom f $ mkStdGen 1
 ```
 
-The reason the `Monad` instance is important is because it allows 
-multiple stateful computations to be run together as a single 
-computation. This means many calls to `cesaro` can be combined together 
-fluently and passed as one computation to `withRGen`.
-
-It also serves as a great teaching analogy. Exactly like one might write 
-a `readFile` function in the `IO` Monad to access the outside world and 
-provide you a file's contents, we can write a `rand` function in the 
-`RGenState` Monad which accesses the random number generator to return 
-you a random number.
-
-```haskell
-rand :: RGenState Int
-rand = do
-  (i, g) <- gets next -- call next on current generator
-  put g               -- set the new generator as the post-action state
-
-  return i            -- produce the random number as the result
-```
+This one's pretty easy. `runRandom f` takes the `RGenState` value, and 
+extracts the actual function (the one of type `(RGen -> (a, RGen)`). It 
+then immediately calls that function on the initial random number 
+generator (`mkStdGen 1`) and discards the resulting state (`fst`) 
+returning just the value.
 
 With all this in place, we have the following application code:
 
@@ -297,6 +374,7 @@ estimatePi n = sqrt $ 6 / (monteCarlo n cesaro)
 
 cesaro :: RGenState Bool
 cesaro = do
+  -- see how easy it is to get at the `a` value?
   x1 <- rand
   x2 <- rand
 
@@ -304,12 +382,12 @@ cesaro = do
 
 monteCarlo :: Int -> RGenState Bool -> Double
 monteCarlo trials experiment = withRGen $ do
+  -- and how easy it is to compose multiple calls?
   outcomes <- replicateM trials experiment
 
   return $ (length $ filter id outcomes) `divide` trials
 
   where
-    -- unimportant, just divides integers as floats
     divide :: Int -> Int -> Double
     divide a b = fromIntegral a / fromIntegral b
 ```
