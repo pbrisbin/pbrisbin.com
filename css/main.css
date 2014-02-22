@@ -10,6 +10,10 @@ header h1 .dot {
   color: #999;
 }
 
+h2.title {
+  font-size: 32px; /* slightly bigger than default */
+}
+
 footer {
   border-top: 1px solid #e5e5e5;
   color: #999;
