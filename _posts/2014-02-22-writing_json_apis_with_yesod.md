@@ -206,7 +206,7 @@ toPostUpdates (PostReq p) =
 ```haskell
 import Helpers.Post
 
-getPostsR :: Value
+getPostsR :: Handler Value
 getPostsR = do
     posts <- runDB $ selectList [] [] :: Handler [Entity Post]
 
@@ -345,6 +345,8 @@ is worth the extra typing. It's also very easy to use:
 **Handlers/Comments.hs**
 
 ```haskell
+import Helpers.Comment
+
 postCommentsR :: PostId -> Handler ()
 postCommentsR pid = do
     _ <- runDB . insert . toComment pid =<< parseJsonBody_
@@ -355,6 +357,8 @@ postCommentsR pid = do
 **Handlers/Comment.hs**
 
 ```haskell
+import Helpers.Comment
+
 putCommentR :: PostId -> CommentId -> Handler
 putCommentR _ cid = do
     runDB . update cid . toCommentUpdates =<< parseJsonBody_
