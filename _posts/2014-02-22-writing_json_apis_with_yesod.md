@@ -143,7 +143,7 @@ instance ToJSON (Entity Comment) where
 --instance FromJSON Comment where
 ```
 
-# Routes
+# Routes and Handlers
 
 Let's start with a RESTful endpoint for posts:
 
@@ -169,43 +169,11 @@ import Network.HTTP.Types as Import
     )
 ```
 
-## Post Handlers
-
-I like my APIs to use root keys for requests and responses. I consider 
-this a handler concern, so I'll deal with that here rather then coupling 
-the model's instance to that fact. To do so we'll need a wrapper type 
-with a `FromJSON` instance to parse a `Post` out of the "post" key in 
-requests. Similarly, we'll return the list of `Post`s under a "posts" 
-key in our responses. The request wrapper can be reused between the 
-create and update actions, so we'll put that in a shared helper.
-
-**Helpers/Post.hs**
-
-```haskell
-newtype PostReq = PostReq Post
-
-instance FromJSON PostReq where
-    parseJSON (Object o) = PostReq <$> "post" .: o
-    parseJSON _          = mzero
-```
-
-Another function we'll need is one that takes a request's JSON and 
-converts it to a list of `Update`s that can be applied by Persist's 
-`update` action.
-
-```haskell
-toPostUpdates :: PostReq -> [Update Post]
-toPostUpdates (PostReq p) =
-    [ PostTitle   =. (postTitle p)
-    , PostContent =. (postContent p)
-    ]
-```
+Next we write some handlers:
 
 **Handlers/Posts.hs**
 
 ```haskell
-import Helpers.Post
-
 getPostsR :: Handler Value
 getPostsR = do
     posts <- runDB $ selectList [] [] :: Handler [Entity Post]
@@ -214,19 +182,28 @@ getPostsR = do
 
 postPostsR :: Handler ()
 postPostsR = do
-    -- parseJsonBody returns an Either type with possible parse errors
-    -- parseJsonBody_ discards any errors and responds 400 in that case
-    (PostReq post) <- parseJsonBody_
-    _              <- runDB $ insert post
+    post <- parseJsonBody_ :: Handler Post
+    _    <- runDB $ insert post
 
     sendResponseStatus status201 ("CREATED" :: Text)
 ```
 
+You'll notice we need to add a few explicit type annotations. Normally, 
+Haskell can infer everything for us, but in this case the reason for the 
+annotations is actually pretty interesting. The `selectList` function 
+will return any type that's persistable. Normally we would simply treat 
+the returned records as a particular type and Haskell would say, "Aha! 
+You wanted a Post" and then, as if by time travel, `selectList` would 
+give us appropriate results.
+
+In this case, all we do with the returned `posts` is pass them to 
+`object`. Since `object` can work with any type than can be represented 
+as JSON, Haskell doesn't know which type we mean. We must remove the 
+ambiguity with a type annotation somewhere.
+
 **Handlers/Post.hs**
 
 ```haskell
-import Helpers.Post
-
 getPostR :: PostId -> Handler Value
 getPostR pid = do
     post <- runDB $ get404 pid
@@ -235,7 +212,9 @@ getPostR pid = do
 
 putPostR :: PostId -> Handler Value
 putPostR pid = do
-    runDB . update pid . toPostUpdates =<< parseJsonBody_
+    post <- parseJsonBody_ :: Handler Post
+
+    runDB $ replace pid post
 
     sendResponseStatus status200 ("UPDATED" :: Text)
 
@@ -302,11 +281,10 @@ deleteCommentR _ cid = do
 ## Handling Relations
 
 Up until now, we've been able to define JSON instances for our model, 
-use `parseJsonBody_`, and `insert` the result. There was some handling 
-of root keys required, but that was straight-forward. In this case 
-however, the request body will be lacking the Post ID (since it's in the 
-URL). This means we need to parse a different but similar data type from 
-the JSON, then use that and the URL parameter to build a `Comment`.
+use `parseJsonBody_`, and `insert` the result. In this case however, the 
+request body will be lacking the Post ID (since it's in the URL). This 
+means we need to parse a different but similar data type from the JSON, 
+then use that and the URL parameter to build a `Comment`.
 
 **Helpers/Comment.hs**
 
@@ -319,18 +297,8 @@ instance FromJSON CommentAttrs where
     parseJSON (Object o) = CommentAttrs <$> o .: "content"
     parseJSON _          = mzero
 
-newtype CommentReq = CommentReq CommentAttrs
-
-instance FromJSON CommentReq where
-    parseJSON (Object o) = CommentReq <$> o .: "comment"
-    parseJSON _          = mzero
-
-toCommentUpdates :: CommentReq -> [Update Comment]
-toCommentUpdates (CommentReq (CommentAttrs content)) =
-    [CommentContent =. content]
-
-toComment :: PostId -> CommentReq -> Comment
-toComment pid (CommentReq (CommentAttrs content)) = Comment
+toComment :: PostId -> CommentAttrs -> Comment
+toComment pid (CommentAttrs content) = Comment
     { commentPost    = pid
     , commentContent = content
     }
@@ -360,11 +328,17 @@ postCommentsR pid = do
 import Helpers.Comment
 
 putCommentR :: PostId -> CommentId -> Handler
-putCommentR _ cid = do
-    runDB . update cid . toCommentUpdates =<< parseJsonBody_
+putCommentR pid cid = do
+    runDB . replace cid . toComment pid =<< parseJsonBody_
 
     sendResponseStatus status200 ("UPDATED" :: Text)
 ```
+
+<div class="well">
+We don't need a type annotation on `parseJsonBody_` in this case. Since 
+the result is being passed to `toComment pid`, Haskell knows we want a 
+`CommentAttrs` and uses its `parseJSON` function within `parseJsonBody_`
+</div>
 
 ## Conclusion
 
