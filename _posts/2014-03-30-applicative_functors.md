@@ -155,8 +155,8 @@ function application.
 ## A "Concrete" Example
 
 Consider what this might look like if you start with a plain old 
-function that takes more than one argument, but the values that it wants 
-to operate on are wrapped in some container.
+function that (conceptually) takes more than one argument, but the 
+values that it wants to operate on are wrapped in some container.
 
 ```haskell
 -- A normal function
@@ -242,21 +242,21 @@ function: it takes yet another wrapped value as argument and produces a
 wrapped value of the same type as its result.
 
 This gives us the needed flexibility to implement unwrapping. Consider a 
-type like `Maybe`. If we were able to unwrap values at any point, we'd 
-be in trouble when we come across a `Nothing`. If, on the other hand, we 
-were given another wrapped value as our second argument, we can take the 
-reasonable step of not unwrapping anything and simply returning it 
-directly.
+type like `Maybe`. If we were able to unwrap values at any point and 
+return them directly, we'd be in trouble when we come across a 
+`Nothing`. If, on the other hand, our type signature says we ourselves 
+have to return a wrapped result, we can take the reasonable step of not 
+unwrapping anything and simply returning another `Nothing`.
 
 The above type signature ensures that's **always** an option.
 
 Haskell has no generic function of the type `Monad m => m a -> a`. 
 Without that, there is no opportunity for unwrapping something that 
-can't be unwrapped. Haskell does have a type called `join` with the 
-signature `Monad m => m (m a) => m a`. This is a function that just 
-unwraps a value directly, but because the type signature enforces that 
-the value coming in is doubly-wrapped and the value going out is still 
-wrapped, we can maintain our safety. Yay type systems.
+can't be unwrapped. Haskell does have a function called `join` with the 
+signature `Monad m => m (m a) => m a`. This is indeed a function that 
+just unwraps a value directly, but because the type signature enforces 
+that the value coming in is doubly-wrapped and the value going out is 
+still wrapped, we can maintain our safety. Yay type systems.
 
 ## Wrapper &rArr; Action, Unwrapping &rArr; Sequencing
 
@@ -296,9 +296,9 @@ a single action (a new value with context). We use applicative for the
 same reason. The difference lies (of course) in how that composition is 
 carried out. With a monad, each action is evaluated in turn and the 
 results of each are fed into the next via `(>>=)`. This implies 
-ordering. With an applicative functor, every action is evaluated and the 
-results of all are combined at once into a single value by repeated 
-application of `(<*>)`, in "parallel".
+ordering. With an applicative functor, every value is unwrapped in turn 
+as functions are applied via `(<*>)` and the results are combined into a 
+single value in "parallel".
 
 Let's walk through a real example.
 
@@ -387,13 +387,13 @@ This is `Applicative`, [I know this][unix].
 -- f :: a    -> b    -> c    -> d
 User :: Text -> Text -> Text -> User
 
--- x :: f a
+-- x                  :: f     a
 lookup "first_name" p :: Maybe Text
 
--- y :: f b
+-- y                 :: f     b
 lookup "last_name" p :: Maybe Text
 
--- z :: f c
+-- z             :: f     c
 lookup "email" p :: Maybe Text
 
 -- result :: f d
