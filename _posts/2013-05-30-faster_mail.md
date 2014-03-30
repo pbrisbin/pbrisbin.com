@@ -35,7 +35,7 @@ mutt is trying to give me.
 Assuming you're using my [python helper][] for offlineimap, you can very 
 easily exclude some of the noise from being synced:
 
-[python helper]: https://github.com/pbrisbin/dotfiles/blob/master/host-teal/offlineimap.py
+[python helper]: https://github.com/pbrisbin/dotfiles/blob/master/tag-mail-recipient/offlineimap.py
 
 **~/.offlineimaprc**
 

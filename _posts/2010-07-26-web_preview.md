@@ -90,11 +90,11 @@ This defines an `Open` and `Reload` command to be used directly within
 vim and also sets up an auto command to fire whenever I hit `:w` on a 
 page I'm editing.
 
-In my [vimrc](http://github.com/pbrisbin/dotfiles/blob/master/.vimrc), 
-these are conditional for html and php filetypes and, as you can see, 
-the auto-refresh only happens if I'm editing a file under my server's 
-pages directory. You'll want to do something similar so that the script 
-doesn't run for all files all the time.
+In your `~/.vimrc` you could make these conditional for html and php 
+filetypes and, as you can see, the auto-refresh only happens if I'm 
+editing a file under my server's pages directory. You'll want to do 
+something similar so that the script doesn't run for all files all the 
+time.
 
 That's all that's needed. Fire up your favorite text editor and give it 
 a try.
