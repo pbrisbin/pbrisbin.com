@@ -1,10 +1,15 @@
 module Jekyll
   class PandocConverter < Converter
+    FORMATS = {
+      ".md"  => "markdown",
+      ".lhs" => "markdown+lhs"
+    }
+
     safe true
     priority :high
 
     def matches(ext)
-      ext =~ /^\.md$/i
+      @format = FORMATS[ext]
     end
 
     def output_ext(*)
@@ -12,7 +17,7 @@ module Jekyll
     end
 
     def convert(content)
-      IO.popen('pandoc --from=markdown --to=html', 'r+') do |h|
+      IO.popen("pandoc --from=#{@format} --to=html", 'r+') do |h|
         h.puts(content)
         h.close_write
 
