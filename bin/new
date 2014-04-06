@@ -1,10 +1,17 @@
 #!/usr/bin/env sh
 die() { printf "%s\n" "$*" >&2; exit 1; }
 
-[ $# -eq 0 ] && die "usage: new <Title of the Post>"
+[ $# -eq 0 ] && die "usage: new [--lhs] <Title of the Post>"
+
+if [ "$1" = '--lhs' ]; then
+  shift
+  extension='lhs'
+else
+  extension='md'
+fi
 
 title="$*"
-draft="_drafts/$(printf "$title" | sed 's/.*/\L&/; s/ \+/_/g').md"
+draft="_drafts/$(printf "$title" | sed 's/.*/\L&/; s/ \+/_/g').$extension"
 
 [ -e "$draft" ] && die "$draft exists."
 
