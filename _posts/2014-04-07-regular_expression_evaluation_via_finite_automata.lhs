@@ -69,7 +69,7 @@ I apologize for the naming confusion here. This `State` type is from the
 Haskell library and has nothing to with the states of our DFAs.
 </div>
 
-Our identifiers are just `Int`s, but we'll call then `DFAState`s 
+Our identifiers are just `Int`s, but we'll call them `DFAState`s 
 throughout the system.
 
 > type DFAState = Int
