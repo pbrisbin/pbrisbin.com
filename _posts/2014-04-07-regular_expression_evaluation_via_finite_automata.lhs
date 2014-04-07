@@ -53,7 +53,7 @@ create and combine DFAs. For example, in a `Concat` pattern, we'll need
 to turn both sub-patterns into DFAs then combine those in some way. In 
 the Ruby implementation, Mr. Stuart used `Object.new` to ensure unique 
 state identifiers between all the DFAs he has to create. We can't do 
-that in Haskell. There's no global state able to provide some 
+that in Haskell. There's no global object able to provide some 
 guaranteed-unique value.
 
 What we're going to do to get around this is conceptually simple, but 
