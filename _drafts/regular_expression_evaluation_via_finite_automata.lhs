@@ -23,10 +23,10 @@ Haskell, of course.
 
 [uc]: http://computationbook.com/
 
-Before we get started, we'll be using our trusted friend the State monad 
-today, so we need to bring that in.
+Before we get started, we'll just need to import some libraries:
 
 > import Control.Monad.State
+> import Data.List (foldl')
 
 We're going to model a simple subset of regular expressions. 
 Specifically, we'll be able to check for the following patterns:
@@ -100,7 +100,7 @@ rather than the thousands of layers we encounter every day.
 > matches :: Pattern -> String -> Bool
 > matches p = accepts $ runDSI $ toDFA p
 
-And a test for it as `main`:
+We can add a test for it as `main`:
 
 > main :: IO ()
 > main = do
@@ -110,7 +110,7 @@ And a test for it as `main`:
 >             (Concat (Literal 'c') (Repeat (Literal 'd')))
 >
 >     print $ matches p "xyz"
->     -- => False
+>     -- -- => False
 >
 >     print $ matches p "cddd"
 >     -- => True
@@ -128,7 +128,7 @@ handle non-determinism), and one or more accept states.
 >     { rules         :: [Rule]
 >     , currentStates :: [DFAState]
 >     , acceptStates  :: [DFAState]
->     }
+>     } deriving Show
 
 A rule defines what characters tell the machine to change states and 
 which state to move into.
@@ -137,7 +137,7 @@ which state to move into.
 >     { fromState  :: DFAState
 >     , inputChars :: [Char]
 >     , nextStates :: [DFAState]
->     }
+>     } deriving Show
 
 The reason `inputChars` and `nextStates` are lists is because we need to 
 use this deterministic machine to model a non-deterministic one. It's 
@@ -160,16 +160,19 @@ If, after processing some input, any of the machine's current states are
 in its list of "accept" states, the machine has accepted the input.
 
 > accepts :: DFA -> [Char] -> Bool
-> accepts dfa = any (`elem` acceptStates dfa)
->             . currentStates . foldr process dfa
->             . reverse
+> accepts dfa = accepted . foldl' process dfa
+>
+> accepted :: DFA -> Bool
+> accepted dfa = any (`elem` acceptStates dfa) (currentStates dfa)
 
 Processing is done by finding any followable rules for the given 
 character and the current machine, and following them.
 
-> process :: Char -> DFA -> DFA
-> process c dfa = case findRules c dfa of
->     [] -> dfa
+> process :: DFA -> Char -> DFA
+> process dfa c = case findRules c dfa of
+>     -- invalid input should cause the DFA to go into a failed state. 
+>     -- we can hack that for now by removing the acceptStates
+>     [] -> dfa { acceptStates = [] }
 >     rs -> dfa { currentStates = followRules rs }
 >
 > findRules :: Char -> DFA -> [Rule]
