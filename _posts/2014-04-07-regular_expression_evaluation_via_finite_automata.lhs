@@ -338,12 +338,12 @@ pattern).
 >             s2 <- nextId
 >             dfa <- toDFA p
 >
->             let initMove = Rule s2 Nothing (currentStates dfa)
+>             let initMove = freeMoveTo dfa s2
 >                 freeMoves = map (freeMoveTo dfa) $ acceptStates dfa
 >
 >             return $ DFA
 >                 (initMove : rules dfa ++ freeMoves) [s2]
->                 (acceptStates dfa ++ [s2])
+>                 (s2: acceptStates dfa)
 >
 
 And finally, our little helper which connects some state up to a DFA via 
