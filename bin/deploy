@@ -1,12 +1,13 @@
 #!/usr/bin/env sh
+source "${0%/*}/utils.sh"
+
 set -e
 
 tag="v$(date +%Y%m%d%H%M)"
-host='pbrisbin.com'
 
 jekyll build
 
-rsync -e ssh --archive _site/ "$host:/srv/http/site/"
+rsync -e ssh --archive _site/ "$host:$directory/"
 
 git tag -a -m "$tag" "$tag"
 

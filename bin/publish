@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-die() { printf "%s\n" "$*" >&2; exit 1; }
+source "${0%/*}/utils.sh"
 
 [ -e "$1" ] || die "usage: publish <path-to-draft>"
 

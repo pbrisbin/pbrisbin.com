@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
-host='pbrisbin.com'
-directory='/srv/http/site'
+source "${0%/*}/utils.sh"
+
 archive="${1:-.}/${host}_$(date +%s).tar.gz"
 
 ssh "$host" tar cvzf - "$directory" | cat > "$archive" &&
