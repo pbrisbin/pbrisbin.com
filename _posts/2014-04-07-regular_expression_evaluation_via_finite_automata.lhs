@@ -29,94 +29,165 @@ Before we get started, we'll just need to import some libraries:
 > import Data.List (foldl')
 > import Data.Maybe
 
-<h2>Patterns</h2>
+<h2>Patterns and NFAs</h2>
 
 We're going to model a subset of regular expression patterns.
 
-> data Pattern =
->       Empty                   -- ""
+> data Pattern
+>     = Empty                   -- ""
 >     | Literal Char            -- "a"
 >     | Concat Pattern Pattern  -- "ab"
 >     | Choose Pattern Pattern  -- "a|b"
 >     | Repeat Pattern          -- "a*"
+>     deriving Show
 
-Checking for matches against these patterns means converting them to 
-[Deterministic Finite Automata][dfa] or DFAs, then letting the DFAs 
-operate on input strings and give us a useful answer.
+With this, we can build "pattern ASTs" to represent regular expressions:
 
-[dfa]: http://en.wikipedia.org/wiki/Deterministic_finite_automaton
+```
+ghci> let p = Choose (Literal 'a') (Repeat (Literal 'b')) -- /a|b*/
+```
 
-<h3>A Bit About Mutable State</h3>
+It's easy to picture a small parser to build these out of strings, but 
+we won't do that as part of this post. Instead, we'll focus on 
+converting these patterns into [Nondeterministic Finite Automata][nfa] 
+or NFAs. We can then use the NFAs to determine if the pattern matches a 
+given string.
 
-Since this is a recursive data type, we're going to have to recursively 
-create and combine DFAs. For example, in a `Concat` pattern, we'll need 
-to turn both sub-patterns into DFAs then combine those in some way. In 
-the Ruby implementation, Mr. Stuart used `Object.new` to ensure unique 
-state identifiers between all the DFAs he has to create. We can't do 
-that in Haskell. There's no global object able to provide some 
-guaranteed-unique value.
+[nfa]: http://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
 
-What we're going to do to get around this is conceptually simple, but 
-appears complicated because it makes use of monads. All we're doing is 
-defining a list of identifiers at the beginning of our program and 
-drawing from that list whenever we need a new identifier. Because we 
-can't maintain that as a variable we constantly update every time we 
-pull an identifier out, we'll use the `State` monad to mimic mutable 
-state through our computations.
+To explain NFAs, it's probably easiest to explain DFAs, their 
+deterministic counter parts, first. Then we can go on to describe how 
+NFAs differ.
 
-<div class="well">
-I apologize for the naming confusion here. This `State` type is from the 
-Haskell library and has nothing to with the states of our DFAs.
-</div>
+A DFA is a simple machine with states and rules. The rules describe how 
+to move between states in response to particular input characters. 
+Certain states are special and flagged as "accept" states. If, after 
+reading a series of characters, the machine is left in an accept state 
+it's said that the machine "accepted" that particular input.
 
-Our identifiers are just `Int`s, but we'll call them `DFAState`s 
-throughout the system.
+An NFA is the same with two notable differences: First, an NFA can have 
+rules to move it into more than one state in response to the same input 
+character. This means the machine can be in more than one state at once. 
+Second, there is the concept of a Free Move which means the machine can 
+jump between certain states without reading any input.
 
-> type DFAState = Int
+Modeling an NFA requires a type with rules, current states, and accept 
+states:
 
-We can then take the polymorphic `State s a` type, and fix the `s` 
-variable as a list of (potential) identifiers.
+> type SID = Int -- State Identifier
+>
+> data NFA = NFA
+>     { rules         :: [Rule]
+>     , currentStates :: [SID]
+>     , acceptStates  :: [SID]
+>     } deriving Show
 
-> type DSI a = State [DFAState] a
+A rule defines what characters tell the machine to change states and 
+which state to move into.
 
-We can now use `evalState` to provide the infinite list of integers as 
-the pool to draw from, execute some stateful action, and ultimately 
-return the result.
+> data Rule = Rule
+>     { fromState  :: SID
+>     , inputChar  :: Maybe Char
+>     , nextStates :: [SID]
+>     } deriving Show
 
-> runDSI :: DSI a -> a
-> runDSI f = evalState f [1..]
+Notice that `nextStates` and `currentStates` are lists. This is to 
+represent the machine moving to, and remaining in, more than one state 
+in response to a particular character. Similarly, `inputChar` is a 
+`Maybe` value because it will be `Nothing` in the case of a rule 
+representing a Free Move.
 
-This makes it simple to create a `nextId` action which requests the next 
-identifier from this list as well as updates the computation's state, 
-removing it as a future option before presenting that next identifier as 
-its result.
+If, after processing some input, any of the machine's current states are 
+in its list of "accept" states, the machine has accepted the input.
 
-> nextId :: DSI DFAState
-> nextId = do
->     (x:xs) <- get
->     put xs
->     return x
+> accepts :: NFA -> [Char] -> Bool
+> accepts nfa = accepted . foldl' process nfa
+>
+>   where
+>     accepted :: NFA -> Bool
+>     accepted nfa = any (`elem` acceptStates nfa) (currentStates nfa)
 
-As long as our program is a single action passed to `runDSI` (which we 
-can build incrementally and compose monadically), we're guaranteed to 
-get a unique state identifier every time we want one.
+Processing a single character means finding any followable rules for the 
+given character and the current machine state, and following them.
 
-Who needs mutable state to write programs?
+> process :: NFA -> Char -> NFA
+> process nfa c = case findRules c nfa of
+>     -- Invalid input should cause the NFA to go into a failed state. 
+>     -- We can do that easily, just remove any acceptStates.
+>     [] -> nfa { acceptStates = [] }
+>     rs -> nfa { currentStates = followRules rs }
+>
+> findRules :: Char -> NFA -> [Rule]
+> findRules c nfa = filter (ruleApplies c nfa) $ rules nfa
 
-<h2>DFAs</h2>
+A rule applies if
 
-DFAs are very simple machines. They have some states and some rules. 
-They read characters in and move from state to state according to those 
-rules. Some states are special, they're known as "accept" states. What 
-we're going to do is construct a DFA whose rules for moving from state 
-to state are derived from the nature of the pattern it represents. Only 
-if the DFA we construct moves to an accept state for a given string of 
-input does it mean the string matches that pattern.
+1. The read character is a valid input character for the rule, and
+2. That rule applies to an available state
+
+> ruleApplies :: Char -> NFA -> Rule -> Bool
+> ruleApplies c nfa r =
+>     maybe False (c ==) (inputChar r) &&
+>     fromState r `elem` availableStates nfa
+
+An "available" state is one which we're currently in, or can reach via 
+Free Moves.
+
+> availableStates :: NFA -> [SID]
+> availableStates nfa = currentStates nfa ++ freeStates nfa
+
+The process of finding free states (those reachable via Free Moves) gets 
+a bit hairy. We need to start from our current state(s) and follow any 
+Free Moves *recursively*. This ensures that Free Moves which lead to 
+other Free Moves are correctly accounted for.
+
+> freeStates :: NFA -> [SID]
+> freeStates nfa = go [] (currentStates nfa)
+>
+>   where
+>     go acc [] = acc
+>     go acc ss =
+>         let ss' = followRules $ freeMoves nfa ss
+>         in go (acc ++ ss') ss'
+
+Free Moves from a given set of states are rules for those states which 
+have no input character.
+
+> freeMoves :: NFA -> [SID] -> [Rule]
+> freeMoves nfa ss = filter (\r ->
+>     (fromState r `elem` ss) && (isNothing $ inputChar r)) $ rules nfa
+
+Of course, the states that result from following rules are simply the 
+concatenation of those rules' next states.
+
+> followRules :: [Rule] -> [SID]
+> followRules = concatMap nextStates
+
+Now we can model an NFA and see if it accepts a string or not. You could 
+test this in `ghci` by defining an NFA in state 1 with an accept state 2 
+and a single rule that moves the machine from 1 to 2 if the character 
+"a" is read.
+
+```
+ghci> let nfa = NFA [Rule 1 (Just 'a') [2]] [1] [2]
+ghci> nfa `accepts` "a"
+True
+ghci> nfa `accepts` "b"
+False
+```
+
+Pretty cool.
+
+What we need to do now is construct an NFA whose rules for moving from 
+state to state are derived from the nature of the pattern it represents. 
+Only if the NFA we construct moves to an accept state for a given string 
+of input does it mean the string matches that pattern.
 
 > matches :: String -> Pattern -> Bool
-> matches s = (`accepts` s) . runDSI . toDFA
+> matches s = (`accepts` s) . toNFA
 
-We can test this out in `ghci`:
+We'll define `toNFA` later, but if you've loaded this file, you can play 
+with it in `ghci` now:
 
 ```
 ghci> "" `matches` Empty
@@ -140,131 +211,74 @@ And use it in an example `main`:
 >     print $ "cddd" `matches` p
 >     -- => True
 
-<h2>Representing a DFA</h2>
+Before I show `toNFA`, we need to talk about mutability.
 
-A DFA is a machine with a set of rules, one or more current states (to 
-handle non-determinism), and one or more accept states.
+<h3>A Bit About Mutable State</h3>
 
-> data DFA = DFA
->     { rules         :: [Rule]
->     , currentStates :: [DFAState]
->     , acceptStates  :: [DFAState]
->     } deriving Show
+Since `Pattern` is a recursive data type, we're going to have to 
+recursively create and combine NFAs. For example, in a `Concat` pattern, 
+we'll need to turn both sub-patterns into NFAs then combine those in 
+some way. In the Ruby implementation, Mr. Stuart used `Object.new` to 
+ensure unique state identifiers between all the NFAs he has to create. 
+We can't do that in Haskell. There's no global object able to provide 
+some guaranteed-unique value.
 
-A rule defines what characters tell the machine to change states and 
-which state to move into.
+What we're going to do to get around this is conceptually simple, but 
+appears complicated because it makes use of monads. All we're doing is 
+defining a list of identifiers at the beginning of our program and 
+drawing from that list whenever we need a new identifier. Because we 
+can't maintain that as a variable we constantly update every time we 
+pull an identifier out, we'll use the `State` monad to mimic mutable 
+state through our computations.
 
-> data Rule = Rule
->     { fromState  :: DFAState
->     , inputChar  :: Maybe Char
->     , nextStates :: [DFAState]
->     } deriving Show
+<div class="well">
+I apologize for the naming confusion here. This `State` type is from the 
+Haskell library and has nothing to with the states of our NFAs.
+</div>
 
-The reason `inputChar` and `nextStates` are not single values is because 
-we need to use this deterministic machine to model a non-deterministic 
-one. It's possible (and required, in fact) to have a rule like *If in 
-State 1 and an "a" is read, go to State 2 or State 3*. We can model that 
-by having both 2 and 3 in `nextStates` for that rule. It's also possible 
-(and also required) to have such a thing as a "Free Move". This means 
-that the machine can change states without reading any input. This is 
-useful if there is a state reachable via a Free Move which has a normal 
-rule for the character about to be read. The machine can "jump" to that 
-state, then follow that rule. These are modelled here by a `Nothing` 
-value in the `inputChar` field.
+First, we take the parameterized `State s a` type, and fix the `s` 
+variable as a list of (potential) identifiers:
 
-If, after processing some input, any of the machine's current states are 
-in its list of "accept" states, the machine has accepted the input.
+> type SIDPool a = State [SID] a
 
-> accepts :: DFA -> [Char] -> Bool
-> accepts dfa = accepted . foldl' process dfa
->
->   where
->     accepted :: DFA -> Bool
->     accepted dfa = any (`elem` acceptStates dfa) (currentStates dfa)
+This makes it simple to create a `nextId` action which requests the next 
+identifier from this list as well as updates the computation's state, 
+removing it as a future option before presenting that next identifier as 
+its result.
 
-Processing a single character means finding any followable rules for the 
-given character and the current machine state, and following them.
+> nextId :: SIDPool SID
+> nextId = do
+>     (x:xs) <- get
+>     put xs
+>     return x
 
-> process :: DFA -> Char -> DFA
-> process dfa c = case findRules c dfa of
->     -- Invalid input should cause the DFA to go into a failed state. 
->     -- We can do that easily, just remove any acceptStates.
->     [] -> dfa { acceptStates = [] }
->     rs -> dfa { currentStates = followRules rs }
->
-> findRules :: Char -> DFA -> [Rule]
-> findRules c dfa = filter (ruleApplies c dfa) $ rules dfa
+This function can be called from within any other function in the 
+`SIDPool` monad. Each time called, it will read the current state (via 
+`get`), assign the first identifier to `x` and the rest of the list to 
+`xs`, set the current state to that remaining list (via `put`) and 
+finally return the drawn identifier to the caller.
 
-A rule applies if
+<h2>Pattern &rArr; NFA</h2>
 
-1. The read character is a valid input character for the rule, and
-2. That rule applies to an available state
+Assuming we have some function `buildNFA` which handles the actual 
+conversion from `Pattern` to `NFA` but is in the `SIDPool` monad, we can 
+evaluate that action, supplying an infinite list as the potential 
+identifiers, and end up with an NFA with unique identifiers.
 
-> ruleApplies :: Char -> DFA -> Rule -> Bool
-> ruleApplies c dfa r =
->     maybe False (c ==) (inputChar r) &&
->     fromState r `elem` availableStates dfa
+> toNFA :: Pattern -> NFA
+> toNFA p = evalState (buildNFA p) [1..]
 
-An "available" state is one which we're currently in, or can reach via 
-Free Moves.
+As mentioned, our conversion function, lives in the `SIDPool` monad, 
+allowing it to call `nextId` at will. This gives it the following type 
+signature:
 
-> availableStates :: DFA -> [DFAState]
-> availableStates dfa = currentStates dfa ++ freeStates dfa
-
-The process of finding free states (those reachable via Free Moves) gets 
-a bit hairy. We need to start from our current state(s) and follow any 
-Free Moves *recursively*. This ensures that Free Moves which lead to 
-other Free Moves are correctly accounted for.
-
-> freeStates :: DFA -> [DFAState]
-> freeStates dfa = go [] (currentStates dfa)
->
->   where
->     go acc [] = acc
->     go acc ss =
->         let ss' = followRules $ freeMoves dfa ss
->         in go (acc ++ ss') ss'
-
-Free Moves from a given set of states are rules for those states which 
-have no input character.
-
-> freeMoves :: DFA -> [DFAState] -> [Rule]
-> freeMoves dfa ss = filter (\r ->
->     (fromState r `elem` ss) && (isNothing $ inputChar r)) $ rules dfa
-
-Of course, the states that result from following rules are simply the 
-concatenation of those rules' next states.
-
-> followRules :: [Rule] -> [DFAState]
-> followRules = concatMap nextStates
-
-Now we can model a DFA and see if it accepts a string or not. You could 
-test this in `ghci` by defining a DFA in state 1 with an accept state 2 
-and a single rule that moves the machine from 1 to 2 if the character 
-"a" is read.
-
-```
-ghci> let dfa = DFA [Rule 1 (Just 'a') [2]] [1] [2]
-ghci> dfa `accepts` "a"
-True
-ghci> dfa `accepts` "b"
-False
-```
-
-Pretty cool.
-
-<h2>Pattern &rArr; DFA</h2>
-
-Our conversion function, `toDFA` will live in the `DSI` monad, allowing 
-it to call `nextId` at will. This gives it the following type signature:
-
-> toDFA :: Pattern -> DSI DFA
+> buildNFA :: Pattern -> SIDPool NFA
 
 Every pattern is going to need at least one state identifier, so we'll 
 pull that out first, then begin a case analysis on the type of pattern 
 we're dealing with:
 
-> toDFA p = do
+> buildNFA p = do
 >     s1 <- nextId
 >
 >     case p of
@@ -275,7 +289,7 @@ characters, they'll be considered invalid and put the machine into a
 failed state. Giving it no characters is the only way it can remain in 
 an accept state.
 
->         Empty -> return $ DFA [] [s1] [s1]
+>         Empty -> return $ NFA [] [s1] [s1]
 
 Also simple is the literal character pattern. It has two states and a 
 rule between them. It moves from the first state to the second only if 
@@ -285,73 +299,73 @@ state, it will only accept that character.
 >         Literal c -> do
 >             s2 <- nextId
 >
->             return $ DFA [Rule s1 (Just c) [s2]] [s1] [s2]
+>             return $ NFA [Rule s1 (Just c) [s2]] [s1] [s2]
 
 We can model a concatenated pattern by first turning each sub-pattern 
-into their own DFAs, and then connecting the accept state of the first 
+into their own NFAs, and then connecting the accept state of the first 
 to the start state of the second via a Free Move. This means that as the 
-combined DFA is reading input, it will only accept that input if it 
-moves through the first DFAs states into what used to be its accept 
-state, hop over to the second DFA, then move into its accept state. 
+combined NFA is reading input, it will only accept that input if it 
+moves through the first NFAs states into what used to be its accept 
+state, hop over to the second NFA, then move into its accept state. 
 Conceptually, this is exactly how a concatenated pattern should match.
 
 *Note that `freeMoveTo` will be shown after.*
 
 >         Concat p1 p2 -> do
->             dfa1 <- toDFA p1
->             dfa2 <- toDFA p2
+>             nfa1 <- buildNFA p1
+>             nfa2 <- buildNFA p2
 >
->             let freeMoves = map (freeMoveTo dfa2) $ acceptStates dfa1
+>             let freeMoves = map (freeMoveTo nfa2) $ acceptStates nfa1
 >
->             return $ DFA
->                 (rules dfa1 ++ freeMoves ++ rules dfa2)
->                 (currentStates dfa1)
->                 (acceptStates dfa2)
+>             return $ NFA
+>                 (rules nfa1 ++ freeMoves ++ rules nfa2)
+>                 (currentStates nfa1)
+>                 (acceptStates nfa2)
 
 We can implement choice by creating a new starting state, and connecting 
-it to both sub-patterns' DFAs via Free Moves. Now the machine will jump 
-into both DFAs at once, and the composed machine will accept the input 
+it to both sub-patterns' NFAs via Free Moves. Now the machine will jump 
+into both NFAs at once, and the composed machine will accept the input 
 if either of the paths leads to an accept state.
 
 >         Choose p1 p2 -> do
 >             s2 <- nextId
->             dfa1 <- toDFA p1
->             dfa2 <- toDFA p2
+>             nfa1 <- buildNFA p1
+>             nfa2 <- buildNFA p2
 >
 >             let freeMoves =
->                     [ freeMoveTo dfa1 s2
->                     , freeMoveTo dfa2 s2
+>                     [ freeMoveTo nfa1 s2
+>                     , freeMoveTo nfa2 s2
 >                     ]
 >
->             return $ DFA
->                 (freeMoves ++ rules dfa1 ++ rules dfa2) [s2]
->                 (acceptStates dfa1 ++ acceptStates dfa2)
+>             return $ NFA
+>                 (freeMoves ++ rules nfa1 ++ rules nfa2) [s2]
+>                 (acceptStates nfa1 ++ acceptStates nfa2)
 >
 
 A repeated pattern is probably hardest to wrap your head around. We need 
-to first convert the sub-pattern to a DFA, then we'll connect up a new 
+to first convert the sub-pattern to an NFA, then we'll connect up a new 
 start state via a Free Move (to match 0 occurrences), then we'll connect 
 the accept state back to the start state (to match repetitions of the 
 pattern).
 
 >         Repeat p -> do
 >             s2 <- nextId
->             dfa <- toDFA p
+>             nfa <- buildNFA p
 >
->             let initMove = freeMoveTo dfa s2
->                 freeMoves = map (freeMoveTo dfa) $ acceptStates dfa
+>             let initMove = freeMoveTo nfa s2
+>                 freeMoves = map (freeMoveTo nfa) $ acceptStates nfa
 >
->             return $ DFA
->                 (initMove : rules dfa ++ freeMoves) [s2]
->                 (s2: acceptStates dfa)
+>             return $ NFA
+>                 (initMove : rules nfa ++ freeMoves) [s2]
+>                 (s2: acceptStates nfa)
 >
 
-And finally, our little helper which connects some state up to a DFA via 
+And finally, our little helper which connects some state up to an NFA via 
 a Free Move.
 
 >   where
->     freeMoveTo :: DFA -> DFAState -> Rule
->     freeMoveTo dfa s = Rule s Nothing (currentStates dfa)
+>     freeMoveTo :: NFA -> SID -> Rule
+>     freeMoveTo nfa s = Rule s Nothing (currentStates nfa)
 
 <h2>That's It</h2>
 
