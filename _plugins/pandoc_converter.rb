@@ -17,6 +17,8 @@ module Jekyll
     end
 
     def convert(content)
+      system("command -v pandoc &>/dev/null") or raise "pandoc not installed."
+
       IO.popen("pandoc --from=#{@format} --to=html", 'r+') do |h|
         h.puts(content)
         h.close_write
