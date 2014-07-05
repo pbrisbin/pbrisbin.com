@@ -57,7 +57,7 @@ is up to you, but here's my preferred steps:
 ```
 $ mkdir ./mysite && cd ./mysite
 $ cabal sandbox init
-$ cabal install yesod-platform yesod-bin
+$ cabal install alex happy yesod-bin
 $ yesod init --bare
 $ cabal install --dependencies-only
 $ yesod devel
