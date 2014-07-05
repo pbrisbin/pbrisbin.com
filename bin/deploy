@@ -7,6 +7,9 @@ tag="v$(date +%Y%m%d%H%M)"
 
 jekyll build
 
+ssh "$host" "cp -a '$directory' '$backups/pre-$tag'" &&
+  printf "backup complete: %s/%s\n" "$backups" "pre-$tag"
+
 rsync -e ssh --archive _site/ "$host:$directory/"
 
 git tag -a -m "$tag" "$tag"
