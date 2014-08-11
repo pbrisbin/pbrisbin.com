@@ -109,7 +109,7 @@ Consider the following:
 
 Is this `(<*>)` or not?
 
-In stead of writing its signature with `b`, lets use a question mark:
+Instead of writing its signature with `b`, lets use a question mark:
 
 ```haskell
 (<*>) :: f (a -> ?) -> f a -> f ?
@@ -273,7 +273,7 @@ in the case of `Maybe`, when we attempt to unwrap a `Nothing` value via
 `(>>=)`, that's the point at which the entire computation becomes a 
 `Nothing`.
 
-Once we've made that conceptual leap, we can think about *dependant*, or 
+Once we've made that conceptual leap, we can think about *dependent*, or 
 *sequenced* actions. In the case of `IO`, we have an expectation that 
 actions will be performed in a particular order. In the case of `Maybe`, 
 we need to know that if an *earlier* function returns `Nothing`, the 
