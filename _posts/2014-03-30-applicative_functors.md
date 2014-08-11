@@ -219,20 +219,11 @@ passing it to a function which returns a wrapped result.
 Formally:
 
 ```haskell
-(>>=) :: Monad m  -- for any monad,
-      => m a      -- take wrapped value
-      -> a -> m b -- and a function which needs it unwrapped
-      -> m b      -- unwrap it, and apply that function
-```
-
-Let's look at this through the lens of currying:
-
-```haskell
-(>>=) :: Monad m           -- for any monad,
-      => m a               -- take a wrapped value
-      -> (a -> m b -> m b) -- and return a function which can take an 
-                           -- unwrapped value and a wrapped one and 
-                           -- return another wrapped one
+(>>=) :: Monad m    -- for any monad,
+      => m a        -- take wrapped value
+      -> (a -> m b) -- and a function which needs it unwrapped
+      -> m b        -- and return something the same type as that function
+                    -- returns
 ```
 
 This clarifies why it's the only way we can support unwrapping. We're 
