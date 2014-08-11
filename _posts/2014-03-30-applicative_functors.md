@@ -33,7 +33,7 @@ normal function into one that operates on contained values.
 Formally:
 
 ```haskell
-fmap :: Fuctor f     -- for any functor,
+fmap :: Functor f    -- for any functor,
      => (  a ->   b) -- take a normal function,
      -> (f a -> f b) -- and make one that works on contained values
 ```
