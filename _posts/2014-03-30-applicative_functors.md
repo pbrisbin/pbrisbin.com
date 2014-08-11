@@ -57,7 +57,7 @@ whatever it may be.
 ## Functions in a Box
 
 To say that a functor is "applicative", we mean that the contained value *can be
-applied*. This is just another way of saying it's a function.
+applied*. In other words, it's a function.
 
 An applicative functor is any container-like type which offers a way to
 transform a *contained* function into one that can operate on contained values.
@@ -86,8 +86,8 @@ pure :: Applicative f -- for any applicative functor,
      -> f (a -> b)    -- and put it in a container
 ```
 
-In actuality, the type signature is just `a -> f a`. Since `a` literally means
-"any type", it can certainly represent the type `(a -> b)` too.
+In actuality, the type signature is simpler: `a -> f a`. Since `a` literally
+means "any type", it can certainly represent the type `(a -> b)` too.
 
 ```haskell
 pure :: Applicative f => a -> f a
@@ -95,8 +95,7 @@ pure :: Applicative f => a -> f a
 
 Understanding this is very important for understanding the usefulness of
 `Applicative`. Even though the type signature for `(<*>)` starts with `f (a ->
-b)`, it can just as easily be used with functions taking any number of
-arguments.
+b)`, it can also be used with functions taking any number of arguments.
 
 Consider the following:
 
@@ -112,19 +111,19 @@ Instead of writing its signature with `b`, lets use a question mark:
 (<*>) :: f (a -> ?) -> f a -> f ?
 ```
 
-Indeed it is. Just substitute the type `(b -> c)` for every `?` rather than the
+Indeed it is: Substitute the type `(b -> c)` for every `?`, rather than the
 simple `b` in the actual class definition.
 
 ## Curried All the Way Down
 
 What you just saw was a very concrete example of currying. When we say "a
 function of *n* arguments", we're actually lying. All functions in Haskell take
-exactly one argument. Multi-argument functions are really just single-argument
+exactly one argument. Multi-argument functions are really single-argument
 functions that return other single-argument functions that accept the remaining
 arguments via the same process.
 
 Using the question mark approach, we see that multi-argument functions are
-simply the form:
+actually of the form:
 
 ```haskell
 f :: a -> ?
@@ -145,7 +144,7 @@ Let me say that again: if you partially apply a function of more than one
 argument using `(<*>)`, you end up with another applicative functor which can be
 given to `(<*>)` yet again with another wrapped value to supply the remaining
 argument to that original function. This can continue as long as the function
-needs more arguments. Just like normal function application.
+needs more arguments. Exactly like normal function application.
 
 ## A "Concrete" Example
 
@@ -167,7 +166,7 @@ y :: Applicative f => f b
 y = -- ...
 ```
 
-How do we pass `x` and `y` to `f` to get some overall result? Easy, you wrap the
+How do we pass `x` and `y` to `f` to get some overall result? You wrap the
 function with `pure` then use `(<*>)` repeatedly:
 
 ```haskell
@@ -180,8 +179,8 @@ is this bit doing? It's taking a normal function and applying it to a contained
 value. Wait a second, normal functors know how to do that!
 
 Since in Haskell every `Applicative` is also a `Functor`, that means it could be
-rewritten as just `fmap f x`, turning the whole expression into `fmap f x <*>
-y`.
+rewritten equivalently as `fmap f x`, turning the whole expression into `fmap f
+x <*> y`.
 
 Never satisfied, Haskell introduced a function called `(<$>)` which is just
 `fmap` but infix. With this alias, we can write:
@@ -195,7 +194,7 @@ how this code would be written if there were no containers involved. Here we
 have another, more powerful step towards the goal of writing code that has to
 deal with some context (in our case, still that container) without actually
 having to care about that context. You write your function like you normally
-would, then just pepper `(<$>)` and `(<*>)` between the arguments.
+would, then add `(<$>)` and `(<*>)` between the arguments.
 
 ## A Missing Piece
 
@@ -274,11 +273,11 @@ parallel*.
 
 We use a monad for composing multiple actions (values with context) into a
 single action (a new value with context). We use applicative for the same
-reason. The difference lies (of course) in how that composition is carried out.
-With a monad, each action is evaluated in turn and the results of each are fed
-into the next via `(>>=)`. This implies ordering. With an applicative functor,
-every value is unwrapped in turn as functions are applied via `(<*>)` and the
-results are combined into a single value in "parallel".
+reason. The difference lies in how that composition is carried out. With a
+monad, each action is evaluated in turn and the results of each are fed into the
+next via `(>>=)`. This implies ordering. With an applicative functor, every
+value is unwrapped in turn as functions are applied via `(<*>)` and the results
+are combined into a single value in "parallel".
 
 Let's walk through a real example.
 
