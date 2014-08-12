@@ -196,9 +196,91 @@ deal with some context (in our case, still that container) without actually
 having to care about that context. You write your function like you normally
 would, then add `(<$>)` and `(<*>)` between the arguments.
 
-## Monad
+## Container &rArr; Context
 
-*TODO: Applicative => Functor + <*>; Monad => Applicative * join*
+For the purpose of `Monad`, we should avoid the word *container* and use only
+the word *context*. The `f` in `Functor f => f a` or the `m` in `Monad m => m a`
+is a *context* surrounding a value of type `a`. It represents some bit of other
+information. In the case of `Maybe`, it represents the fact that the value may
+or may not be there. In the case of lists, it represents that the value may be
+one of many possibilities. In the case of `IO`, it represents that some
+interaction with the outside world must occur to produce the value.
+
+The power added by `Monad` is the ability to alter that context as part of the
+composition of values. This power comes from its `join` operation, though the
+way the `Monad` type class was originally written in Haskell makes that a bit
+convoluted to discover.
+
+## Bind
+
+In the actual `Monad` type class, we have `(>>=)` (pronounced *bind*). Rather
+that starting here though, I'll start with its flipped variant: the same
+function, only taking its arguments in reverse order:
+
+```haskell
+(=<<) :: Monad m    -- for any monad,
+      -> (a -> m b) -- take a function from a value of type a to a value of type
+                    -- b, but with some additional context,
+      -> m a        -- and a value of type a with some context,
+      -> m b        -- and return a value of of type b with some context
+```
+
+The reason I chose to start here is that, when we add some explicit parenthesis,
+we can see how the three type classes line up:
+
+```haskell
+-- Functor: take a pure function from a to b, and return a function suitable for
+-- values with context:
+(<$>) :: (a -> b) -> (f a -> f b)
+
+-- Applicative: take a pure function from a to b, which has its own context, and
+-- return a function suitable for values with context:
+(<*>) :: f (a -> b) -> (f a -> f b)
+
+-- Monad: take a function from a to "b with context", and return a function
+-- suitable for values with context:
+(=<<) :: (a -> f b) -> (f a -> f b)
+```
+
+*Note: in much of this section, I'll use `f` to represent the Functor,
+Applicative, or Monad (which is usually `m`) in type annotations so you can see
+how similar they really are.*
+
+We can now see that the difference between `Applicative` and `Monad` is that one
+can only work with `f (a -> b)` but the other can work with `a -> f b`. What
+does this mean?
+
+Well, since our input function is now producing its own context, it gives us to
+ability to alter the context which is ultimately returned. In order for us
+*producing* a context to have the effect of *altering* the result's context,
+there needs to be some facility by which `(=<<)` is resolving what we produce
+and what we're given into a single result. That's `join`.
+
+## Join
+
+The `join` function has the following type:
+
+```haskell
+join :: m (m a) -> m a
+```
+
+It describes a way to *flatten* contexts. By applying `join`, the outer `m` and
+the inner `m` are resolved to a single value. This is how the context we produce
+and the context we're given get resolved by `(=<<)`.
+
+For historical reasons, all monadic functions (including `join`) are implemented
+in terms of `(>>=)` and `return`, but its truer (in the Category Theory sense)
+to let `join` and `return` be the foundational functions, assume any `Monad` is
+also a `Functor` and `Applicative`, and implement all other functions in terms
+of them:
+
+```haskell
+-- Relying on join + Functor
+f (=<<) ma = join $ fmap f ma
+
+-- Or relying on join + Applicative
+f (=<<) ma = join $ pure f <*> ma
+```
 
 ## What's the Point?
 
@@ -206,7 +288,13 @@ With all of this background knowledge, I came to a simple mental model for
 applicative functors vs monads: *Monad is for series where Applicative is for
 parallel*.
 
-*TODO: expound on that statement.*
+With a `join` function in hand, we have the ability to resolve multiple
+contexts. This means that we can produce and resolve contexts along the way to
+modify how the expression evolves in reaction to the (contextual) values we see.
+This allows us to model things like *do this then that* or *do this when that*.
+With `Applicative`, we don't have the power to setup dependencies like that by
+inspecting and modifying contexts along the way. We can only model things like
+*do this and that*.
 
 Let's walk through a real example.
 
