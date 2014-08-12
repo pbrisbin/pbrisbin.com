@@ -279,12 +279,12 @@ better.
 
 ## Series vs Parallel
 
-Think about the thing we're modelling here. A monad is best used for sequencing
-dependant actions with side-effects. Does it matter in what order we look things
-up? If one key's not found, we want `Nothing` regardless of which key it is or
-when it goes missing. What we're really doing here is taking the three values
-with context (the `Maybe` profile values) and combining them all together via
-the `User` data constructor.
+Think about the thing we're modelling here. We're not using the power that comes
+with `Monad` in any way. Nowhere do we inspect a single value and alter the flow
+of control through the expression. If one key's not found, we want `Nothing`
+regardless of which key it is or when it goes missing. What we're really doing
+here is taking the three values with context (the `Maybe` profile values) and
+combining them all together via the `User` data constructor.
 
 This is `Applicative`, [I know this][unix].
 
