@@ -196,74 +196,9 @@ deal with some context (in our case, still that container) without actually
 having to care about that context. You write your function like you normally
 would, then add `(<$>)` and `(<*>)` between the arguments.
 
-## A Missing Piece
+## Monad
 
-With both `Functor` and `Applicative`, anything and everything was wrapped. Both
-arguments to `(<*>)` are wrapped, the result is wrapped, and `pure` wraps
-something up. We never have to deal with *unwrapping* anything.
-
-Simply put, a `Monad` is a type that can do everything an `Applicative` can do
-plus handle unwrapping. However, it can't just unwrap values willy-nilly. It can
-only unwrap a value in a very specific case: while passing it to a function
-which returns a wrapped result.
-
-Formally:
-
-```haskell
-(>>=) :: Monad m    -- for any monad,
-      => m a        -- take wrapped value
-      -> (a -> m b) -- and a function which needs it unwrapped
-      -> m b        -- and return something the same type as that function
-                    -- returns
-```
-
-This clarifies why it's the only way we can support unwrapping. We're taking a
-wrapped value and producing *a function which operates on an unwrapped value*.
-The type signature describes the nature of this function: it takes yet another
-wrapped value as argument and produces a wrapped value of the same type as its
-result.
-
-This gives us the needed flexibility to implement unwrapping. Consider a type
-like `Maybe`. If we were able to unwrap values at any point and return them
-directly, we'd be in trouble when we come across a `Nothing`. If, on the other
-hand, our type signature says we ourselves have to return a wrapped result, we
-can take the reasonable step of not unwrapping anything and simply returning
-another `Nothing`.
-
-The above type signature ensures that's **always** an option.
-
-Haskell has no generic function of the type `Monad m => m a -> a`. Without that,
-there is no opportunity for unwrapping something that can't be unwrapped.
-Haskell does have a function called `join` with the signature `Monad m => m (m
-a) => m a`. This is indeed a function that just unwraps a value directly, but
-because the type signature enforces that the value coming in is doubly-wrapped
-and the value going out is still wrapped, we can maintain our safety. Yay type
-systems.
-
-## Wrapper &rArr; Action, Unwrapping &rArr; Sequencing
-
-Up until now, we've been calling these types wrappers, containers, or contexts.
-With `Monad` it can be easier to think of them as *actions*. An action implies
-that *something else* may occur as a result of evaluating this otherwise pure
-function: side-effects. These can be real-world side effects in the case of
-`IO`, or context-changing side effects in the case of `Maybe` or `List`.
-
-Unwrapping as a concept should then be replaced with *evaluating* or *running*
-an action, it's when any side-effects will be realized. Again in the case of
-`Maybe`, when we attempt to unwrap a `Nothing` value via `(>>=)`, that's the
-point at which the entire computation becomes a `Nothing`.
-
-Once we've made that conceptual leap, we can think about *dependent*, or
-*sequenced* actions. In the case of `IO`, we have an expectation that actions
-will be performed in a particular order. In the case of `Maybe`, we need to know
-that if an *earlier* function returns `Nothing`, the *later* functions will know
-about it.
-
-The ability for a `Monad` to be unwrapped or evaluated combined with the type
-signature of `(>>=)` provides for sequencing because it enforces that the left
-hand side is evaluated before the right hand side. This must be true because the
-left hand value has to be evaluated (i.e. unwrapped) for the right hand side to
-even be evaluable at all.
+*TODO: Applicative => Functor + <*>; Monad => Applicative * join*
 
 ## What's the Point?
 
@@ -271,13 +206,7 @@ With all of this background knowledge, I came to a simple mental model for
 applicative functors vs monads: *Monad is for series where Applicative is for
 parallel*.
 
-We use a monad for composing multiple actions (values with context) into a
-single action (a new value with context). We use applicative for the same
-reason. The difference lies in how that composition is carried out. With a
-monad, each action is evaluated in turn and the results of each are fed into the
-next via `(>>=)`. This implies ordering. With an applicative functor, every
-value is unwrapped in turn as functions are applied via `(<*>)` and the results
-are combined into a single value in "parallel".
+*TODO: expound on that statement.*
 
 Let's walk through a real example.
 
