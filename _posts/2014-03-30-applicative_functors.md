@@ -246,9 +246,9 @@ we can see how the three type classes line up:
 (=<<) :: (a -> f b) -> (f a -> f b)
 ```
 
-*Note: in much of this section, I'll use `f` to represent the Functor,
-Applicative, or Monad (which is usually `m`) in type annotations so you can see
-how similar they really are.*
+*Note: in this section, I use `f` to represent any of Functor, Applicative, or
+Monad (which is usually `m`) in type annotations. This is to clarify how similar
+they really are.*
 
 We can now see that the difference between `Applicative` and `Monad` is that one
 can only work with `f (a -> b)` but the other can work with `a -> f b`. What
