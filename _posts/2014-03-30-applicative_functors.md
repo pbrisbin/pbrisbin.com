@@ -218,7 +218,7 @@ convoluted to discover.
 ## Bind
 
 In the actual `Monad` type class, we have `(>>=)` (pronounced *bind*). Rather
-that starting here though, I'll start with its flipped variant: the same
+than starting here though, I'll start with its flipped variant: the same
 function, only taking its arguments in reverse order:
 
 ```haskell
@@ -254,7 +254,7 @@ We can now see that the difference between `Applicative` and `Monad` is that one
 can only work with `f (a -> b)` but the other can work with `a -> f b`. What
 does this mean?
 
-Well, since our input function is now producing its own context, it gives us to
+Well, since our input function is now producing its own context, it gives us the
 ability to alter the context which is ultimately returned. In order for us
 *producing* a context to have the effect of *altering* the result's context,
 there needs to be some facility by which `(=<<)` is resolving what we produce
