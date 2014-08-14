@@ -257,8 +257,8 @@ does this mean?
 Well, since our input function is now producing its own context, it gives us the
 ability to alter the context which is ultimately returned. In order for us
 *producing* a context to have the effect of *altering* the result's context,
-there needs to be some facility by which `(=<<)` is resolving what we produce
-and what we're given into a single result. That's `join`.
+there must be some facility by which `(=<<)` is resolving what we produce and
+what we're given into a single result: that's `join`.
 
 ## Join
 
