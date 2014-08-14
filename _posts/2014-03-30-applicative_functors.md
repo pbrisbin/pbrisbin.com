@@ -273,10 +273,12 @@ the inner `m` are resolved to a single value. This is how the context we produce
 and the context we're given get resolved by `(=<<)`.
 
 For historical reasons, all monadic functions (including `join`) are implemented
-in terms of `(>>=)` and `return`, but its truer (in the Category Theory sense)
-to let `join` and `return` be the foundational functions, assume any `Monad` is
-also a `Functor` and `Applicative`, and implement all other functions in terms
-of them:
+in terms of `(>>=)` and `return`, but its truer (in the [Category Theory][ctm]
+sense) to let `join` and `return` be the foundational functions, assume any
+`Monad` is also a `Functor` and `Applicative`, and implement all other functions
+in terms of them:
+
+[ctm]: http://en.wikipedia.org/wiki/Monad_(category_theory)#Formal_definition
 
 ```haskell
 -- Relying on join + Functor
@@ -285,6 +287,12 @@ f (=<<) ma = join $ fmap f ma
 -- Or relying on join + Applicative
 f (=<<) ma = join $ pure f <*> ma
 ```
+
+For anyone who's heard the "Monad is a Monoid in the category of Endofunctors"
+quip, it's [actually true][so], with `return` being the neutral element and
+`join` being the associative operation.
+
+[so]: http://stackoverflow.com/questions/3870088/a-monad-is-just-a-monoid-in-the-category-of-endofunctors-whats-the-problem
 
 ## What's the Point?
 
