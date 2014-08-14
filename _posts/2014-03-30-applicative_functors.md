@@ -46,7 +46,11 @@ fmap :: Functor f -- for any functor,
                   -- function to that value
 ```
 
-Thanks to currying, the two are completely equivalent.
+Because Haskell functions are [curried][currying] by default, we can reason
+about and use this function either way -- with the former being more useful to
+the current discussion.
+
+[currying]: http://www.haskell.org/haskellwiki/Currying
 
 This is the first small step in the ultimate goal between all three of these
 type classes: allow us to work with values with context (in this case, a
@@ -68,7 +72,7 @@ transform a *contained* function into one that can operate on contained values.
       -> (f a -> f b)  -- and make one that works on contained values
 ```
 
-Again because of currying, we can also think of it like this:
+Again, we could also think of it like this:
 
 ```haskell
 (<*>) :: Applicative f -- for any applicative functor,
@@ -116,11 +120,11 @@ simple `b` in the actual class definition.
 
 ## Curried All the Way Down
 
-What you just saw was a very concrete example of currying. When we say "a
-function of *n* arguments", we're actually lying. All functions in Haskell take
-exactly one argument. Multi-argument functions are really single-argument
-functions that return other single-argument functions that accept the remaining
-arguments via the same process.
+What you just saw was a very concrete example of the benefits of currying by
+default. When we say "a function of *n* arguments", we're actually lying. All
+functions in Haskell take exactly one argument. Multi-argument functions are
+really single-argument functions that return other single-argument functions
+that accept the remaining arguments via the same process.
 
 Using the question mark approach, we see that multi-argument functions are
 actually of the form:
@@ -140,11 +144,11 @@ mathematical foundation. You'll notice that after using `(<*>)` on a function of
 more than one argument, the result is not a wrapped result, but another wrapped
 function -- does that sound familiar? Exactly, it's an applicative functor.
 
-Let me say that again: if you partially apply a function of more than one
-argument using `(<*>)`, you end up with another applicative functor which can be
-given to `(<*>)` yet again with another wrapped value to supply the remaining
-argument to that original function. This can continue as long as the function
-needs more arguments. Exactly like normal function application.
+Let me say that again: if you supply a function of more than one argument and a
+single wrapped value to `(<*>)`, you end up with another applicative functor
+which can be given to `(<*>)` yet again with another wrapped value to supply the
+remaining argument to that original function. This can continue as long as the
+function needs more arguments. Exactly like normal function application.
 
 ## A "Concrete" Example
 
