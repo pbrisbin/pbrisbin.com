@@ -200,113 +200,13 @@ deal with some context (in our case, still that container) without actually
 having to care about that context. You write your function like you normally
 would, then add `(<$>)` and `(<*>)` between the arguments.
 
-## Container &rArr; Context
-
-For the purpose of `Monad`, we should avoid the word *container* and use only
-the word *context*. The `f` in `Functor f => f a` or the `m` in `Monad m => m a`
-is a *context* surrounding a value of type `a`. It represents some bit of other
-information. In the case of `Maybe`, it represents the fact that the value may
-or may not be there. In the case of lists, it represents that the value may be
-one of many possibilities. In the case of `IO`, it represents that some
-interaction with the outside world must occur to produce the value.
-
-The power added by `Monad` is the ability to alter that context as part of the
-composition of values. This power comes from its `join` operation, though the
-way the `Monad` type class was originally written in Haskell makes that a bit
-convoluted to discover.
-
-## Bind
-
-In the actual `Monad` type class, we have `(>>=)` (pronounced *bind*). Rather
-than starting here though, I'll start with its flipped variant: the same
-function, only taking its arguments in reverse order:
-
-```haskell
-(=<<) :: Monad m    -- for any monad,
-      -> (a -> m b) -- take a function from a value of type a to a value of type
-                    -- b, but with some additional context,
-      -> m a        -- and a value of type a with some context,
-      -> m b        -- and return a value of of type b with some context
-```
-
-The reason I chose to start here is that, when we add some explicit parenthesis,
-we can see how the three type classes line up:
-
-```haskell
--- Functor: take a pure function from a to b, and return a function suitable for
--- values with context:
-(<$>) :: (a -> b) -> (f a -> f b)
-
--- Applicative: take a pure function from a to b, which has its own context, and
--- return a function suitable for values with context:
-(<*>) :: f (a -> b) -> (f a -> f b)
-
--- Monad: take a function from a to "b with context", and return a function
--- suitable for values with context:
-(=<<) :: (a -> f b) -> (f a -> f b)
-```
-
-*Note: in this section, I use `f` to represent any of Functor, Applicative, or
-Monad (which is usually `m`) in type annotations. This is to clarify how similar
-they really are.*
-
-We can now see that the difference between `Applicative` and `Monad` is that one
-can only work with `f (a -> b)` but the other can work with `a -> f b`. What
-does this mean?
-
-Well, since our input function is now producing its own context, it gives us the
-ability to alter the context which is ultimately returned. In order for us
-*producing* a context to have the effect of *altering* the result's context,
-there must be some facility by which `(=<<)` is resolving what we produce and
-what we're given into a single result: that's `join`.
-
-## Join
-
-The `join` function has the following type:
-
-```haskell
-join :: m (m a) -> m a
-```
-
-It describes a way to *flatten* contexts. By applying `join`, the outer `m` and
-the inner `m` are resolved to a single value. This is how the context we produce
-and the context we're given get resolved by `(=<<)`.
-
-For historical reasons, all monadic functions (including `join`) are implemented
-in terms of `(>>=)` and `return`, but its truer (in the [Category Theory][ctm]
-sense) to let `join` and `return` be the foundational functions, assume any
-`Monad` is also a `Functor` and `Applicative`, and implement all other functions
-in terms of them:
-
-[ctm]: http://en.wikipedia.org/wiki/Monad_(category_theory)#Formal_definition
-
-```haskell
--- Relying on join + Functor
-f (=<<) ma = join $ fmap f ma
-
--- Or relying on join + Applicative
-f (=<<) ma = join $ pure f <*> ma
-```
-
-For anyone who's heard the "Monad is a Monoid in the category of Endofunctors"
-quip, it's [actually true][so], with `return` being the neutral element and
-`join` being the associative operation.
-
-[so]: http://stackoverflow.com/questions/3870088/a-monad-is-just-a-monoid-in-the-category-of-endofunctors-whats-the-problem
-
 ## What's the Point?
 
 With all of this background knowledge, I came to a simple mental model for
 applicative functors vs monads: *Monad is for series where Applicative is for
-parallel*.
-
-With a `join` function in hand, we have the ability to resolve multiple
-contexts. This means that we can produce and resolve contexts along the way to
-modify how the expression evolves in reaction to the (contextual) values we see.
-This allows us to model things like *do this then that* or *do this when that*.
-With `Applicative`, we don't have the power to setup dependencies like that by
-inspecting and modifying contexts along the way. We can only model things like
-*do this and that*.
+parallel*. This has nothing to do with concurrency or evaluation order, this is
+only a concept I use to judge when a particular abstraction is better suited to
+the problem at hand.
 
 Let's walk through a real example.
 
@@ -379,12 +279,10 @@ better.
 
 ## Series vs Parallel
 
-Think about the thing we're modelling here. We're not using the power that comes
-with `Monad` in any way. Nowhere do we inspect a single value and alter the flow
-of control through the expression. If one key's not found, we want `Nothing`
-regardless of which key it is or when it goes missing. What we're really doing
-here is taking the three values with context (the `Maybe` profile values) and
-combining them all together via the `User` data constructor.
+Using `Monad` means we have the ability to access the values returned by earlier
+`lookup` expressions in later ones. That ability is often critical, but not
+always. In many cases (like here), we do nothing but pass them all as-is to the
+`User` constructor "at once" as a last step.
 
 This is `Applicative`, [I know this][unix].
 
