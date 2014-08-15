@@ -115,7 +115,7 @@ Instead of writing its signature with `b`, lets use a question mark:
 (<*>) :: f (a -> ?) -> f a -> f ?
 ```
 
-Indeed it is: Substitute the type `(b -> c)` for every `?`, rather than the
+Indeed it is: substitute the type `(b -> c)` for every `?`, rather than the
 simple `b` in the actual class definition.
 
 ## Curried All the Way Down
