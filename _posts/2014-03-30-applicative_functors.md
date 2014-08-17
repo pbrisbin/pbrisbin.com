@@ -46,11 +46,8 @@ fmap :: Functor f -- for any functor,
                   -- function to that value
 ```
 
-Because Haskell functions are [curried][currying] by default, we can reason
-about and use this function either way -- with the former being more useful to
-the current discussion.
-
-[currying]: http://www.haskell.org/haskellwiki/Currying
+Because `(->)` is right-associative, we can reason about and use this function
+either way -- with the former being more useful to the current discussion.
 
 This is the first small step in the ultimate goal between all three of these
 type classes: allow us to work with values with context (in this case, a
@@ -118,10 +115,10 @@ Instead of writing its signature with `b`, lets use a question mark:
 Indeed it is: substitute the type `(b -> c)` for every `?`, rather than the
 simple `b` in the actual class definition.
 
-## Curried All the Way Down
+## One In, One Out
 
-What you just saw was a very concrete example of the benefits of currying by
-default. When we say "a function of *n* arguments", we're actually lying. All
+What you just saw was a very concrete example of the benefits of how `(->)`
+works. When we say "a function of *n* arguments", we're actually lying. All
 functions in Haskell take exactly one argument. Multi-argument functions are
 really single-argument functions that return other single-argument functions
 that accept the remaining arguments via the same process.
