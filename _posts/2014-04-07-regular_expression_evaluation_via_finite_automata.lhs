@@ -97,15 +97,16 @@ in response to a particular character. Similarly, `inputChar` is a
 `Maybe` value because it will be `Nothing` in the case of a rule 
 representing a Free Move.
 
-If, after processing some input, any of the machine's current states are 
-in its list of "accept" states, the machine has accepted the input.
+If, after processing some input, any of the machine's current states (*or any
+states we can reach via a free move*) are in its list of "accept" states, the
+machine has accepted the input.
 
 > accepts :: NFA -> [Char] -> Bool
 > accepts nfa = accepted . foldl' process nfa
 >
 >   where
 >     accepted :: NFA -> Bool
->     accepted nfa = any (`elem` acceptStates nfa) (currentStates nfa)
+>     accepted nfa = any (`elem` acceptStates nfa) (currentStates nfa ++ freeStates nfa)
 
 Processing a single character means finding any followable rules for the 
 given character and the current machine state, and following them.
