@@ -12,7 +12,7 @@ ssh "$host" "cp -a '$directory' '$backups/pre-$tag'" &&
 
 rsync -e ssh --archive _site/ "$host:$directory/"
 
-git tag -a -m "$tag" "$tag"
+git tag -s -m "$tag" "$tag"
 
 printf "success: %s -> %s\n" "$tag" "$host"
 printf "pushing to github...\n"
