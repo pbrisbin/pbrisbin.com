@@ -210,7 +210,7 @@ getPostR :: PostId -> Handler Value
 getPostR pid = do
     post <- runDB $ get404 pid
 
-    return $ object ["post" .= post]
+    return $ object ["post" .= (Entity pid post)]
 
 putPostR :: PostId -> Handler Value
 putPostR pid = do
@@ -268,7 +268,7 @@ getCommentR :: PostId -> CommentId -> Handler Value
 getCommentR _ cid = do
     comment <- runDB $ get404 cid
 
-    return $ object ["comment" .= comment]
+    return $ object ["comment" .= (Entity cid comment)]
 
 -- We'll talk about this later
 --putCommentR :: PostId -> CommentId -> Handler ()
