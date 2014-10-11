@@ -115,7 +115,7 @@ project using Active Model Serializers.
 **Model.hs**
 
 ```haskell
-share [mkPersist sqlOnlySettings, mkMigrate "migrateAll"]
+share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
 
 -- { "id": 1, "title": "A title", "content": "The content" }
