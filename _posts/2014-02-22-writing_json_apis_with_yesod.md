@@ -27,12 +27,14 @@ some conventions I've landed on, and discuss one possible pitfall when
 dealing with model relations.
 
 <div class="well">
-**Note**: The code in this tutorial was extracted from a current project 
-and is in fact working there. However, I haven't test-compiled the 
-examples exactly as they appear in the post. It's entirely possible 
-there are typos and the like. Please reach out on Twitter or via email 
+**Note**: The code in this tutorial was extracted from a current
+[project][carnival] and is in fact working there. However, I haven't
+test-compiled the examples exactly as they appear in the post. It's entirely
+possible there are typos and the like. Please reach out on Twitter or via email
 if you run into any trouble with the examples.
 </div>
+
+[carnival]: https://github.com/thoughtbot/carnival
 
 ## What We Won't Cover
 
