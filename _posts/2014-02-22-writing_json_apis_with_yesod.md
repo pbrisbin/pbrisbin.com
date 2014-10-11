@@ -184,7 +184,7 @@ getPostsR = do
 
 postPostsR :: Handler ()
 postPostsR = do
-    post <- parseJsonBody_ :: Handler Post
+    post <- requireJsonBody :: Handler Post
     _    <- runDB $ insert post
 
     sendResponseStatus status201 ("CREATED" :: Text)
@@ -214,7 +214,7 @@ getPostR pid = do
 
 putPostR :: PostId -> Handler Value
 putPostR pid = do
-    post <- parseJsonBody_ :: Handler Post
+    post <- requireJsonBody :: Handler Post
 
     runDB $ replace pid post
 
@@ -227,7 +227,7 @@ deletePostR pid = do
     sendResponseStatus status200 ("DELETED" :: Text)
 ```
 
-I love how functions like `get404` and `parseJsonBody_` allow these 
+I love how functions like `get404` and `requireJsonBody` allow these 
 handlers to be completely free of any error-handling concerns, but still 
 be safe and well-behaved.
 
@@ -283,7 +283,7 @@ deleteCommentR _ cid = do
 ## Handling Relations
 
 Up until now, we've been able to define JSON instances for our model, 
-use `parseJsonBody_`, and `insert` the result. In this case however, the 
+use `requireJsonBody`, and `insert` the result. In this case however, the 
 request body will be lacking the Post ID (since it's in the URL). This 
 means we need to parse a different but similar data type from the JSON, 
 then use that and the URL parameter to build a `Comment`.
@@ -319,7 +319,7 @@ import Helpers.Comment
 
 postCommentsR :: PostId -> Handler ()
 postCommentsR pid = do
-    _ <- runDB . insert . toComment pid =<< parseJsonBody_
+    _ <- runDB . insert . toComment pid =<< requireJsonBody
 
     sendResponseStatus status201 ("CREATED" :: Text)
 ```
@@ -329,17 +329,17 @@ postCommentsR pid = do
 ```haskell
 import Helpers.Comment
 
-putCommentR :: PostId -> CommentId -> Handler
+putCommentR :: PostId -> CommentId -> Handler ()
 putCommentR pid cid = do
-    runDB . replace cid . toComment pid =<< parseJsonBody_
+    runDB . replace cid . toComment pid =<< requireJsonBody
 
     sendResponseStatus status200 ("UPDATED" :: Text)
 ```
 
 <div class="well">
-We don't need a type annotation on `parseJsonBody_` in this case. Since 
+We don't need a type annotation on `requireJsonBody` in this case. Since 
 the result is being passed to `toComment pid`, Haskell knows we want a 
-`CommentAttrs` and uses its `parseJSON` function within `parseJsonBody_`
+`CommentAttrs` and uses its `parseJSON` function within `requireJsonBody`
 </div>
 
 ## Conclusion
@@ -349,7 +349,7 @@ fully-featured JSON API using Yesod. I think the JSON instances and API
 handlers are more concise and readable than the analogous Rails 
 serializers and controllers. Our system is also far safer thanks to the 
 type system and framework-provided functions like `get404` and 
-`parseJsonBody_` without us needing to explicitly deal with any of that.
+`requireJsonBody` without us needing to explicitly deal with any of that.
 
 I hope this post has shown that Yesod is indeed a viable option for 
 projects of this nature.
