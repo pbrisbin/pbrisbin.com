@@ -1,5 +1,0 @@
-name: pbrisbin dot com
-description: pbrisbin dot com
-url: http://pbrisbin.com
-permalink: '/posts/:title'
-exclude: ["README.md", "bin"]

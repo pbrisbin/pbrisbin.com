@@ -1,0 +1,25 @@
+Name:                   site
+Version:                0.0.0
+Author:                 Pat Brisbin <pbrisbin@gmail.com>
+Maintainer:             Pat Brisbin <pbrisbin@gmail.com>
+License:                MIT
+License-File:           LICENSE
+Cabal-Version:          >= 1.10
+Build-Type:             Simple
+
+Executable site
+  Default-Language:     Haskell2010
+  Main-Is:              main.hs
+  GHC-Options:          -Wall
+  Build-Depends:        base
+                      , hakyll          >= 4.6.1.0      && < 4.7
+                      , binary
+                      , blaze-html
+                      , blaze-markup
+                      , filepath
+                      , text
+                      , xml-conduit
+
+Source-Repository head
+  Type:                 git
+  Location:             https://github.com/pbrisbin/pbrisbin.com

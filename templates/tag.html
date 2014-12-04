@@ -1,0 +1,14 @@
+<header>
+  <p><a href="/">Home</a></p>
+  <h1>$title$</h1>
+</header>
+
+$for(posts)$
+  <h2 class="title">$title$</h2>
+
+  $body$
+
+  <p class="meta">
+    <a href="$url$">published</a> on $date$, tagged with $tags$
+  </p>
+$endfor$

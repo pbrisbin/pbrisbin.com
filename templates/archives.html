@@ -1,0 +1,13 @@
+<header>
+  <a href="/">Home</a>
+  <h1>Archives</h1>
+</header>
+
+<ul class="archives">
+  $for(posts)$
+    <li>
+      <a href="$url$">$title$</a>
+      <span class="date">$date$</span>
+    </li>
+  $endfor$
+</ul>

@@ -1,3 +1,3 @@
 # pbrisbin dot com
 
-Jekyll source for generating <http://pbrisbin.com>.
+Hakyll source for generating <http://pbrisbin.com>.
