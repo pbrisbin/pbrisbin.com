@@ -29,7 +29,10 @@ main = hakyll $ do
 
     -- Post pages
     match "posts/*" $ do
-        route indexRoute
+        route $ indexRoute $ \fp ->
+            let (path, name) = splitFileName fp
+            in path ++ drop 11 (dropExtension name)
+
         compile $ pandocCompiler
             >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
@@ -104,7 +107,7 @@ postCtx :: Tags -> Context String
 postCtx tags = mconcat
     [ dateField "date" "%d %b %Y"
     , tagsFieldWith getTags renderTag (mconcat . intersperse ", ") "tags" tags
-    , mapContext stripIndex $ urlField "url"
+    , indexedUrlField "url"
     , defaultContext
     ]
 
@@ -113,7 +116,7 @@ feedItemCtx = mconcat
     [ dateField "date" "%a, %d %b %Y %H:%M:%S %z"
     , constField "root" "http://pbrisbin.com"
     , mapContext xmlEscape $ bodyField "body"
-    , mapContext stripIndex $ urlField "url"
+    , indexedUrlField "url"
     , defaultContext
     ]
 
@@ -122,28 +125,7 @@ loadContent p = recentFirst =<< loadAllSnapshots p "content"
 
 renderTag :: String -> Maybe FilePath -> Maybe H.Html
 renderTag tag = fmap $ \fp ->
-    H.a ! A.href (toValue $ toUrl $ stripIndex fp) $ toHtml tag
     H.a ! A.href (toValue $ toUrl $ takeDirectory fp) $ toHtml tag
-
--- | "a/b/c.md" -> "a/b/c/index.html"
-indexRoute :: Routes
-indexRoute = customRoute $ \i ->
-    let (path, base) = splitFileName $ toFilePath i
-    in path ++ slug base ++ "/index.html"
-
-  where
-    slug :: FilePath -> String
-    slug = drop (length prefix) . dropExtension
-
-    prefix :: String
-    prefix = "YYYY-MM-DD-"
-
--- | "a/b/c/index.html" -> "a/b/c/"
-stripIndex :: String -> String
-stripIndex url =
-    case splitFileName url of
-        (path, "index.html") -> path
-        _ -> url
 
 xmlEscape :: String -> String
 xmlEscape = renderMarkup . toMarkup . NodeContent . T.pack
