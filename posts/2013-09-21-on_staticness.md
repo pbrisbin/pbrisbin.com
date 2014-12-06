@@ -128,7 +128,7 @@ difficult.
 [hakyll]: http://jaspervdj.be/hakyll/
 [jekyll]: http://jekyllrb.com/
 [plugin]: https://github.com/pbrisbin/pbrisbin.com/blob/jekyll/_plugins/pandoc_converter.rb
-[navigation] https://github.com/pbrisbin/pbrisbin.com/blob/master/src/Navigation.hs
+[navigation]: https://github.com/pbrisbin/pbrisbin.com/blob/master/src/Navigation.hs
 
 With the conversion complete, I was able to shut down a bunch of 
 services on my desktop and even cancel a dynamic DNS account. At 
