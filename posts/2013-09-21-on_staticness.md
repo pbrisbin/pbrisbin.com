@@ -41,7 +41,7 @@ $ wc -l < /etc/nginx/nginx.conf
 Adding a new post:
 
 ```
-$ cat > _posts/2013-09-21-awesome_post.md <<EOF
+$ cat > posts/2013-09-21-awesome_post.md <<EOF
 ---
 title: Awesome Post
 tags: some, tags

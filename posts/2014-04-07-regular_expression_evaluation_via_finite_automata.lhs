@@ -8,7 +8,7 @@ What follows is a literate haskell file runnable via `ghci`. The raw
 source for this page can be found [here][here].
 </div>
 
-[here]: https://github.com/pbrisbin/pbrisbin.com/blob/master/_posts/2014-04-07-regular_expression_evaluation_via_finite_automata.lhs
+[here]: https://github.com/pbrisbin/pbrisbin.com/blob/master/posts/2014-04-07-regular_expression_evaluation_via_finite_automata.lhs
 
 While reading [Understanding Computation][uc] again last night, I was 
 going back through the chapter where Tom Stuart describes deterministic 
