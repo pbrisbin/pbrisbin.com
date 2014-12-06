@@ -49,11 +49,17 @@ buildNavigationWith order pattern =
         go (Just x) (M.insert x (Page p (Just y)) nav) (y:rest)
 
 -- | Add the next identifier's url at the given key
+--
+-- Returns "/" if there is no next page
+--
 nextUrlField :: String -> Navigation -> Context String
 nextUrlField key nav = field key $
     getPageUrl nextIdentifier nav . itemIdentifier
 
 -- | Add the previous identifier's url at the given key
+--
+-- Returns "/" if there is no previous page
+--
 prevUrlField :: String -> Navigation -> Context String
 prevUrlField key nav = field key $
     getPageUrl prevIdentifier nav . itemIdentifier
