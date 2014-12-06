@@ -116,9 +116,19 @@ custom, but again, I'm trying to decrease overall effort here.
 [Jekyll][], on the other hand, had those features already *and* let me 
 use pandoc easily by dropping [a small ruby file][plugin] in \_plugins.
 
+<div class="well">
+**Update**: I did eventually move this blog to Hakyll.
+
+I figure if I want to be a Haskell evangelist, I really shouldn't be using a
+Ruby site generator when such a good Haskell option exists. Also, tags are now
+supported and adding next/previous links [myself][Navigation] wasn't very
+difficult.
+</div>
+
 [hakyll]: http://jaspervdj.be/hakyll/
 [jekyll]: http://jekyllrb.com/
-[plugin]: https://github.com/pbrisbin/pbrisbin.com/blob/master/_plugins/pandoc_converter.rb
+[plugin]: https://github.com/pbrisbin/pbrisbin.com/blob/jekyll/_plugins/pandoc_converter.rb
+[navigation] https://github.com/pbrisbin/pbrisbin.com/blob/master/src/Navigation.hs
 
 With the conversion complete, I was able to shut down a bunch of 
 services on my desktop and even cancel a dynamic DNS account. At 
