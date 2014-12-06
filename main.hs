@@ -40,6 +40,8 @@ main = hakyll $ do
             let ctx = mconcat
                     [ mapContext takeDirectory $ nextUrlField "next" navigation
                     , mapContext takeDirectory $ prevUrlField "prev" navigation
+                    , nextTitleField "nextTitle" navigation
+                    , prevTitleField "prevTitle" navigation
                     , postCtx tags
                     ]
 
