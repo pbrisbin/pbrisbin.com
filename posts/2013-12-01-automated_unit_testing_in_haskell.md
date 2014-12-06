@@ -156,7 +156,7 @@ The test should run now and give you a nice red failure due to the
 attempted evaluation of `undefined`.
 
 Since implementing `Parse` is not the purpose of this post, I won't be 
-moving forward in that direction. In stead, I'm going to show you how to 
+moving forward in that direction. Instead, I'm going to show you how to 
 set this library up as a package which can be `cabal install`ed and/or 
 `cabal test`ed by end-users.
 

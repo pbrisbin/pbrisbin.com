@@ -64,7 +64,7 @@ What'd be really great is if I could do the following:
 This means I could run the test suite once, letting it really call the 
 program, but record the `stdout`, `stderr`, and exit code of the call. 
 The next time I run the test suite, nothing would actually happen. The 
-recorded response would be replayed in stead, my script wouldn't know 
+recorded response would be replayed instead, my script wouldn't know 
 the difference and everything would pass reliably and instantly.
 
 <div class="well">

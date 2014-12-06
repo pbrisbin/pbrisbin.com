@@ -80,7 +80,7 @@ $ gpg --keyserver hkp://subkeys.pgp.net --send-keys <Key ID>
 
 At this point we have all we would need to manually use the `gpg` 
 command to encrypt or decrypt documents, but that makes for a clumsy 
-emailing process. In stead, we're going to tell Mutt how to execute 
+emailing process. Instead, we're going to tell Mutt how to execute 
 these commands for us as they're needed.
 
 Mutt ships with a sample configuration file which specifies the various 

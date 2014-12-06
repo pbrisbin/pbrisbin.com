@@ -80,7 +80,7 @@ handle_dzen() {
 And there you go.
 
 The end product is no longer moving my charger away from its normal 
-spot because I'm expecting a call. In stead, I'll see this:
+spot because I'm expecting a call. Instead, I'll see this:
 
 ![Android Receiver Screenshot](/img/android_receiver.png)\ 
 

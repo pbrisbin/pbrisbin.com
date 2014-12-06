@@ -44,7 +44,7 @@ this elegant result but know not the problem it solves.
 
 ## In the Beginning
 
-In the very early days of Haskell, there was no `IO` monad. In stead, 
+In the very early days of Haskell, there was no `IO` monad. Instead, 
 programs used a somewhat confusing `[Response] -> [Request]` model (some 
 details can be found [here]).
 
@@ -87,7 +87,7 @@ Pure vs impure seems like good enough categories, but it's not entirely
 correct and can lead folks astray when more complex concepts are 
 introduced.
 
-Imagine if we in stead wrote the program like this:
+Imagine if we instead wrote the program like this:
 
 ```haskell 
 main :: World -> (World, ())
@@ -120,7 +120,7 @@ I hope you'll find it as illustrative as I did.
 ## Limiting Main.main
 
 Let's pretend that Haskell is in its infancy and the designers have 
-punted the idea of IO. They've chosen in stead to flesh out the rest of 
+punted the idea of IO. They've chosen instead to flesh out the rest of 
 the language with vastly simpler semantics for a program's `main`.
 
 In this hypothetical language, a program's `main` function is of the 

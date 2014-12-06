@@ -64,7 +64,7 @@ This one time installation of the framework can take while.
 
 ## The Lemonstand
 
-The blog example feels a bit overdone, doesn't it? In stead, let's build 
+The blog example feels a bit overdone, doesn't it? Instead, let's build 
 a lemonade stand (which I'll refer to as "The Lemonstand" from now on). 
 We won't get too crazy with features, we just want a few pages and some 
 database interaction so you can see how this framework can be used.

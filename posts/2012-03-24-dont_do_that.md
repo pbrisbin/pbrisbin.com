@@ -46,7 +46,7 @@ However, our user's gimp binary is actually linked directly to
 /usr/lib/libpng.so.1.0 and is now broken. Sadface.
 
 In this example, the outcome is a broken gimp. However, if the shared 
-dependency were in stead something like readline and the broken package 
+dependency were instead something like readline and the broken package 
 something like bash, you might be left with an unusable system requiring 
 a rescue disk or reinstall. This of course lead to a lot of unhappy 
 users.

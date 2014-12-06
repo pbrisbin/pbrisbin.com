@@ -24,7 +24,7 @@ not translate very well.
 
 I used to sync everything down from Gmail into the local Maildir 
 assuming I'd want the option to search it. Turns out, I almost never do, 
-in stead these mailboxes just clutter up any view of "what's new" that 
+instead these mailboxes just clutter up any view of "what's new" that 
 mutt is trying to give me.
 
 Assuming you're using my [python helper][] for offlineimap, you can very 

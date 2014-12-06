@@ -7,7 +7,7 @@ Recently, Yesod released version 1.2. You can read the announcement
 [here][announcement], the changelog [here][changelog], and a detailed 
 blog post about the subsite rewrite [here][subsite]. These resources do 
 a great job of getting users' apps up on 1.2. This post won't rehash 
-those, it is in stead intended for those of you (like myself) who 
+those, it is instead intended for those of you (like myself) who 
 maintain libraries dependent on Yesod.
 
 [announcement]: http://www.yesodweb.com/blog/2013/05/yesod-1-2-released
