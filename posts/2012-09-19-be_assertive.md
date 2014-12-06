@@ -190,7 +190,7 @@ end
 ```
 
 This might seem like a small matter of aesthetics (and even if it was, I 
-still like it), but it's also more Agile. We know any undefined methods 
+still like it), but it's also more agile. We know any undefined methods 
 will return the proper response. As requirements inevitably change, we 
 only have to make the single change of adding or removing methods; we 
 don't then also have to go update the routes file. Win.
