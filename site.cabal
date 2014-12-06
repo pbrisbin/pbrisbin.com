@@ -7,11 +7,21 @@ License-File:           LICENSE
 Cabal-Version:          >= 1.10
 Build-Type:             Simple
 
+Library
+  Default-Language:     Haskell2010
+  HS-Source-Dirs:       src
+  GHC-Options:          -Wall
+  Exposed-Modules:      Navigation
+  Build-Depends:        base            >= 4            && < 5
+                      , hakyll          >= 4.6.1.0      && < 4.7
+                      , containers
+
 Executable site
   Default-Language:     Haskell2010
   Main-Is:              main.hs
   GHC-Options:          -Wall
   Build-Depends:        base
+                      , site
                       , hakyll          >= 4.6.1.0      && < 4.7
                       , binary
                       , blaze-html

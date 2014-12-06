@@ -18,9 +18,12 @@ import qualified Data.Text as T
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 
+import Navigation
+
 main :: IO ()
 main = hakyll $ do
     tags <- buildTags "posts/*" $ fromCapture "tags/*/index.html"
+    navigation <- buildNavigation "posts/*"
 
     -- Static files
     match ("favicon.ico" .||. "css/*" .||. "img/*") $ do
@@ -33,10 +36,17 @@ main = hakyll $ do
             let (path, name) = splitFileName fp
             in path ++ drop 11 (dropExtension name)
 
-        compile $ pandocCompiler
-            >>= saveSnapshot "content"
-            >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
-            >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
+        compile $ do
+            let ctx = mconcat
+                    [ mapContext dropFileName $ nextUrlField "next" navigation
+                    , mapContext dropFileName $ prevUrlField "prev" navigation
+                    , postCtx tags
+                    ]
+
+            pandocCompiler
+                >>= saveSnapshot "content"
+                >>= loadAndApplyTemplate "templates/post.html" ctx
+                >>= loadAndApplyTemplate "templates/default.html" ctx
 
     -- Archives
     create ["archives/index.html"] $ do
