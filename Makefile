@@ -5,6 +5,10 @@ backup:
 	ssh $(HOST) tar cvzf - $(SITE) | \
 	  cat > ~/$(HOST)-$(shell date +%Y%m%d-%H%M).tar.gz
 
-deploy:
+rebuild:
 	cabal run -- rebuild
+
+sync:
 	rsync -e ssh --archive _site/ $(HOST):$(SITE)/
+
+deploy: rebuild sync
