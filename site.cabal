@@ -2,7 +2,7 @@ Name:                   site
 Version:                0.0.0
 Author:                 Pat Brisbin <pbrisbin@gmail.com>
 Maintainer:             Pat Brisbin <pbrisbin@gmail.com>
-License:                MIT
+License:                GPL-2
 License-File:           LICENSE
 Cabal-Version:          >= 1.10
 Build-Type:             Simple
