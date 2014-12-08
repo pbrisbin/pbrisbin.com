@@ -9,6 +9,6 @@ rebuild:
 	cabal run -- rebuild
 
 sync:
-	rsync -e ssh --archive _site/ $(HOST):$(SITE)/
+	rsync -e ssh --archive --delete _site/ $(HOST):$(SITE)/
 
 deploy: rebuild sync
