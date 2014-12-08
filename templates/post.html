@@ -10,11 +10,15 @@
 $body$
 
 <ul class="pager">
+  $if(prev)$
   <li class="previous">
     <a href="$prev$">⇐ $prevTitle$</a>
   </li>
+  $endif$
 
+  $if(next)$
   <li class="next">
     <a href="$next$">$nextTitle$ ⇒</a>
   </li>
+  $endif$
 </ul>

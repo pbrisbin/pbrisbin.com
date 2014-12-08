@@ -14,7 +14,7 @@ module Navigation
 
 import Hakyll
 
-import Control.Applicative ((<$>))
+import Control.Applicative (Alternative(..), (<$>))
 import Data.List (sort)
 
 import qualified Data.Map as M
@@ -51,33 +51,21 @@ buildNavigationWith order pattern =
         go (Just x) (M.insert x (Page p (Just y)) nav) (y:rest)
 
 -- | Add the next identifier's url at the given key
---
--- Returns "/" if there is no next page
---
 nextUrlField :: String -> Navigation -> Context String
 nextUrlField key nav = field key $
     getPageUrl nextIdentifier nav . itemIdentifier
 
 -- | Add the next identifier's title at the given key
---
--- Returns "Home" if there is no next page
---
 nextTitleField :: String -> Navigation -> Context String
 nextTitleField key nav = field key $
     getTitle nextIdentifier nav . itemIdentifier
 
 -- | Add the previous identifier's url at the given key
---
--- Returns "/" if there is no previous page
---
 prevUrlField :: String -> Navigation -> Context String
 prevUrlField key nav = field key $
     getPageUrl prevIdentifier nav . itemIdentifier
 
 -- | Add the previous identifier's title at the given key
---
--- Returns "Home" if there is no previous page
---
 prevTitleField :: String -> Navigation -> Context String
 prevTitleField key nav = field key $
     getTitle prevIdentifier nav . itemIdentifier
@@ -88,13 +76,13 @@ getPageUrl direction nav current =
 
   where
     renderUrl (Just i) = maybe "/" toUrl <$> getRoute i
-    renderUrl Nothing = return "/"
+    renderUrl Nothing = empty
 
 getTitle :: Direction -> Navigation -> Identifier -> Compiler String
 getTitle direction nav current =
     renderTitle $ direction =<< M.lookup current nav
 
   where
-    renderTitle Nothing = return "Home"
+    renderTitle Nothing = empty
     renderTitle (Just i) =
         fmap (M.findWithDefault "" "title") $ getMetadata i
