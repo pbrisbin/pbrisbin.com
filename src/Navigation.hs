@@ -2,6 +2,42 @@
 --
 -- A construct for showing next/previous links in templates
 --
+-- Example usage:
+--
+-- In @main.hs@:
+--
+-- > navigation <- buildNavigation "posts/*"
+-- >
+-- > match "posts/*" $ do
+-- >     route idRoute
+-- >     compile $ do
+-- >         let ctx = mconcat
+-- >                 [ nextUrlField "next" navigation
+-- >                 , prevUrlField "prev" navigation
+-- >                 , nextTitleField "nextTitle" navigation
+-- >                 , prevTitleField "prevTitle" navigation
+-- >                 , defaultContext
+-- >                 ]
+--
+-- >         pandocCompiler
+-- >             >>= loadAndApplyTemplate "templates/post.html" ctx
+--
+-- And in @templates/post.html@:
+--
+-- > <ul class="pager">
+-- >   $if(prev)$
+-- >     <li class="previous">
+-- >       <a href="$prev$">⇐ $prevTitle$</a>
+-- >     </li>
+-- >   $endif$
+-- >
+-- >   $if(next)$
+-- >     <li class="next">
+-- >       <a href="$next$">$nextTitle$ ⇒</a>
+-- >     </li>
+-- >   $endif$
+-- > </ul>
+--
 module Navigation
     ( Page(..)
     , Navigation
