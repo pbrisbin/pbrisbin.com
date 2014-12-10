@@ -28,9 +28,9 @@ main = hakyll $ do
 
     -- Post pages
     match "posts/*" $ do
-        route $ indexRoute $ \fp ->
-            let (path, name) = splitFileName fp
-            in path ++ drop 11 (dropExtension name)
+        route $ customRoute $ \i ->
+            let (path, name) = splitFileName $ toFilePath i
+            in path ++ drop 11 (dropExtension name) ++ "/index.html"
 
         compile $ do
             let ctx = mconcat
