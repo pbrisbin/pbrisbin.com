@@ -18,7 +18,7 @@
 -- >                 , prevTitleField "prevTitle" navigation
 -- >                 , defaultContext
 -- >                 ]
---
+-- >
 -- >         pandocCompiler
 -- >             >>= loadAndApplyTemplate "templates/post.html" ctx
 --
@@ -42,6 +42,7 @@ module Navigation
     ( Page(..)
     , Navigation
     , buildNavigation
+    , buildNavigationWith
     , nextUrlField
     , nextTitleField
     , prevUrlField
