@@ -20,12 +20,10 @@ main = hakyll $ do
     tags <- buildTags "posts/*" $ fromCapture "tags/*/index.html"
     navigation <- buildNavigation "posts/*"
 
-    -- Static files
     match ("favicon.ico" .||. "css/*" .||. "img/*") $ do
         route idRoute
         compile copyFileCompiler
 
-    -- Post pages
     match "posts/*" $ do
         route $ customRoute $ \i ->
             let (path, name) = splitFileName $ toFilePath i
@@ -44,9 +42,8 @@ main = hakyll $ do
                 >>= saveSnapshot "content"
                 >>= loadAndApplyTemplate "templates/post.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= stripIndexUrls
+                >>= replace "href=\"/[^\"]*/index.html" P.takeDirectory
 
-    -- Archives
     create ["archives/index.html"] $ do
         route idRoute
         compile $ do
@@ -61,9 +58,8 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/archives.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= stripIndexUrls
+                >>= replace "href=\"/[^\"]*/index.html" P.takeDirectory
 
-    -- Tags
     tagsRules tags $ \tag pattern -> do
         route idRoute
         compile $ do
@@ -78,9 +74,8 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/tag.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= stripIndexUrls
+                >>= replace "href=\"/[^\"]*/index.html" P.takeDirectory
 
-    -- Homepage
     create ["index.html"] $ do
         route idRoute
         compile $ do
@@ -95,9 +90,8 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/index.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= stripIndexUrls
+                >>= replace "href=\"/[^\"]*/index.html" P.takeDirectory
 
-    -- RSS
     create ["feed/index.xml"] $ do
         route idRoute
         compile $ do
