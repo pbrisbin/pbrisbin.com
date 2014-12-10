@@ -5,9 +5,7 @@ import Hakyll
 import Navigation
 
 import Control.Applicative ((<$>))
-import Data.Binary (Binary)
 import Data.Monoid (mconcat)
-import Data.Typeable (Typeable)
 import System.FilePath (dropExtension, splitFileName, takeDirectory)
 import Text.Blaze (toMarkup)
 import Text.Blaze.Renderer.String (renderMarkup)
@@ -125,7 +123,7 @@ feedItemCtx = mconcat
     , defaultContext
     ]
 
-loadContent :: (Binary a, Typeable a) => Pattern -> Compiler [Item a]
+loadContent :: Pattern -> Compiler [Item String]
 loadContent p = recentFirst =<< loadAllSnapshots p "content"
 
 stripIndexUrls :: Item String -> Compiler (Item String)
