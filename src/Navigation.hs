@@ -52,16 +52,19 @@ module Navigation
 import Hakyll
 
 import Control.Applicative (Alternative(..), (<$>))
+import Control.Monad ((<=<))
 import Data.List (sort)
 
 import qualified Data.Map as M
 
 data Page = Page
-    { nextIdentifier :: Maybe Identifier
-    , prevIdentifier :: Maybe Identifier
+    { nextIdentifier :: Maybe Identifier -- ^ @Nothing@ for last page
+    , prevIdentifier :: Maybe Identifier -- ^ @Nothing@ for first page
     }
 
 type Direction = Page -> Maybe Identifier
+
+-- | Each page mapped to its next/previous identifiers
 type Navigation = M.Map Identifier Page
 
 -- | Build a @Navigation@ for the given @Pattern@
@@ -89,37 +92,38 @@ buildNavigationWith order pattern =
 
 -- | Add the next identifier's url at the given key
 nextUrlField :: String -> Navigation -> Context String
-nextUrlField key nav = field key $
-    getPageUrl nextIdentifier nav . itemIdentifier
+nextUrlField key = maybeField key . getPageUrl nextIdentifier
 
 -- | Add the next identifier's title at the given key
 nextTitleField :: String -> Navigation -> Context String
-nextTitleField key nav = field key $
-    getTitle nextIdentifier nav . itemIdentifier
+nextTitleField key = maybeField key . getPageTitle nextIdentifier
 
 -- | Add the previous identifier's url at the given key
 prevUrlField :: String -> Navigation -> Context String
-prevUrlField key nav = field key $
-    getPageUrl prevIdentifier nav . itemIdentifier
+prevUrlField key = maybeField key . getPageUrl prevIdentifier
 
 -- | Add the previous identifier's title at the given key
 prevTitleField :: String -> Navigation -> Context String
-prevTitleField key nav = field key $
-    getTitle prevIdentifier nav . itemIdentifier
+prevTitleField key = maybeField key . getPageTitle prevIdentifier
 
-getPageUrl :: Direction -> Navigation -> Identifier -> Compiler String
-getPageUrl direction nav current =
-    renderUrl $ direction =<< M.lookup current nav
+getPageUrl :: Direction -> Navigation -> Item a -> Compiler (Maybe String)
+getPageUrl = withPage $ \page -> do
+    mr <- getRoute page
+    return $ toUrl <$> mr
 
-  where
-    renderUrl (Just i) = maybe "/" toUrl <$> getRoute i
-    renderUrl Nothing = empty
+getPageTitle :: Direction -> Navigation -> Item a -> Compiler (Maybe String)
+getPageTitle = withPage $ \page -> do
+    md <- getMetadata page
+    return $ M.lookup "title" md
 
-getTitle :: Direction -> Navigation -> Identifier -> Compiler String
-getTitle direction nav current =
-    renderTitle $ direction =<< M.lookup current nav
+withPage :: (Identifier -> Compiler a)
+         -> Direction
+         -> Navigation
+         -> Item b
+         -> Compiler a
+withPage f direction nav item =
+    maybe empty f $ direction =<< M.lookup (itemIdentifier item) nav
 
-  where
-    renderTitle Nothing = empty
-    renderTitle (Just i) =
-        fmap (M.findWithDefault "" "title") $ getMetadata i
+-- https://github.com/jaspervdj/hakyll/pull/311
+maybeField :: String -> (Item a -> Compiler (Maybe String)) -> Context a
+maybeField key value = field key $ maybe empty return <=< value
