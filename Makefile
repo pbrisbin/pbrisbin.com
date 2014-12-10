@@ -8,7 +8,7 @@ backup:
 rebuild:
 	cabal run -- rebuild
 
-check:
+check: rebuild
 	rsync -e ssh --archive --delete --exclude img $(HOST):$(SITE)/ _current/
 	diff -r --exclude img _current _site
 
