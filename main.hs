@@ -5,18 +5,14 @@ import Hakyll
 
 import Control.Applicative ((<$>))
 import Data.Binary (Binary)
-import Data.List (intersperse)
 import Data.Monoid (mconcat)
 import Data.Typeable (Typeable)
 import System.FilePath (dropExtension, splitFileName, takeDirectory)
 import Text.Blaze (toMarkup)
-import Text.Blaze.Html (toHtml, toValue, (!))
 import Text.Blaze.Renderer.String (renderMarkup)
 import Text.XML (Node(..))
 
 import qualified Data.Text as T
-import qualified Text.Blaze.Html5 as H
-import qualified Text.Blaze.Html5.Attributes as A
 
 import Navigation
 
@@ -38,8 +34,8 @@ main = hakyll $ do
 
         compile $ do
             let ctx = mconcat
-                    [ mapContext takeDirectory $ nextUrlField "next" navigation
-                    , mapContext takeDirectory $ prevUrlField "prev" navigation
+                    [ nextUrlField "next" navigation
+                    , prevUrlField "prev" navigation
                     , nextTitleField "nextTitle" navigation
                     , prevTitleField "prevTitle" navigation
                     , postCtx tags
@@ -49,6 +45,7 @@ main = hakyll $ do
                 >>= saveSnapshot "content"
                 >>= loadAndApplyTemplate "templates/post.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
+                >>= stripIndexUrls
 
     -- Archives
     create ["archives/index.html"] $ do
@@ -65,6 +62,7 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/archives.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
+                >>= stripIndexUrls
 
     -- Tags
     tagsRules tags $ \tag pattern -> do
@@ -81,6 +79,7 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/tag.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
+                >>= stripIndexUrls
 
     -- Homepage
     create ["index.html"] $ do
@@ -97,6 +96,7 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/index.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
+                >>= stripIndexUrls
 
     -- RSS
     create ["feed/index.xml"] $ do
@@ -111,15 +111,16 @@ main = hakyll $ do
                     , defaultContext
                     ]
 
-            makeItem "" >>= loadAndApplyTemplate "templates/feed.xml" ctx
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/feed.xml" ctx
+                >>= stripIndexUrls
 
     match "templates/*" $ compile templateCompiler
 
 postCtx :: Tags -> Context String
 postCtx tags = mconcat
     [ dateField "date" "%d %b %Y"
-    , tagsFieldWith getTags renderTag (mconcat . intersperse ", ") "tags" tags
-    , indexedUrlField "url"
+    , tagsField "tags" tags
     , defaultContext
     ]
 
@@ -128,16 +129,17 @@ feedItemCtx = mconcat
     [ dateField "date" "%a, %d %b %Y %H:%M:%S %z"
     , constField "root" "http://pbrisbin.com"
     , mapContext xmlEscape $ bodyField "body"
-    , indexedUrlField "url"
     , defaultContext
     ]
 
 loadContent :: (Binary a, Typeable a) => Pattern -> Compiler [Item a]
 loadContent p = recentFirst =<< loadAllSnapshots p "content"
 
-renderTag :: String -> Maybe FilePath -> Maybe H.Html
-renderTag tag = fmap $ \fp ->
-    H.a ! A.href (toValue $ toUrl $ takeDirectory fp) $ toHtml tag
+stripIndexUrls :: Item String -> Compiler (Item String)
+stripIndexUrls = return . fmap go
+
+  where
+    go = replaceAll "(http://pbrisbin.com|\")/[^\"]*/index.html" takeDirectory
 
 xmlEscape :: String -> String
 xmlEscape = renderMarkup . toMarkup . NodeContent . T.pack
