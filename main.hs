@@ -6,12 +6,13 @@ import Navigation
 
 import Control.Applicative ((<$>))
 import Data.Monoid (mconcat)
-import System.FilePath (dropExtension, splitFileName, takeDirectory)
+import System.FilePath ((</>), splitFileName)
 import Text.Blaze (toMarkup)
 import Text.Blaze.Renderer.String (renderMarkup)
 import Text.XML (Node(..))
 
 import qualified Data.Text as T
+import qualified System.FilePath.Posix as P
 
 main :: IO ()
 main = hakyll $ do
@@ -104,7 +105,7 @@ main = hakyll $ do
 
             makeItem ""
                 >>= loadAndApplyTemplate "templates/feed.xml" ctx
-                >>= stripIndexUrls
+                >>= replace "http://pbrisbin.com/.*/index.html" P.takeDirectory
 
     match "templates/*" $ compile templateCompiler
 
@@ -126,11 +127,11 @@ feedItemCtx = mconcat
 loadContent :: Pattern -> Compiler [Item String]
 loadContent p = recentFirst =<< loadAllSnapshots p "content"
 
-stripIndexUrls :: Item String -> Compiler (Item String)
-stripIndexUrls = return . fmap go
-
-  where
-    go = replaceAll "(http://pbrisbin.com|\")/[^\"]*/index.html" takeDirectory
+replace :: String             -- ^ Regular expression to match
+        -> (String -> String) -- ^ Provide replacement given match
+        -> Item String
+        -> Compiler (Item String)
+replace p f = return . fmap (replaceAll p f)
 
 escapeXml :: String -> String
 escapeXml = renderMarkup . toMarkup . NodeContent . T.pack
