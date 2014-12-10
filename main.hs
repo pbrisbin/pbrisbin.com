@@ -2,6 +2,7 @@
 module Main where
 
 import Hakyll
+import Navigation
 
 import Control.Applicative ((<$>))
 import Data.Binary (Binary)
@@ -13,8 +14,6 @@ import Text.Blaze.Renderer.String (renderMarkup)
 import Text.XML (Node(..))
 
 import qualified Data.Text as T
-
-import Navigation
 
 main :: IO ()
 main = hakyll $ do
