@@ -24,9 +24,7 @@ main = hakyll $ do
         compile copyFileCompiler
 
     match "posts/*" $ do
-        route $ customRoute $ \i ->
-            let (path, name) = splitFileName $ toFilePath i
-            in path ++ drop 11 (dropExtension name) ++ "/index.html"
+        route $ setExtension "" `composeRoutes` indexedRoute
 
         compile $ do
             let ctx = mconcat
@@ -126,6 +124,14 @@ feedItemCtx = mconcat
 
 loadContent :: Pattern -> Compiler [Item String]
 loadContent p = recentFirst =<< loadAllSnapshots p "content"
+
+indexedRoute :: Routes
+indexedRoute = customRoute $ \i ->
+    let (path, name) = splitFileName $ toFilePath i
+    in path </> dropDatePrefix name </> "index.html"
+
+  where
+    dropDatePrefix = drop 11
 
 replace :: String             -- ^ Regular expression to match
         -> (String -> String) -- ^ Provide replacement given match
