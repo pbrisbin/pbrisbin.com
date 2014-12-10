@@ -128,7 +128,7 @@ feedItemCtx :: Context String
 feedItemCtx = mconcat
     [ dateField "date" "%a, %d %b %Y %H:%M:%S %z"
     , constField "root" "http://pbrisbin.com"
-    , mapContext xmlEscape $ bodyField "body"
+    , mapContext escapeXml $ bodyField "body"
     , defaultContext
     ]
 
@@ -141,5 +141,5 @@ stripIndexUrls = return . fmap go
   where
     go = replaceAll "(http://pbrisbin.com|\")/[^\"]*/index.html" takeDirectory
 
-xmlEscape :: String -> String
-xmlEscape = renderMarkup . toMarkup . NodeContent . T.pack
+escapeXml :: String -> String
+escapeXml = renderMarkup . toMarkup . NodeContent . T.pack
