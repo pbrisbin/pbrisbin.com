@@ -11,7 +11,7 @@
         <description>$body$</description>
         <pubDate>$date$</pubDate>
         <link>$root$$url$</link>
-        <guid isPermaLink="true">http://pbrisbin.com$url$</guid>
+        <guid isPermaLink="true">$root$$url$</guid>
       </item>
     $endfor$
   </channel>
