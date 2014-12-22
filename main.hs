@@ -6,7 +6,7 @@ import IndexedRoute
 import Navigation
 
 import Control.Applicative ((<$>))
-import Data.Monoid (mconcat)
+import Data.Monoid ((<>), mconcat)
 import Text.Blaze (toMarkup)
 import Text.Blaze.Renderer.String (renderMarkup)
 import Text.XML (Node(..))
@@ -47,7 +47,7 @@ main = hakyll $ do
 
             let ctx = mconcat
                     [ listField "posts" (postCtx tags) (return posts)
-                    , constField "title" "archives on pbrisbin dot com"
+                    , constField "title" $ "archives on " <> siteTitle
                     , defaultContext
                     ]
 
@@ -79,7 +79,7 @@ main = hakyll $ do
 
             let ctx = mconcat
                     [ listField "posts" (postCtx tags) (return posts)
-                    , constField "title" "pbrisbin dot com"
+                    , constField "title" siteTitle
                     , defaultContext
                     ]
 
@@ -95,16 +95,22 @@ main = hakyll $ do
 
             let ctx = mconcat
                     [ listField "posts" feedItemCtx (return posts)
-                    , constField "title" "pbrisbin dot com"
-                    , constField "root" "http://pbrisbin.com"
+                    , constField "title" siteTitle
+                    , constField "root" siteHost
                     , defaultContext
                     ]
 
             makeItem ""
                 >>= loadAndApplyTemplate "templates/feed.xml" ctx
-                >>= replaceIndexURLs "http://pbrisbin.com"
+                >>= replaceIndexURLs siteHost
 
     match "templates/*" $ compile templateCompiler
+
+siteHost :: String
+siteHost = "http://pbrisbin.com"
+
+siteTitle :: String
+siteTitle = "pbrisbin dot com"
 
 postCtx :: Tags -> Context String
 postCtx tags = mconcat
@@ -116,7 +122,7 @@ postCtx tags = mconcat
 feedItemCtx :: Context String
 feedItemCtx = mconcat
     [ dateField "date" "%a, %d %b %Y %H:%M:%S %z"
-    , constField "root" "http://pbrisbin.com"
+    , constField "root" siteHost
     , mapContext escapeXml $ bodyField "body"
     , defaultContext
     ]
