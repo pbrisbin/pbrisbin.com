@@ -2,17 +2,16 @@
 module Main where
 
 import Hakyll
+import IndexedRoute
 import Navigation
 
 import Control.Applicative ((<$>))
 import Data.Monoid (mconcat)
-import System.FilePath ((</>), splitFileName)
 import Text.Blaze (toMarkup)
 import Text.Blaze.Renderer.String (renderMarkup)
 import Text.XML (Node(..))
 
 import qualified Data.Text as T
-import qualified System.FilePath.Posix as P
 
 main :: IO ()
 main = hakyll $ do
@@ -39,7 +38,7 @@ main = hakyll $ do
                 >>= saveSnapshot "content"
                 >>= loadAndApplyTemplate "templates/post.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= replace "href=\"/[^\"]*/index.html" P.takeDirectory
+                >>= replaceIndexLinks
 
     create ["archives/index.html"] $ do
         route idRoute
@@ -55,7 +54,7 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/archives.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= replace "href=\"/[^\"]*/index.html" P.takeDirectory
+                >>= replaceIndexLinks
 
     tagsRules tags $ \tag pattern -> do
         route idRoute
@@ -71,7 +70,7 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/tag.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= replace "href=\"/[^\"]*/index.html" P.takeDirectory
+                >>= replaceIndexLinks
 
     create ["index.html"] $ do
         route idRoute
@@ -87,7 +86,7 @@ main = hakyll $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/index.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= replace "href=\"/[^\"]*/index.html" P.takeDirectory
+                >>= replaceIndexLinks
 
     create ["feed/index.xml"] $ do
         route idRoute
@@ -103,7 +102,7 @@ main = hakyll $ do
 
             makeItem ""
                 >>= loadAndApplyTemplate "templates/feed.xml" ctx
-                >>= replace "http://pbrisbin.com/.*/index.html" P.takeDirectory
+                >>= replaceIndexURLs "http://pbrisbin.com"
 
     match "templates/*" $ compile templateCompiler
 
@@ -124,20 +123,6 @@ feedItemCtx = mconcat
 
 loadContent :: Pattern -> Compiler [Item String]
 loadContent p = recentFirst =<< loadAllSnapshots p "content"
-
-indexedRoute :: Routes
-indexedRoute = customRoute $ \i ->
-    let (path, name) = splitFileName $ toFilePath i
-    in path </> dropDatePrefix name </> "index.html"
-
-  where
-    dropDatePrefix = drop 11
-
-replace :: String             -- ^ Regular expression to match
-        -> (String -> String) -- ^ Provide replacement given match
-        -> Item String
-        -> Compiler (Item String)
-replace p f = return . fmap (replaceAll p f)
 
 escapeXml :: String -> String
 escapeXml = renderMarkup . toMarkup . NodeContent . T.pack

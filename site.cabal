@@ -11,10 +11,12 @@ Library
   Default-Language:     Haskell2010
   HS-Source-Dirs:       src
   GHC-Options:          -Wall
-  Exposed-Modules:      Navigation
+  Exposed-Modules:      IndexedRoute
+                      , Navigation
   Build-Depends:        base            >= 4            && < 5
                       , hakyll          >= 4.6.1.0      && < 4.7
                       , containers
+                      , filepath
 
 Executable site
   Default-Language:     Haskell2010
@@ -26,7 +28,6 @@ Executable site
                       , binary
                       , blaze-html
                       , blaze-markup
-                      , filepath
                       , text
                       , xml-conduit
 
