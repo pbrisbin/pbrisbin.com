@@ -16,9 +16,9 @@ A bit of googling later and I had the solution: a fifo!
 
 ## Fifos
 
-Fifos (for *file in file out*) are simply a two way file on your
-system that can be used for communication; kind of a poor man's
-`socket`. You can play with them like this to get the idea:
+Fifos (for *file in file out*) are two way files on your system that can be used
+for communication; kind of a poor man's `socket`. You can play with them like
+this to get the idea:
 
     # in one terminal:
     mkfifo ./fifo
