@@ -105,4 +105,4 @@ repo.
 
 [Android notifier]: http://code.google.com/p/android-notifier/ "android notifier"
 [github]:           https://github.com/pbrisbin/scripts/blob/e94b24edd89f26b19c88e6d81d8ea7332358f937/android-receiver "my github"
-[android-receiver]: https:/github.com/pbrisbin/android-receiver "android receiver"
+[android-receiver]: https://github.com/pbrisbin/android-receiver "android receiver"
