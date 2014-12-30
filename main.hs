@@ -18,7 +18,7 @@ main = hakyll $ do
     tags <- buildTags "posts/*" $ fromCapture "tags/*/index.html"
     navigation <- buildNavigation "posts/*"
 
-    match ("favicon.ico" .||. "css/**" .||. "img/**") $ do
+    match ("favicon.ico" .||. "css/**") $ do
         route idRoute
         compile copyFileCompiler
 
