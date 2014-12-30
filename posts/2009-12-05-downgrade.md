@@ -3,9 +3,9 @@ title: Downgrade
 tags: aur, arch, linux, bash
 ---
 
-*A special thanks to Kumyco for hosting the A.R.M.*
+Downgrade eases downgrading packages in Arch Linux.
 
-## Usage
+## Examples
 
 Downgrade some packages, checking both local cache and the A.R.M.:
 
@@ -36,7 +36,7 @@ $ NOARM=1 NOSUDO=1 downgrade foo
 
 Install the AUR package [here][aur].
 
-Grab the source from my git repo [here][repo].
+For more details, reporting Issues, etc, see the [GitHub project][repo].
 
 [aur]: http://aur.archlinux.org/packages/downgrade
 [repo]: http://github.com/pbrisbin/downgrade
