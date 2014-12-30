@@ -68,7 +68,7 @@ myLayout = avoidStruts $ onWorkspace "3-im" imLayout $ standardLayouts
 
     -- notice that withIM, which normally acts on one layout, can also 
     -- work on a list of layouts (yay recursive data types!)
-    imLayout = withIM (1/10) (Role "roster") (standardLayouts)
+    imLayout = withIM (1/10) (Role "roster") standardLayouts
 ```
 
 I've defined the function `standardLayouts`, which we'll use on all

@@ -3,18 +3,17 @@ title: XMonad Scratchpad
 tags: haskell, xmonad
 ---
 
-It's been a while since I've made an XMonad post. Thought a good one 
-might be details regarding the scratchpad extension from `-contrib`.  
-This can be confusing to set up, but oh-so useful. If you've ever used a 
-quake (or yakuake?) terminal (I have not), you'll know what I'm talking 
-about. It's basically a small terminal that sits idle on a non-visible 
-workspace. You can call it up with a quick keybind, use it for whatever, 
-then banish it away again with the same keybind.
+It's been a while since I've made an XMonad post. Thought a good one might be
+details regarding the scratchpad extension from `-contrib`.  This can be
+confusing to set up, but oh-so useful. If you've ever used a quake (or yakuake?)
+terminal (I have not), you'll know what I'm talking about. It's a small terminal
+that sits idle on a non-visible workspace. You can call it up with a quick
+keybind, use it for whatever, then banish it away again with the same keybind.
 
-You just have to use it for a while to realize how useful it really is.  
-My goal for this post is to distill out of my `xmonad.hs` just the 
-scratchpad functionality so that someone with an existing `xmonad.hs` 
-could easily plug this into their setup with minimal fuss.
+You just have to use it for a while to realize how useful it really is. My goal
+for this post is to distill out of my `xmonad.hs` just the scratchpad
+functionality so that someone with an existing `xmonad.hs` could easily plug
+this into their setup with minimal fuss.
 
 ## Prerequisites
 
@@ -41,28 +40,24 @@ myManageHook = ...
 
 ## Imports
 
-You'll need to import some things to make this functionality available.  
-Make sure you've got -contrib installed and add the following to the top 
-of your xmonad.hs: 
+You'll need the following import to make this functionality available. Make sure
+you've got -contrib installed and add the following to the top of your
+xmonad.hs:
 
 ```haskell 
 import XMonad.Util.Scratchpad
 ```
 
-Pretty easy, huh?
-
 ## ManageHook
 
-We're going to add an additional manageHook to manage the scratchPad 
-specifically. XMonad makes it easy to just tack manageHooks onto 
-whatever you have existing by using <+\> which is an inFix operator that 
-takes two manageHooks and returns a manageHook. So...
+We're going to add an additional `ManageHook` to manage the scratch-pad
+specifically. In XMonad, we can compose `ManageHook`s together in a few ways.
+The easiest is probably to combine whatever you currently have with our new one
+via `<+\>`, and infix function of type `ManageHook -> ManageHook -> ManageHook`:
 
-```haskell 
-myManageHook = ([ -- whatever it is, probably some list of things...
-                , ...
-                , ...
-                ]) <+> manageScratchPad
+```haskell
+-- depending on what you have, parens may or may not be needed
+myManageHook = (...) <+> manageScratchPad
 
 -- then define your scratchpad management separately:
 manageScratchPad :: ManageHook
@@ -76,12 +71,11 @@ manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
     l = 1 - w   -- distance from left edge, 0%
 ```
 
-What I've done is used RationalRect to define a rectagle of where I'd 
-like the scratchpad to ppear. h, w, t, and l are entered as percentage 
-screen size. So in the above, I've got a rectangle that spans the 
-monitor's entire width and is 10% its height. By specifying h and w, t 
-and l are already defined since I want it to be on the bottom edge of 
-the screen.
+What I've done is used `RationalRect` to define a rectangle of where I'd like
+the scratch-pad to appear. `h`, `w`, `t`, and `l` are entered as percentage
+screen size. So in the above, I've got a rectangle that spans the monitor's
+entire width and is 10% its height. By specifying `h` and `w`, `t` and `l` can
+be derived to place it on the bottom edge of the screen.
 
 ## KeyBinds
 
