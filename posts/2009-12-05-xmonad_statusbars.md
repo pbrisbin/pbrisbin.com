@@ -24,12 +24,12 @@ offered their xmonad.hs's to me and helped get me setup this way.
 
 Full desktop:
 
-![XMonad Shot](/img/status.png)\ 
+![XMonad Shot](http://images.pbrisbin.com/xmonad_statusbars/status.png)\ 
 
 And with an `urgencyHook` notification (Workspace turns a different
 color):
 
-![XMonad Shot Urgent](/img/status-urgency.png)\ 
+![XMonad Shot Urgent](http://images.pbrisbin.com/xmonad_statusbars/status-urgency.png)\ 
 
 To achieve this, we set up a `dynamicLog` in `xmonad.hs` and adjust our
 `main` function to output to this bar and also spawn our right bar as
