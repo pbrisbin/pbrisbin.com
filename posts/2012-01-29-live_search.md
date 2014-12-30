@@ -3,6 +3,10 @@ title: Live Search
 tags: haskell, website, yesod
 ---
 
+**Note**: this post describes a system for searching posts which once appeared
+on this site. It was removed in a fit of simplification. Please see Google's
+`site:` keyword for any searching needs.
+
 I've had some fun recently, adding full-text search support to the posts 
 on the site to try and make a simple-but-still-useful archive.
 
@@ -309,9 +313,6 @@ getSearchR qstring = do
 ```
 
 Gotta love that skinny handler, does its structure look familiar?
-
-You can see the result by visiting [search/j/mutt](/search/j/mutt) for 
-example.
 
 In the next post, I'll give you the javascript that consumes this, 
 creating the search-as-you-type interface you see on the Archives page.
