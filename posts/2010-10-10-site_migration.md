@@ -100,7 +100,7 @@ interested.
 [rson]: http://rsontech.net                    "rson tech"
 [php]:  http://arch.har-ikkje.net/gfx/php.jpeg "de-motivational php"
 
-[yesod-docs]:  http://docs.yesodweb.com/                "yesod docs"
+[yesod-docs]:  http://www.yesodweb.com/                 "yesod docs"
 [haddocks]:    http://hackage.haskell.org/package/yesod "yesod haddocks"
 [docs-source]: http://github.com/snoyberg/yesoddocs     "yesoddocs source code"
 
