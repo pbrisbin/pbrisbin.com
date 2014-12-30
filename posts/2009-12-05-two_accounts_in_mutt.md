@@ -87,27 +87,24 @@ account block for the second account.
 **~/.msmtprc**
 
 ```
-account personal
+# shared defaults since both are gmail accounts
+defaults
 host smtp.gmail.com
 port 587
 protocol smtp
 auth on
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+
+account personal
 from username@gmail.com
 user username@gmail.com
 password secret
-tls on
-tls_nocertcheck
 
 account work
-host smtp.gmail.com
-port 587
-protocol smtp
-auth on
 from work-username@gmail.com
 user work-username@gmail.com
 password secret
-tls on
-tls_nocertcheck
 
 account default : personal
 ```
