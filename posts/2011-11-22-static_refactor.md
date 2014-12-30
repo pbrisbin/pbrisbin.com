@@ -32,9 +32,10 @@ Please email if you really were interested in that stuff.
 
 ### Rearranged documentation folders
 
-Haskell docs (including xmonad libraries) are at 
-[docs.pbrisbin.com/haskell](http://docs.pbrisbin.com/haskell) and ruby 
-docs are at [docs.pbrisbin.com/ruby](http://docs.pbrisbin.com/ruby).
+*Note: the documentation subdomain has since been removed entirely.*
+
+Haskell docs (including xmonad libraries) are at docs.pbrisbin.com/haskell and
+ruby docs are at docs.pbrisbin.com/ruby.
 
 I think that's it -- let me know if I've missed something and I'll add a 
 note here.
