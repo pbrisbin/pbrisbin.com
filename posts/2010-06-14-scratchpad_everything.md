@@ -78,7 +78,7 @@ commented version of my declaration:
 ```haskell 
 myScratchPads = [ NS "mixer"    spawnMixer findMixer manageMixer -- one scratchpad
                 , NS "terminal" spawnTerm  findTerm  manageTerm  -- and a second
-                ]   
+                ]
 
   where
 

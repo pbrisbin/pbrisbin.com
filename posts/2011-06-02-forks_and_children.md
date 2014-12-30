@@ -76,13 +76,13 @@ int main() {
        if (ret) {
            /* fork it! */
            pid = fork();
-           
+
            if (pid == 0) {
                /* we are the child, take action! */
                some_action(ret);
                exit(EXIT_SUCCESS);
            }
-           
+
            /* and the parent loops forever... */
        }
     }
@@ -161,7 +161,7 @@ int main() {
 
        if (ret) {
            pid = fork();
-           
+
            if (pid == 0) {
                some_action(ret);
                exit(EXIT_SUCCESS);

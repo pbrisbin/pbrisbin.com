@@ -43,7 +43,7 @@ main = xmonad $ defaultConfig
     -- myManageHook definitions.
     , layoutHook = myLayout
     , manageHook = myManageHook
-    }   
+    }
 ```
 
 ## The Layout Hook

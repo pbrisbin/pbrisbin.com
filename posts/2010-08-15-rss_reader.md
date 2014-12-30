@@ -78,7 +78,7 @@ dzenConf :: DzenConf
 dzenConf = defaultDzen
   { x_position  = Just $ Percent 60 -- start 60% across screen 0
   , width       = Just $ Percent 40 -- and span the other 40%
-  , font        = Just "Verdana-8"  -- if you have an xft-capable dzen                                                        
+  , font        = Just "Verdana-8"  -- if you have an xft-capable dzen
   , fg_color    = Just "#606060"
   , bg_color    = Just "#303030"
   }

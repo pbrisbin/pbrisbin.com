@@ -77,10 +77,12 @@ function.
 
 Finally, add the following to your `~/.vimrc`:
 
-    command! Open :! webpreview --open %
-    command! Reload :! webpreview --reload %
-    
-    au BufWritePost /srv/http/pages/* silent Reload
+```vim
+command! Open :! webpreview --open %
+command! Reload :! webpreview --reload %
+
+au BufWritePost /srv/http/pages/* silent Reload
+```
 
 This defines an `Open` and `Reload` command to be used directly within 
 vim and also sets up an auto command to fire whenever I hit `:w` on a 

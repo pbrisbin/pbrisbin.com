@@ -308,15 +308,15 @@ main :: IO ()
 main = do
     -- this is IO
     text <- getSomeText
-  
+
     let mresponse = do
             -- but this is Maybe
             x <- textToXml t
             j <- xmlToJson x
             r <- jsonToResponse j
-  
+
             return r
-  
+
     -- and IO again
     sendResponse mresponse
 ```

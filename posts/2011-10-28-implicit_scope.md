@@ -23,7 +23,7 @@ Order.find_in_batches(:batch_size => 10) do |orders|
   orders.length # => 10
 
   orders.each do |order|
-    
+
     # yay order!
 
   end
@@ -99,12 +99,12 @@ module FindNoScope
 
     while true
       chunk = all(options.merge(:offset => offset))
-  
+
       break if chunk.empty?
-  
+
       yield chunk
     end
-  
+
     offset += limit
   end
 

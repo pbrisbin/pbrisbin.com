@@ -148,7 +148,7 @@ insertPost post = do
 
     -- insert each tag record
     mapM_ (go sqlPostKey) $ postTags post
-    
+
     where
         go :: SqlPostId -> String -> Handler SqlTagId
         go key tag = runDB (insert $ SqlTag key tag)

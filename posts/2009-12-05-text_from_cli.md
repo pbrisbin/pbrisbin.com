@@ -21,21 +21,23 @@ that into a CLI mailing solution.
 
 Here's a `~/.msmtprc` for gmail:
 
-    # msmtp config file
-    
-    # gmail
-    account gmail 
-    host smtp.gmail.com
-    port 587
-    protocol smtp
-    auth on
-    from username@gmail.com
-    user username@gmail.com
-    password gmail_password
-    tls on
-    tls_nocertcheck
-    
-    account default : gmail
+```
+# msmtp config file
+
+# gmail
+account gmail
+host smtp.gmail.com
+port 587
+protocol smtp
+auth on
+from username@gmail.com
+user username@gmail.com
+password gmail_password
+tls on
+tls_nocertcheck
+
+account default : gmail
+```
 
 Right now, as-is, it's possible for you to
 `echo "Some text" | msmtp someone@somewhere.com` and it'll email

@@ -114,7 +114,7 @@ myLogHook h = dynamicLogWithPP $ defaultPP
     , ppUrgent          = dzenColor "#ff0000" "" . pad . dzenStrip
 
     -- shorten if it goes over 100 characters
-    , ppTitle           = shorten 100  
+    , ppTitle           = shorten 100
 
     -- no separator between workspaces
     , ppWsSep           = ""

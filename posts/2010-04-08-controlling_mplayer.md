@@ -20,12 +20,14 @@ Fifos (for *file in file out*) are two way files on your system that can be used
 for communication; kind of a poor man's `socket`. You can play with them like
 this to get the idea:
 
-    # in one terminal:
-    mkfifo ./fifo
-    tail -f ./fifo
-    
-    # and in some other terminal:
-    echo some text > ./fifo
+```
+# in one terminal:
+mkfifo ./fifo
+tail -f ./fifo
+
+# and in some other terminal:
+echo some text > ./fifo
+```
 
 ## MPlayer setup
 
