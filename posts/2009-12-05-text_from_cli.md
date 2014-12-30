@@ -87,7 +87,7 @@ to my needs.
 
 The new version with my and ghost's changes can be downloaded from
 my
-[git repo](http://github.com/pbrisbin/scripts/blob/master/sendtext).
+[git repo](http://github.com/pbrisbin/scripts/blob/pre-cleanout/sendtext).
 
 I also added simple phone book support. When sending a message to
 someone, pass `-s <number> <name>` and the contact will be saved to

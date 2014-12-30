@@ -30,7 +30,7 @@ one each time some udev 'event' occurs, like, say, plugging in a
 flashdrive.
 
 <div class="well">
-Go google udev rules, there's alot out there for all sorts of nifty 
+Go google udev rules, there's a lot out there for all sorts of nifty 
 things.
 </div>
 
@@ -81,5 +81,5 @@ playing DVDs, it all works just fine using `/dev` directly. And when I
 need to mount it, I'll do it manually. I think a line in `fstab` will 
 get `/dev/sr0` to mount to `/media/dvd` if that's what your after.
 
-[script]: http://github.com/pbrisbin/scripts/blob/master/automount "automount on github"
+[script]: http://github.com/pbrisbin/scripts/blob/pre-cleanout/automount "automount on github"
 [udev wiki page]: http://wiki.archlinux.org/index.php/Udev "arch wiki"
