@@ -25,10 +25,7 @@ platform.
 
 It all starts with the terminal... and Terminal.app ain't it. For a long 
 time, I used iTerm simply because it supported 256 colors which no other 
-Mac terminal does (to be fair, and to paraphrase [Jon Stewart][js], 
-`#IDontHaveFactsToBackThatUp`)
-
-[js]: http://www.rollingstone.com/politics/blogs/national-affairs/jon-stewart-on-herman-cain-i-don't-have-the-facts-to-back-this-up-20111006
+Mac terminal does.
 
 It was recently that I noticed there was a general lag when scrolling 
 line by line in commandline-vim inside iTerm. This was unacceptable and 
