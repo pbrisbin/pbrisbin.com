@@ -16,7 +16,7 @@ fi
 ```
 
 These are the last lines of my `~/.zprofile`, but they would work as well in
-`~/.bashrc` if that's you're preferred shell.
+`~/.bashrc` if that's your preferred shell.
 
 One added benefit here is that if X dies for any reason, you aren't left logged
 in on `tty1` like you might be using some other display managers. This is since
