@@ -187,12 +187,11 @@ data World = World
     }
 ```
 
-An `Action` is a function which takes one `World` and returns a 
-different one along with some result. The differences between the given 
-`World` and the returned one are known as the function's side-effects.
-Often, we don't care about the result itself and only want the 
-side-effects, in these cases we'll use Haskell's `()` (known as Bottom, 
-or Unit) as the result.
+An `Action` is a function which takes one `World` and returns a different one
+along with some result. The differences between the given `World` and the
+returned one are known as the function's side-effects. Often, we don't care
+about the result itself and only want the side-effects, in these cases we'll use
+Haskell's `()` (known as *Unit*) as the result.
 
 ```haskell 
 sayHello2 :: World -> (World, ())
