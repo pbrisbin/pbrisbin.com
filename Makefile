@@ -1,14 +1,8 @@
-HOST = pbrisbin.com
-SITE = /srv/http/site
+SITE = _site
+BUCKET = pbrisbin.com
 
-backup:
-	ssh $(HOST) tar cvzf - $(SITE) | \
-	  cat > ~/$(HOST)-$(shell date +%Y%m%d-%H%M).tar.gz
-
-rebuild:
+deploy:
 	cabal run -- rebuild
+	s3cmd sync $(SITE)/ s3://$(BUCKET)
 
-sync:
-	rsync -e ssh --archive --delete _site/ $(HOST):$(SITE)/
-
-deploy: rebuild sync
+.PHONY deploy
