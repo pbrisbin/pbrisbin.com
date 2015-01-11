@@ -8,10 +8,6 @@ backup:
 rebuild:
 	cabal run -- rebuild
 
-check: rebuild
-	rsync -e ssh --archive --delete $(HOST):$(SITE)/ _current/
-	diff -r _current _site
-
 sync:
 	rsync -e ssh --archive --delete _site/ $(HOST):$(SITE)/
 
