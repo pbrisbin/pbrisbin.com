@@ -127,7 +127,7 @@ etc. Most importantly is "Devel application launched:
 http://localhost:3000". Go ahead and checkout the sample site by 
 visiting that URL in your browser.
 
-![default screenshot](http://images.pbrisbin.com/developing_web_applications_with_yesod/default.png)\ 
+![default screenshot](https://images.pbrisbin.com/developing_web_applications_with_yesod/default.png)\ 
 
 Now we're ready to hack!
 
@@ -501,7 +501,7 @@ There is a lot of functionality in Hamlet templates, some of which we'll
 get to when we build out our next page. What you can do right now is 
 refresh your browser and see your changes.
 
-![homepage screenshot](http://images.pbrisbin.com/developing_web_applications_with_yesod/homepage.png)\ 
+![homepage screenshot](https://images.pbrisbin.com/developing_web_applications_with_yesod/homepage.png)\ 
 
 ## Forms
 
@@ -633,7 +633,7 @@ create just "templates/checkout.hamlet":
 Simple variable interpolation is done via `#{ }`, while embedding one 
 template (like `form`) into another is done via `^{ }`.
 
-![form screenshot](http://images.pbrisbin.com/developing_web_applications_with_yesod/form.png)\ 
+![form screenshot](https://images.pbrisbin.com/developing_web_applications_with_yesod/form.png)\ 
 
 Now that we've got the form showing, we can replace our `undefined` 
 business logic with some actual updates:
@@ -712,7 +712,7 @@ getThankYouR oid = defaultLayout $ do
         |]
 ```
 
-![thank you screenshot](http://images.pbrisbin.com/developing_web_applications_with_yesod/thank_you.png)\ 
+![thank you screenshot](https://images.pbrisbin.com/developing_web_applications_with_yesod/thank_you.png)\ 
 
 ## Conclusion
 

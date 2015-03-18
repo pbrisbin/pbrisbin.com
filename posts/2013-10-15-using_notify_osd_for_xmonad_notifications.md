@@ -99,7 +99,7 @@ $ sleep 3 && printf "\a"
 Then immediately focus away from that workspace. In a few seconds, you 
 should see a nice pop-up like:
 
-![notify-send](http://images.pbrisbin.com/using_notify_osd_for_xmonad_notifications/notify-send.png)\ 
+![notify-send](https://images.pbrisbin.com/using_notify_osd_for_xmonad_notifications/notify-send.png)\ 
 
 You can see the title of the notification is the window name and I use 
 the message to tell me the workspace number. In this case, the name is 

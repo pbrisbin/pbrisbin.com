@@ -254,13 +254,13 @@ what do we gain?
 Well, my OCD *loves* seeing a nice, isolated process group of everything 
 X-related:
 
-![Process group](http://images.pbrisbin.com/systemd-user/htop-process-group.png)\ 
+![Process group](https://images.pbrisbin.com/systemd-user/htop-process-group.png)\ 
 
 We can also now use a consistent interface for working with services at 
 both the system and X level. Included in this interface is the super 
 useful `status`:
 
-![Service status](http://images.pbrisbin.com/systemd-user/urxvtd-service-status.png)\ 
+![Service status](https://images.pbrisbin.com/systemd-user/urxvtd-service-status.png)\ 
 
 Finally, we get the benefits of `journalctl` -- running it as our 
 non-root user will show us all the messages from our X-related 

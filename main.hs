@@ -107,7 +107,7 @@ main = hakyll $ do
     match "templates/*" $ compile templateCompiler
 
 siteHost :: String
-siteHost = "http://pbrisbin.com"
+siteHost = "https://pbrisbin.com"
 
 siteTitle :: String
 siteTitle = "pbrisbin dot com"

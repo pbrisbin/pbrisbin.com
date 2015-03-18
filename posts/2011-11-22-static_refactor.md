@@ -15,7 +15,7 @@ dropped (and some that were dropped a while ago).
 
 ### No longer redirecting old 8080 links
 
-Please use [pbrisbin.com](http://pbrisbin.com) to view the site.
+Please use [pbrisbin.com](https://pbrisbin.com) to view the site.
 
 ### No longer redirecting /dotfiles and /bin to github
 
@@ -24,7 +24,7 @@ and other projects.
 
 ### No longer redirecting \*.rss to /feed
 
-Please use [pbrisbin.com/feed/](http://pbrisbin.com/feed/) for my rss.
+Please use [pbrisbin.com/feed/](https://pbrisbin.com/feed/) for my rss.
 
 ### Removed /music
 

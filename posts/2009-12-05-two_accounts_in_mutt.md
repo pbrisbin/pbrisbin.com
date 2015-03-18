@@ -16,7 +16,7 @@ one and will focus on the differences and required changes to get from
 there to here.
 </div>
 
-[that]: http://pbrisbin.com/posts/mutt_gmail_offlineimap
+[that]: https://pbrisbin.com/posts/mutt_gmail_offlineimap
 
 ## Offlineimap
 

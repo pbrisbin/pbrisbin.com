@@ -82,7 +82,7 @@ And there you go.
 The end product is no longer moving my charger away from its normal 
 spot because I'm expecting a call. Instead, I'll see this:
 
-![Android Receiver Screenshot](http://images.pbrisbin.com/android_receiver/android_receiver.png)\ 
+![Android Receiver Screenshot](https://images.pbrisbin.com/android_receiver/android_receiver.png)\ 
 
 The source for this script can be found in my [github][].
 
