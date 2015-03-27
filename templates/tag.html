@@ -3,12 +3,16 @@
   <h1>$title$</h1>
 </header>
 
-$for(posts)$
-  <h2 class="title">$title$</h2>
+<section class="posts">
+  $for(posts)$
+    <div class="post">
+      <h2 class="title">$title$</h2>
 
-  $body$
+      $body$
 
-  <p class="meta">
-    <a href="$url$">published</a> on $date$, tagged with $tags$
-  </p>
-$endfor$
+      <p class="meta">
+        <a href="$url$">published</a> on $date$, tagged with $tags$
+      </p>
+    </div>
+  $endfor$
+</section>
