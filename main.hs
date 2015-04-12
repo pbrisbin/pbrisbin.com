@@ -5,8 +5,7 @@ import Hakyll
 import IndexedRoute
 import Navigation
 
-import Control.Applicative ((<$>))
-import Data.Monoid ((<>), mconcat)
+import Data.Monoid ((<>))
 import Text.Blaze (toMarkup)
 import Text.Blaze.Renderer.String (renderMarkup)
 import Text.XML (Node(..))

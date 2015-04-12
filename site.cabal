@@ -13,8 +13,8 @@ Library
   GHC-Options:          -Wall
   Exposed-Modules:      IndexedRoute
                       , Navigation
-  Build-Depends:        base            >= 4            && < 5
-                      , hakyll          >= 4.6.1.0      && < 4.7
+  Build-Depends:        base >= 4.8 && < 5
+                      , hakyll
                       , containers
                       , filepath
 
@@ -24,7 +24,7 @@ Executable site
   GHC-Options:          -Wall
   Build-Depends:        base
                       , site
-                      , hakyll          >= 4.6.1.0      && < 4.7
+                      , hakyll
                       , binary
                       , blaze-html
                       , blaze-markup

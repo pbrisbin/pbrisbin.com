@@ -51,7 +51,7 @@ module Navigation
 
 import Hakyll
 
-import Control.Applicative (Alternative(..), (<$>))
+import Control.Applicative (Alternative(empty))
 import Control.Monad ((<=<))
 import Data.List (sort)
 
