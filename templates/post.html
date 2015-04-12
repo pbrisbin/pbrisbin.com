@@ -7,7 +7,9 @@
   published on $date$, tagged with $tags$
 </section>
 
-$body$
+<article>
+  $body$
+</article>
 
 <ul class="pager">
   $if(prev)$
@@ -22,3 +24,8 @@ $body$
   </li>
   $endif$
 </ul>
+
+<script src='https://carnivalapp.io/sites/6/init.js'></script>
+<script>
+  document.addEventListener("DOMContentLoaded", Carnival.init);
+</script>

@@ -44,7 +44,7 @@ pre code {
   white-space: pre;
 }
 
-img {
+article > p > img {
   margin: 5px;
   margin-bottom: 25px;
   max-width: 95%;
