@@ -3,22 +3,10 @@
   <h1>$title$</h1>
 </header>
 
-<section class="meta">
-  published on $date$, tagged with $tags$
-</section>
+<article>
+  $body$
+</article>
 
-$body$
-
-<ul class="pager">
-  $if(prev)$
-  <li class="previous">
-    <a href="$prev$">⇐ $prevTitle$</a>
-  </li>
-  $endif$
-
-  $if(next)$
-  <li class="next">
-    <a href="$next$">$nextTitle$ ⇒</a>
-  </li>
-  $endif$
-</ul>
+<p class="meta">
+  $date$, tagged with $tags$
+</p>

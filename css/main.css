@@ -1,45 +1,48 @@
 body {
-  margin-top: 10px;
   text-align: justify;
 }
+
 header {
   border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
-}
-header h1 .dot {
-  color: #999;
 }
 
-h2.title {
-  font-size: 32px; /* slightly bigger than default */
+.post {
+  border-bottom: 1px solid #d3d3d3;
 }
 
-.posts .post {
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 25px;
-}
-
-.posts .post:last-child {
+.post:last-child {
   border-bottom: none;
-  margin-bottom: 0px;
+}
+
+.main {
+  margin: 0 auto;
+  width: 90%;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 footer {
-  border-top: 1px solid #e5e5e5;
-  color: #999;
+  border-top: solid 1px #d3d3d3;
+  color: #333;
+  font-size: 90%;
   height: 200px;
-  margin-top: 10px;
-  padding-top: 5px;
 }
+
 footer #copyright {
-  padding-top: 15px;
   text-align: center;
 }
 
 pre {
-  word-wrap: normal;
   overflow-x: auto;
+  word-wrap: normal;
 }
+
 pre code {
   white-space: pre;
 }
@@ -55,15 +58,20 @@ img {
 }
 
 .meta {
-  color: #999;
-  font-size: 90%;
-  margin-bottom: 15px;
+  font-size: 95%;
 }
 
 .archives {
   list-style: none;
   padding-left: 0px;
 }
+
 .archives .date {
-  color: #999;
+  color: #555;
+}
+
+@media only screen and (min-width: 800px) {
+  .main {
+    width: 780px;
+  }
 }
