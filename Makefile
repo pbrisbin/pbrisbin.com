@@ -1,6 +1,11 @@
 SITE = _site
 BUCKET = pbrisbin.com
 
+setup:
+	cabal update
+	cabal sandbox init
+	cabal install --dependencies-only
+
 deploy:
 	cabal run -- rebuild
 	s3cmd \
@@ -11,4 +16,4 @@ deploy:
 	  --cf-invalidate-default-index \
 	  sync $(SITE)/ s3://$(BUCKET)
 
-.PHONY: deploy
+.PHONY: setup deploy
