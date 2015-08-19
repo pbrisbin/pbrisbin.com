@@ -1,0 +1,39 @@
+machine:
+  environment:
+    SITE: _site
+    BUCKET: pbrisbin.com
+
+  ghc:
+    version: 7.10.1
+
+dependencies:
+  pre:
+    - sudo apt-get install s3cmd
+
+test:
+  override:
+    - cabal run -- rebuild
+    - s3cmd
+        --dry-run
+        --access_key $S3_ACCESS_KEY
+        --secret_key $S3_SECRET_KEY
+        --acl-public
+        --delete-removed
+        --no-mime-magic
+        --cf-invalidate
+        --cf-invalidate-default-index
+        sync $SITE/ s3://$BUCKET
+
+deployment:
+  registry:
+    branch: master
+    commands:
+      - s3cmd
+          --access_key $S3_ACCESS_KEY
+          --secret_key $S3_SECRET_KEY
+          --acl-public
+          --delete-removed
+          --no-mime-magic
+          --cf-invalidate
+          --cf-invalidate-default-index
+          sync $SITE/ s3://$BUCKET
