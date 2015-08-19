@@ -8,7 +8,8 @@ machine:
 
 dependencies:
   pre:
-    - sudo apt-get install s3cmd
+    - sudo apt-get install python-pip
+    - sudo pip install s3cmd
 
 test:
   override:
