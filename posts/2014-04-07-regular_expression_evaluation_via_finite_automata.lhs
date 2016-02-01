@@ -146,8 +146,11 @@ other Free Moves are correctly accounted for.
 >   where
 >     go acc [] = acc
 >     go acc ss =
->         let ss' = followRules $ freeMoves nfa ss
+>         let ss' = filter (`notElem` acc) $ followRules $ freeMoves nfa ss
 >         in go (acc ++ ss') ss'
+
+*(Many thanks go to Christopher Swenson for spotting an infinite loop here and
+fixing it by filtering out any states already in the accumulator)*
 
 Free Moves from a given set of states are rules for those states which 
 have no input character.
