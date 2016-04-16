@@ -44,7 +44,11 @@ footer #copyright {
 }
 
 pre {
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
   overflow-x: auto;
+  padding: 14px;
   word-wrap: normal;
 }
 
@@ -62,6 +66,12 @@ img {
           box-shadow: 2px 12px 20px #888;
 }
 
+blockquote {
+  border-left: 3px solid #ebebeb;
+  color: #808080;
+  padding-left: 7px;
+}
+
 .meta {
   font-size: 95%;
 }
@@ -73,6 +83,12 @@ img {
 
 .archives .date {
   color: #555;
+}
+
+.well {
+  border-left: 1px solid #ebebeb;
+  color: #545454;
+  padding-left: 1em;
 }
 
 @media only screen and (min-width: 800px) {
