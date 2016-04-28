@@ -6,7 +6,7 @@ tags: dzen, haskell, xmonad
 I've been looking for a good Haskell project for a while now. The
 language is just awesome, and I've been getting more and more
 comfortable with it lately thanks to reading
-[Real World Haskell](http://www.realworldhaskell.org/blog/). I even
+[Real World Haskell](http://book.realworldhaskell.org/). I even
 got the opportunity to write some haskell for a project at work
 (I'm a consultant on a Microsoft product, crazy).
 
