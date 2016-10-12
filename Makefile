@@ -1,4 +1,4 @@
-.PHONY: new
+.PHONY: new watch
 
 POST_DATE  ?= $(shell date +%Y-%m-%d)
 POST_TITLE ?= $(shell echo "$(TITLE)" | sed 's/'\''//g; s/ \+/_/g; s/.*/\L&/g')
@@ -13,3 +13,7 @@ new:
 	  "tags:" \
 	  "---" "" > "$(POST_PATH)"
 	@echo CREATED: $(POST_PATH)
+
+watch:
+	stack build
+	stack exec site watch
