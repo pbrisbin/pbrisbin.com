@@ -1,7 +1,7 @@
 .PHONY: new
 
 POST_DATE  ?= $(shell date +%Y-%m-%d)
-POST_TITLE ?= $(shell echo "$(TITLE)" | sed 's/ \+/_/g; s/.*/\L&/g')
+POST_TITLE ?= $(shell echo "$(TITLE)" | sed 's/'\''//g; s/ \+/_/g; s/.*/\L&/g')
 POST_PATH  ?= posts/$(POST_DATE)-$(POST_TITLE).md
 
 new:
