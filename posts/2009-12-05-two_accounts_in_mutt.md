@@ -194,4 +194,4 @@ and make sure everything's working as you'd expect.
 For reference, my complete and current setup can be found with my 
 [dotfiles][].
 
-[dotfiles]: https://github.com/pbrisbin/dotfiles/tree/master/tag-mail-recipient
+[dotfiles]: https://github.com/pbrisbin/dotfiles/tree/v1.0/tag-mail-recipient

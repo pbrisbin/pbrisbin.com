@@ -50,4 +50,4 @@ myself, can never remember how to delete Git tags. As always, you can find the
 described configuration "in the wild" by way of my [dotfiles repo][]. These
 items will be within the `scripts` or `zsh` tags.
 
-[dotfiles repo]: https://github.com/pbrisbin/dotfiles
+[dotfiles repo]: https://github.com/pbrisbin/dotfiles/tree/v1.0
