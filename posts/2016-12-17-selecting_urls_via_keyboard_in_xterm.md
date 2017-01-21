@@ -13,6 +13,15 @@ keyboard. This is trivial to configure in `urxvt`, but seems impossible in
 `xterm`. Last week, not having this became painful enough that I sat down to
 address it.
 
+<div class=well>
+**UPDATE**: After a few weeks of use, discovering and attempting to fix a number
+of edge-case issues, I've decided to stop playing whack-a-mole and just move
+back to `urxvt`. Your mileage may vary, and if the setup described here works
+for you that's great, but I can no longer fully endorse it.
+
+I should've listened to [2009 me](https://bbs.archlinux.org/viewtopic.php?pid=629240#p629240).
+</div>
+
 ## Step 1: `charClass`
 
 Recent versions of XTerm allow you to set a `charClass` value which determines
