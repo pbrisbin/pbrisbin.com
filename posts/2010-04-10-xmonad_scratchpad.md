@@ -136,7 +136,7 @@ myLogHook h = dynamicLogWithPP $ defaultPP
 <div class="well">
 The above requires other contrib modules, changes to main, and special 
 imports to get working. As I've said, I'm leaving it as an exercise for 
-the reader to set up his or her own logHook.
+the reader to set up her own logHook.
 </div>
 
 Once we've got this, filtering out the NSP workspace is pretty straight 
