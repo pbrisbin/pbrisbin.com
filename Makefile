@@ -17,3 +17,6 @@ new:
 watch:
 	stack build
 	stack exec site watch
+
+check-gendered:
+	grep -iw "he\|him\|his" posts/*.md
