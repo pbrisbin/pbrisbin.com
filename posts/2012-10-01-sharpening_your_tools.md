@@ -5,7 +5,7 @@ tags: workflow, vim
 
 Regardless of what editor you choose or how deeply you decide to extend 
 or configure it, the most important thing for a professional programmer 
-regarding his tool set is awareness.
+regarding her tool set is awareness.
 
 You need to be acutely aware of situations where you do something 
 repeatedly or slowly that you should automate or speed up. Quality 
