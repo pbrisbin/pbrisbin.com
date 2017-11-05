@@ -4,10 +4,10 @@ module Site.IndexedRoute
     , replaceIndexURLs
     ) where
 
-import Hakyll
+import           Hakyll
 
-import Data.Monoid ((<>))
-import System.FilePath ((</>), splitFileName)
+import           Data.Monoid           ((<>))
+import           System.FilePath       (splitFileName, (</>))
 
 import qualified System.FilePath.Posix as P
 

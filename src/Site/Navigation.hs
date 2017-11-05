@@ -49,13 +49,13 @@ module Site.Navigation
     , prevTitleField
     ) where
 
-import Hakyll
+import           Hakyll
 
-import Control.Applicative (Alternative(empty))
-import Control.Monad ((<=<))
-import Data.List (sort)
+import           Control.Applicative (Alternative (empty))
+import           Control.Monad       ((<=<))
+import           Data.List           (sort)
 
-import qualified Data.Map as M
+import qualified Data.Map            as M
 
 data Page = Page
     { nextIdentifier :: Maybe Identifier -- ^ @Nothing@ for last page
