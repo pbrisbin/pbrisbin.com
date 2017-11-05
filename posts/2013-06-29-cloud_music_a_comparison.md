@@ -1,5 +1,5 @@
 ---
-title: Cloud Music: A Comparison
+title: "Cloud Music: A Comparison"
 tags: cloud, rdio, google, music
 ---
 
