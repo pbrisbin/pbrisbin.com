@@ -1,22 +1,34 @@
-.PHONY: new watch
+TITLE ?= "" # causes tab-completion
 
-POST_DATE  ?= $(shell date +%Y-%m-%d)
-POST_TITLE ?= $(shell echo "$(TITLE)" | sed 's/'\''//g; s/ \+/_/g; s/.*/\L&/g')
-POST_PATH  ?= posts/$(POST_DATE)-$(POST_TITLE).md
+# Internal variables
+_POST_DATE  ?= $(shell date +%Y-%m-%d)
+_POST_TITLE ?= $(shell echo "$(TITLE)" | sed 's/'\''//g; s/ \+/_/g; s/.*/\L&/g')
+_POST_PATH  ?= posts/$(_POST_DATE)-$(_POST_TITLE).md
 
+.PHONY: new
 new:
 	[ -n "$(TITLE)" ]
-	[ ! -f "$(POST_PATH)" ]
+	[ ! -f "$(_POST_PATH)" ]
 	@printf "%s\n" \
 	  "---" \
-	  "title: $(TITLE)" \
+	  "title: \"$(TITLE)\"" \
 	  "tags:" \
-	  "---" "" > "$(POST_PATH)"
-	@echo CREATED: $(POST_PATH)
+	  "---" "" > "$(_POST_PATH)"
+	@echo CREATED: $(_POST_PATH)
 
+.PHONY: watch
 watch:
-	stack build
+	stack build --pedantic
+	stack exec site clean
 	stack exec site watch
 
+.PHONY: check
+check:
+	stack install hlint weeder
+	weeder .
+	# https://github.com/ndmitchell/hlint/issues/216
+	hlint -XNoPatternSynonyms app src
+
+.PHONY: check-genered
 check-gendered:
 	grep -iw "he\|him\|his" posts/*.md

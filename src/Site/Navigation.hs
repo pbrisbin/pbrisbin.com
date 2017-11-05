@@ -38,7 +38,7 @@
 -- >   $endif$
 -- > </ul>
 --
-module Navigation
+module Site.Navigation
     ( Page(..)
     , Navigation
     , buildNavigation
@@ -49,12 +49,10 @@ module Navigation
     , prevTitleField
     ) where
 
-import Hakyll
-
 import Control.Applicative (Alternative(empty))
 import Control.Monad ((<=<))
 import Data.List (sort)
-
+import Hakyll
 import qualified Data.Map as M
 
 data Page = Page
@@ -75,13 +73,13 @@ type Navigation = M.Map Identifier Page
 buildNavigation :: MonadMetadata m => Pattern -> m Navigation
 buildNavigation = buildNavigationWith sort
 
-buildNavigationWith :: MonadMetadata m
-                    => ([Identifier] -> [Identifier])
-                    -> Pattern
-                    -> m Navigation
+buildNavigationWith
+    :: MonadMetadata m
+    => ([Identifier] -> [Identifier])
+    -> Pattern
+    -> m Navigation
 buildNavigationWith order pattern =
-    -- s/b fmap but MonadMetadata is not currently a Functor
-    return . go Nothing M.empty . order =<< getMatches pattern
+    go Nothing M.empty . order <$> getMatches pattern
 
   where
     go :: Maybe Identifier -> Navigation -> [Identifier] -> Navigation
@@ -114,13 +112,14 @@ getPageUrl = withPage $ \page -> do
 getPageTitle :: Direction -> Navigation -> Item a -> Compiler (Maybe String)
 getPageTitle = withPage $ \page -> do
     md <- getMetadata page
-    return $ M.lookup "title" md
+    return $ lookupString "title" md
 
-withPage :: (Identifier -> Compiler a)
-         -> Direction
-         -> Navigation
-         -> Item b
-         -> Compiler a
+withPage
+    :: (Identifier -> Compiler a)
+    -> Direction
+    -> Navigation
+    -> Item b
+    -> Compiler a
 withPage f direction nav item =
     maybe empty f $ direction =<< M.lookup (itemIdentifier item) nav
 
