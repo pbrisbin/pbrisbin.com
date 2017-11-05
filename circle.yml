@@ -20,10 +20,11 @@ dependencies:
     - sudo pip install s3cmd
   override:
     - stack setup
-    - stack build
+    - stack build --pedantic
 
 test:
   override:
+    - make check
     - stack exec site rebuild
     - s3cmd
         --dry-run

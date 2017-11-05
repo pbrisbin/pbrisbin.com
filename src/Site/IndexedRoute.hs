@@ -1,4 +1,4 @@
-module IndexedRoute
+module Site.IndexedRoute
     ( indexedRoute
     , replaceIndexLinks
     , replaceIndexURLs

@@ -1,21 +1,24 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import Hakyll
-import IndexedRoute
-import Navigation
-
 import Data.Monoid ((<>))
+import Hakyll
+import Site.IndexedRoute
+import Site.Navigation
+import Skylighting (pygments, styleToCss)
 import Text.Blaze (toMarkup)
 import Text.Blaze.Renderer.String (renderMarkup)
 import Text.XML (Node(..))
-
 import qualified Data.Text as T
 
 main :: IO ()
 main = hakyll $ do
     tags <- buildTags "posts/*" $ fromCapture "tags/*/index.html"
     navigation <- buildNavigation "posts/*"
+
+    create ["css/syntax.css"] $ do
+        route idRoute
+        compile $ makeItem $ styleToCss pygments
 
     match ("favicon.ico" .||. "css/**") $ do
         route idRoute

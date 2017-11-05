@@ -38,7 +38,7 @@
 -- >   $endif$
 -- > </ul>
 --
-module Navigation
+module Site.Navigation
     ( Page(..)
     , Navigation
     , buildNavigation
@@ -114,7 +114,7 @@ getPageUrl = withPage $ \page -> do
 getPageTitle :: Direction -> Navigation -> Item a -> Compiler (Maybe String)
 getPageTitle = withPage $ \page -> do
     md <- getMetadata page
-    return $ M.lookup "title" md
+    return $ lookupString "title" md
 
 withPage :: (Identifier -> Compiler a)
          -> Direction
