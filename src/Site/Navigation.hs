@@ -52,8 +52,8 @@ module Site.Navigation
 import Control.Applicative (Alternative(empty))
 import Control.Monad ((<=<))
 import Data.List (sort)
-import Hakyll
 import qualified Data.Map as M
+import Hakyll
 
 data Page = Page
     { nextIdentifier :: Maybe Identifier -- ^ @Nothing@ for last page

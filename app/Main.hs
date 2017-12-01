@@ -2,6 +2,7 @@
 module Main where
 
 import Data.Monoid ((<>))
+import qualified Data.Text as T
 import Hakyll
 import Site.IndexedRoute
 import Site.Navigation
@@ -9,7 +10,6 @@ import Skylighting (pygments, styleToCss)
 import Text.Blaze (toMarkup)
 import Text.Blaze.Renderer.String (renderMarkup)
 import Text.XML (Node(..))
-import qualified Data.Text as T
 
 main :: IO ()
 main = hakyll $ do
