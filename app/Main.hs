@@ -5,7 +5,6 @@ import Data.Monoid ((<>))
 import qualified Data.Text as T
 import Hakyll
 import Site.IndexedRoute
-import Site.Navigation
 import Skylighting (pygments, styleToCss)
 import Text.Blaze (toMarkup)
 import Text.Blaze.Renderer.String (renderMarkup)
@@ -14,7 +13,6 @@ import Text.XML (Node(..))
 main :: IO ()
 main = hakyll $ do
     tags <- buildTags "posts/*" $ fromCapture "tags/*/index.html"
-    navigation <- buildNavigation "posts/*"
 
     create ["css/syntax.css"] $ do
         route idRoute
@@ -28,13 +26,7 @@ main = hakyll $ do
         route $ setExtension "" `composeRoutes` indexedRoute
 
         compile $ do
-            let ctx = mconcat
-                    [ nextUrlField "next" navigation
-                    , prevUrlField "prev" navigation
-                    , nextTitleField "nextTitle" navigation
-                    , prevTitleField "prevTitle" navigation
-                    , postCtx tags
-                    ]
+            let ctx = postCtx tags
 
             pandocCompiler
                 >>= saveSnapshot "content"
