@@ -6,7 +6,7 @@ module Site.IndexedRoute
 
 import Data.Monoid ((<>))
 import Hakyll
-import System.FilePath ((</>), splitFileName)
+import System.FilePath (splitFileName, (</>))
 import qualified System.FilePath.Posix as P
 
 indexedRoute :: Routes
