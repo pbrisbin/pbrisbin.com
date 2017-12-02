@@ -1,6 +1,6 @@
 ---
 title: Status Bars in XMonad
-tags: dzen, haskell, xmonad
+tags: haskell, xmonad
 ---
 
 One of the trickiest things for a new user of XMonad is adding a

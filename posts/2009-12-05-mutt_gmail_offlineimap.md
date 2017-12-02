@@ -1,6 +1,6 @@
 ---
 title: Mutt + Gmail + Offlineimap
-tags: linux, gmail, mutt
+tags: linux, mutt
 ---
 
 Most people use Gmail. Some people like CLI mail clients. This post

@@ -1,6 +1,6 @@
 ---
 title: Screen Tricks
-tags: arch, linux, screen, bash
+tags: linux
 ---
 
 Hopefully, if you're a CLI junky, you've heard of GNU/[screen][]. And if 

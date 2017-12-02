@@ -1,6 +1,6 @@
 ---
 title: Parsing DATABASE_URL
-tags: yesod, haskell, heroku, postgresql
+tags: haskell
 ---
 
 A while back, I made a [post][] about deploying yesod apps to heroku. 

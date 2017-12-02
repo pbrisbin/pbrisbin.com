@@ -1,6 +1,6 @@
 ---
 title: Posts Database
-tags: haskell, website
+tags: haskell, self
 ---
 
 

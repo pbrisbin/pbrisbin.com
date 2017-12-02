@@ -1,6 +1,6 @@
 ---
 title: Console TDD with String IO
-tags: ruby, stringio, tdd
+tags: ruby
 ---
 
 If you write console based applications in ruby, chances are you're 

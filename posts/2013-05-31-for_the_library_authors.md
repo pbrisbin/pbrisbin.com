@@ -1,6 +1,6 @@
 ---
 title: For the Library Authors
-tags: yesod, haskell
+tags: haskell, yesod
 ---
 
 Recently, Yesod released version 1.2. You can read the announcement 

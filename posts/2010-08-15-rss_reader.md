@@ -1,6 +1,6 @@
 ---
 title: Haskell RSS Reader
-tags: dzen, haskell, xmonad
+tags: haskell, xmonad
 ---
 
 I've been looking for a good Haskell project for a while now. The

@@ -1,6 +1,6 @@
 ---
 title: On Staticness
-tags: meta, system, jekyll, pandoc
+tags: self
 ---
 
 For almost 7 years, now I've had a desktop at home, running, serving 

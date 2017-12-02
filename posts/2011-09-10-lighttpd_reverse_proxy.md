@@ -1,6 +1,6 @@
 ---
 title: Lighttpd Reverse Proxy
-tags: haskell, lighttpd, proxy, website, yesod
+tags: haskell, self, yesod
 ---
 
 This site was previously served via lighttpd using fastcgi. My haskell 

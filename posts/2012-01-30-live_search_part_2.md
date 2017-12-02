@@ -1,6 +1,6 @@
 ---
 title: Live Search (part 2)
-tags: javascript, website
+tags: self
 ---
 
 In my last [post][] I went over setting up sphinx full-text search using 

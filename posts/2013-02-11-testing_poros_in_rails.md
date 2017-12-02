@@ -1,6 +1,6 @@
 ---
 title: Testing POROs In Rails
-tags: tdd, rails, poros
+tags: ruby
 ---
 
 A lot of smarter people than I have come up with the idea that moving 

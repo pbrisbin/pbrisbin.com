@@ -1,6 +1,6 @@
 ---
 title: Using Two IMAP Accounts in Mutt
-tags: linux, gmail, mutt
+tags: linux, mutt
 ---
 
 Mutt can be really great with multiple accounts, but it's not exactly

@@ -1,6 +1,6 @@
 ---
 title: The Advent of IO
-tags: haskell, monad, io
+tags: haskell
 ---
 
 What if we wanted to write a Haskell program to behave something like 

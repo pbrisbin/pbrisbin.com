@@ -1,6 +1,6 @@
 ---
 title: Maybe In Ruby
-tags: ruby, haskell
+tags: ruby
 ---
 
 Sometimes it's fun to do something completely useless.

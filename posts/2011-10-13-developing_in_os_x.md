@@ -1,6 +1,6 @@
 ---
 title: Developing In OS X
-tags: work, mac
+tags: osx
 ---
 
 As everyone who happens upon this site probably knows, I prefer to 

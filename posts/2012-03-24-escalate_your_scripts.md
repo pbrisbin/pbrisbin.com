@@ -1,6 +1,6 @@
 ---
 title: Escalate Your Scripts
-tags: bash, ruby
+tags: ruby
 ---
 
 Anyone who knows me knows I love the shell. I got my "start" in bash and 

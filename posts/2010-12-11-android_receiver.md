@@ -1,6 +1,6 @@
 ---
 title: Android Receiver
-tags: android, bash, c, linux
+tags: android, linux
 ---
 
 [Android notifier][] is a great little app I just recently found on the 

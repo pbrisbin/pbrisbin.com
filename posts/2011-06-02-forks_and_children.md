@@ -1,6 +1,6 @@
 ---
 title: Forks and Children
-tags: c, linux
+tags: linux
 ---
 
 While writing a [small learning exercise in C][android-receiver], I came 

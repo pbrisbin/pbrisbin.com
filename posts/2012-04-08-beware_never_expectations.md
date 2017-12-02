@@ -1,6 +1,6 @@
 ---
 title: Beware Never Expectations
-tags: mocha, rails, ruby
+tags: ruby
 ---
 
 Mocha expectations are incredibly useful for ruby unit testing. You can 

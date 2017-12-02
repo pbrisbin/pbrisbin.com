@@ -1,6 +1,6 @@
 ---
 title: Web Preview
-tags: arch, uzbl, website
+tags: linux
 ---
 
 Recently, I made the switch (again) away from Uzbl as my main browser. 

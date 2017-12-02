@@ -1,6 +1,6 @@
 ---
 title: Table links
-tags: html, javascript, website
+tags: self
 ---
 
 Often you might want to present a table of items, each of which links to 

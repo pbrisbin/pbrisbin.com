@@ -1,6 +1,6 @@
 ---
 title: Deleting Git Tags with Style
-tags: git, zsh
+tags: git
 ---
 
 Deleting Git tags that have already been pushed to your remote is something I

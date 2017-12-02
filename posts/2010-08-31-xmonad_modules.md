@@ -1,6 +1,6 @@
 ---
 title: XMonad Modules
-tags: dzen, haskell, website, xmonad
+tags: haskell, xmonad
 ---
 
 This page is to serve as both an apology and an announcement. I've

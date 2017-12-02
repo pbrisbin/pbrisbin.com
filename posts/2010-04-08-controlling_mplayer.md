@@ -1,6 +1,6 @@
 ---
 title: Controlling MPlayer
-tags: arch, bash, linux
+tags: linux
 ---
 
 ## MPlayer

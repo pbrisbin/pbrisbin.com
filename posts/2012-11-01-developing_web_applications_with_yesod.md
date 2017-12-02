@@ -1,6 +1,6 @@
 ---
 title: Developing Web Applications with Yesod
-tags: haskell, yesod, published
+tags: haskell, yesod
 ---
 
 <div class="well">

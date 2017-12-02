@@ -1,6 +1,6 @@
 ---
 title: Downgrade
-tags: aur, arch, linux, bash
+tags: arch
 ---
 
 Downgrade eases downgrading packages in Arch Linux.

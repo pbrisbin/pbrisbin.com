@@ -1,6 +1,6 @@
 ---
 title: Vim Registers
-tags: linux, vim
+tags: vim
 ---
 
 When you use an extremely powerful text editor such as vi, vim, or 

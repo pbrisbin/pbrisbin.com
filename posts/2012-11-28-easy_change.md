@@ -1,6 +1,6 @@
 ---
 title: Easy Change
-tags: ruby, refactoring
+tags: ruby
 ---
 
 > for each desired change, make the change easy (warning: this may be 

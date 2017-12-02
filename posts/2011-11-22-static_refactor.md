@@ -1,6 +1,6 @@
 ---
 title: Static Refactor
-tags: website
+tags: self
 ---
 
 Just a quick heads-up post about a recent site refactoring.

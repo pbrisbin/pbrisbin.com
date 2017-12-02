@@ -1,6 +1,6 @@
 ---
 title: Be Assertive with Sane Exception Handling
-tags: ruby, rails
+tags: ruby
 ---
 
 I'm a big fan of Avdi Grimm's thoughts about writing confident ruby. I 

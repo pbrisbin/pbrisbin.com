@@ -1,6 +1,6 @@
 ---
 title: Faster Mail
-tags: mutt, email, offlineimap, system
+tags: mutt
 ---
 
 I hear and see a lot of passing complaints about dealing with a large 

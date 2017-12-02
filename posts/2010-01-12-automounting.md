@@ -1,6 +1,6 @@
 ---
 title: Automounting
-tags: arch, linux, bash
+tags: linux
 ---
 
 It seems as users (myself inclusive) progress through the stages of 

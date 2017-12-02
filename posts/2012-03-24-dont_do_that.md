@@ -1,6 +1,6 @@
 ---
 title: Dont Do That
-tags: arch, linux, pacman
+tags: arch
 ---
 
 I use Arch linux for a number of reasons. Mainly, it's transparent and 

@@ -1,6 +1,6 @@
 ---
 title: Site Migration
-tags: haskell, website
+tags: haskell, self
 ---
 
     20:24 rson: if there is anything i could ever suggest that you'd listen to, let
@@ -24,17 +24,16 @@ on not only filepath but also custom translations from `content.php` to
 
 ## Yesod
 
-Then I found [Yesod][yesod-docs], a web framework based on haskell. As 
-anyone who's ever been to this site knows, I love haskell. It's just a 
-cool language. So if I were going to move to some sort of framework, 
-this would be it.
+Then I found [Yesod][yesod-docs], a web framework in Haskell. As anyone who's
+ever been to this site knows, I love Haskell. It's just a cool language. So if I
+were going to move to some sort of framework, this would be it.
 
 So, using the [Yesod Docs][yesod-docs], the [haddock 
 documentation][haddocks], and even the [actual source][docs-source] for 
 the Yesod Docs, I was able to hobble my site over to the framework. It 
 wasn't easy, but there's a lot of benefit there.
 
-My breadcrumbs went from 100 lines of php to about 14 lines of haskell. 
+My breadcrumbs went from 100 lines of php to about 14 lines of Haskell. 
 And those 14 lines are simply defining what Routes are children of what 
 other Routes.
 
@@ -47,7 +46,7 @@ And probably most important of all, urls used throughout the site are
 *type safe*, compile-time-guaranteed to be valid.
 
 What that means is that I don't type the url directly, I insert a 
-haskell function that corresponds to those pages' Routes. And no, they 
+Haskell function that corresponds to those pages' Routes. And no, they 
 aren't built from regular expressions; each Route is generated as a 
 distinct type as defined by me.
 

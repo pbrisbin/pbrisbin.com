@@ -1,6 +1,6 @@
 ---
 title: Chromebook
-tags: cloud, development
+tags:
 ---
 
 I've heard rumors that a Google [Chromebook][] can make a surprisingly 

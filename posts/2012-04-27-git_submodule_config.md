@@ -1,6 +1,6 @@
 ---
 title: Git Submodule Config
-tags: git, linux
+tags: git
 ---
 
 Git submodules are pretty great. They allow you to have nested git 

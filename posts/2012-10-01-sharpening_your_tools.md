@@ -1,6 +1,6 @@
 ---
 title: Sharpening Your Tools
-tags: workflow, vim
+tags: vim
 ---
 
 Regardless of what editor you choose or how deeply you decide to extend 

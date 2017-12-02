@@ -1,6 +1,6 @@
 ---
 title: Email Encryption
-tags: mutt, encryption, gpg
+tags: mutt
 ---
 
 The recent hullabaloo with Snowden and the NSA is very scary. I agree 

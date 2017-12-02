@@ -1,6 +1,6 @@
 ---
 title: The Github Effect
-tags: opensource, work
+tags:
 ---
 
 Recently I've come across a stretch of similarly themed articles. 

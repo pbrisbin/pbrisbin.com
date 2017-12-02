@@ -1,6 +1,6 @@
 ---
 title: Landlord Reviews
-tags: haskell, website, boston
+tags: haskell
 ---
 
 Last weekend, when our heat wasn't working (again), I had an idea: *What 

@@ -1,6 +1,6 @@
 ---
 title: PHP Authentication
-tags: php, website
+tags: self
 ---
 
 Recently I had the opportunity to write some php pages (some mine,

@@ -1,6 +1,6 @@
 ---
 title: MapToggle
-tags: vim, linux
+tags: vim
 ---
 
 This snippet, when added to one's `~/.vimrc`, allows the toggling of commonly

@@ -1,6 +1,6 @@
 ---
 title: Mocking Bash
-tags: bash, testing, mocks, cram, aurget, arch
+tags: shell
 ---
 
 Have you ever wanted to mock a program on your system so you could write 

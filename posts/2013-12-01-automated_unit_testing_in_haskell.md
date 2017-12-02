@@ -1,6 +1,6 @@
 ---
 title: Automated Unit Testing in Haskell
-tags: testing, haskell, cabal, hunit, ruby, guard
+tags: haskell
 ---
 
 [Hspec][] is a [BDD][] library for writing Rspec-style tests in Haskell. 

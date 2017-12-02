@@ -1,6 +1,6 @@
 ---
 title: Yesod Deployments with Keter
-tags: haskell, yesod, keter
+tags: haskell, yesod
 ---
 
 [Keter][keter] is Michael Snoyman's answer to the Yesod deployment 

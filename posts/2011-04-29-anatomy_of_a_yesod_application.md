@@ -1,6 +1,6 @@
 ---
 title: Anatomy of a Yesod Application
-tags: haskell, yesod, website
+tags: haskell, yesod, self
 ---
 
 *subtitle: how to stay sane when developing for the web in haskell*

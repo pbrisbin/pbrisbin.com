@@ -1,6 +1,6 @@
 ---
 title: Using Notify-OSD for XMonad Notifications
-tags: xmonad, haskell, notify-osd
+tags: haskell, xmonad
 ---
 
 In my continuing efforts to strip my computing experience of any 

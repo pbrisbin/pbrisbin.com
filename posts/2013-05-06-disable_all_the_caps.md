@@ -1,6 +1,6 @@
 ---
 title: Disable All The Caps
-tags: arch, linux, udev
+tags: arch
 ---
 
 If you're like me and absolutely abhor the Caps Lock key, you've 

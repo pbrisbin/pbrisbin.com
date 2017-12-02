@@ -1,6 +1,6 @@
 ---
 title: Implicit Scope
-tags: ruby, rails, work
+tags: ruby
 ---
 
 No one can deny that rails likes to do things for you. The term 

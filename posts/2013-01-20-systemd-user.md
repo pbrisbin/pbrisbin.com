@@ -1,6 +1,6 @@
 ---
 title: Systemd-User
-tags: arch, systemd
+tags: arch
 ---
 
 <div class="well">

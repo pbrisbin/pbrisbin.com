@@ -1,6 +1,6 @@
 ---
 title: UI Refresh
-tags: website, yesod
+tags: self
 ---
 
 Astute readers may have noticed, the site looks a little bit different 

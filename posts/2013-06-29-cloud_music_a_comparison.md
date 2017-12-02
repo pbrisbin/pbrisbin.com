@@ -1,6 +1,6 @@
 ---
 title: "Cloud Music: A Comparison"
-tags: cloud, rdio, google, music
+tags:
 ---
 
 For the longest time, my interaction with music was via MPD. I had a 

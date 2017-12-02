@@ -1,6 +1,6 @@
 ---
 title: Applicative Functors
-tags: haskell, applicative
+tags: haskell
 ---
 
 Every time I read [Learn You a Haskell][lyah], I get something new out of it.

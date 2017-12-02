@@ -1,6 +1,6 @@
 ---
 title: Test Driven Development
-tags: linux, ruby, work, tdd
+tags: ruby
 ---
 
 With my recent job shift, I've found myself in a much more sophisticated 

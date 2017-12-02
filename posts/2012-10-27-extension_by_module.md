@@ -1,6 +1,6 @@
 ---
 title: Extension by Module
-tags: ruby, metaprogramming
+tags: ruby
 ---
 
 Ruby's open classes are great for adding behavior to existing objects. 

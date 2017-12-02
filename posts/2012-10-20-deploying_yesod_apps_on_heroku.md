@@ -1,6 +1,6 @@
 ---
 title: Deploying Yesod Apps On Heroku
-tags: yesod, website, ops, cloud
+tags: yesod
 ---
 
 <div class="well">

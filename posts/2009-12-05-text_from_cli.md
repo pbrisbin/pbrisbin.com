@@ -1,6 +1,6 @@
 ---
 title: Text From CLI
-tags: arch, linux, bash
+tags: linux
 ---
 
 This is a short but extensible script to allow text messaging (to

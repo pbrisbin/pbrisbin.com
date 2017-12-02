@@ -1,6 +1,6 @@
 ---
 title: Live Search
-tags: haskell, website, yesod
+tags: haskell, self
 ---
 
 **Note**: this post describes a system for searching posts which once appeared

@@ -1,6 +1,6 @@
 ---
 title: Display Manager
-tags: arch, linux, bash
+tags: linux
 ---
 
 GDM, KDM, SLiM; they all serve one purpose: accept a username/password and start
