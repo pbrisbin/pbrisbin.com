@@ -4,27 +4,28 @@ module Main where
 import Data.Monoid ((<>))
 import qualified Data.Text as T
 import Hakyll
-import Site.IndexedRoute
 import Skylighting (pygments, styleToCss)
+import System.FilePath.Posix (splitFileName)
+import qualified System.FilePath.Posix as P
 import Text.Blaze (toMarkup)
 import Text.Blaze.Renderer.String (renderMarkup)
 import Text.XML (Node(..))
 
 main :: IO ()
 main = hakyll $ do
-    tags <- buildTags "posts/*" $ fromCapture "tags/*/index.html"
+    match ("favicon.ico" .||. "css/**") $ do
+        route idRoute
+        compile copyFileCompiler
 
     create ["css/syntax.css"] $ do
         route idRoute
         compile $ makeItem $ styleToCss pygments
 
-    match ("favicon.ico" .||. "css/**") $ do
-        route idRoute
-        compile copyFileCompiler
+    -- http://javran.github.io/posts/2014-03-01-add-tags-to-your-hakyll-blog.html
+    tags <- buildTags "posts/*" $ fromCapture "tags/*/index.html"
 
     match "posts/*" $ do
-        route $ setExtension "" `composeRoutes` indexedRoute
-
+        route postRoute
         compile $ do
             let ctx = postCtx tags
 
@@ -34,26 +35,10 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" ctx
                 >>= replaceIndexLinks
 
-    create ["archives/index.html"] $ do
+    tagsRules tags $ \tag p -> do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
-
-            let ctx = mconcat
-                    [ listField "posts" (postCtx tags) (return posts)
-                    , constField "title" $ "archives on " <> siteTitle
-                    , defaultContext
-                    ]
-
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/archives.html" ctx
-                >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= replaceIndexLinks
-
-    tagsRules tags $ \tag pattern -> do
-        route idRoute
-        compile $ do
-            posts <- loadContent pattern
+            posts <- loadContent p
 
             let ctx = mconcat
                     [ listField "posts" (postCtx tags) (return posts)
@@ -63,6 +48,22 @@ main = hakyll $ do
 
             makeItem ""
                 >>= loadAndApplyTemplate "templates/tag.html" ctx
+                >>= loadAndApplyTemplate "templates/default.html" ctx
+                >>= replaceIndexLinks
+
+    create ["archives/index.html"] $ do
+        route idRoute
+        compile $ do
+            posts <- loadContent "posts/*"
+
+            let ctx = mconcat
+                    [ listField "posts" (postCtx tags) (return posts)
+                    , constField "title" $ "archives on " <> siteTitle
+                    , defaultContext
+                    ]
+
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/archives.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
                 >>= replaceIndexLinks
 
@@ -113,6 +114,16 @@ postCtx tags = mconcat
     , defaultContext
     ]
 
+-- | Route @foo/bar/{prefix-}baz{.ext}@ to @foo/bar/baz/index.html@
+postRoute :: Routes
+postRoute = setExtension "" `composeRoutes` indexedRoute
+  where
+    indexedRoute = customRoute $ \i ->
+        let (path, name) = splitFileName $ toFilePath i
+        in path P.</> dropDatePrefix name P.</> "index.html"
+
+    dropDatePrefix = drop $ length ("YYYY-MM-DD-" :: String)
+
 feedItemCtx :: Context String
 feedItemCtx = mconcat
     [ dateField "date" "%a, %d %b %Y %H:%M:%S %z"
@@ -120,9 +131,23 @@ feedItemCtx = mconcat
     , mapContext escapeXml $ bodyField "body"
     , defaultContext
     ]
+  where
+    escapeXml :: String -> String
+    escapeXml = renderMarkup . toMarkup . NodeContent . T.pack
 
 loadContent :: Pattern -> Compiler [Item String]
 loadContent p = recentFirst =<< loadAllSnapshots p "content"
 
-escapeXml :: String -> String
-escapeXml = renderMarkup . toMarkup . NodeContent . T.pack
+-- | Replaces @href="/foo/index.html"@ with @href="/foo"@
+replaceIndexLinks :: Item String -> Compiler (Item String)
+replaceIndexLinks = replace "href=\"/[^\"]*/index.html" P.takeDirectory
+
+-- | Replaces @<host>/foo/index.html@ with @<host>/foo@ for the given host
+replaceIndexURLs :: String -> Item String -> Compiler (Item String)
+replaceIndexURLs host = replace (host <> "/.*/index.html") P.takeDirectory
+
+replace
+    :: String             -- ^ Regular expression to match
+    -> (String -> String) -- ^ Provide replacement given match
+    -> Item String -> Compiler (Item String)
+replace p f = return . fmap (replaceAll p f)

@@ -26,8 +26,7 @@ watch:
 check:
 	stack install hlint weeder
 	weeder .
-	# https://github.com/ndmitchell/hlint/issues/216
-	hlint -XNoPatternSynonyms app src
+	hlint Main.hs
 
 .PHONY: check-genered
 check-gendered:
