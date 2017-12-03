@@ -27,7 +27,7 @@ dependencies:
 test:
   override:
     - weeder .
-    - hlint -XNoPatternSynonyms app src
+    - hlint Main.hs
     - stack exec site rebuild
     - s3cmd
         --dry-run
