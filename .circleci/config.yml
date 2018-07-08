@@ -52,4 +52,6 @@ jobs:
       - run:
           name: Publish
           command: |
-            [ "$CIRCLE_BRANCH" = master ] && make publish
+            if [ "$CIRCLE_BRANCH" = master ]; then
+              make publish
+            fi
