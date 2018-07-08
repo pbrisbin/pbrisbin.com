@@ -3,7 +3,7 @@ module Main where
 
 import Data.Monoid ((<>))
 import qualified Data.Text as T
-import Hakyll
+import Hakyll hiding (host)
 import Skylighting (pygments, styleToCss)
 import System.FilePath.Posix (splitFileName)
 import qualified System.FilePath.Posix as P
