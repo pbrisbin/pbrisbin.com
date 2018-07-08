@@ -24,7 +24,7 @@ S3CMD ?= s3cmd
 diff:
 	mkdir _released || $(RM) -r _released/*
 	$(S3CMD) sync s3://pbrisbin.com _released
-	diff --color=always --unified _released _site
+	diff --unified _released _site
 
 
 .PHONY: publish
