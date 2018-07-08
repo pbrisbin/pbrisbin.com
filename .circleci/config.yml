@@ -44,8 +44,8 @@ jobs:
           name: Site
           command: make clean site
       - run:
-          name: Publish (dry-run)
-          command: make publish S3CMD='s3cmd --dry-run'
+          name: Diff
+          command: make diff || true
       - run:
           name: Publish (if master)
           command: |
