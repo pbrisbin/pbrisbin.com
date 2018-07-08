@@ -47,9 +47,6 @@ jobs:
           name: Diff
           command: make diff || true
       - run:
-          name: Publish (if master)
+          name: Publish
           command: |
-            if [ "$CIRCLE_BRANCH" = master ]; then
-              # TODO: remove safe-guard
-              echo make publish
-            fi
+            [ "$CIRCLE_BRANCH" = master ] && make publish
