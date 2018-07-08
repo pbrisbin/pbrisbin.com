@@ -21,7 +21,7 @@ jobs:
           command: |
             apt-get -qq update
             apt-get -qq install -y \
-              build-essentials \
+              build-essential \
               curl \
               python-pip
             pip install s3cmd
