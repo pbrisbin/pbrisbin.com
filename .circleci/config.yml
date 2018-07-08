@@ -19,6 +19,9 @@ jobs:
       - run:
           name: Dependencies
           command: |
+            # N.B. https://github.com/commercialhaskell/stack/pull/3955
+            stack upgrade
+
             # Build packages that trigger OOM errors in a pre-step with no
             # concurrency in the hopes that they succeed.
             stack build -j 1 Cabal
