@@ -19,6 +19,7 @@ jobs:
       - run:
           name: Dependencies
           command: |
+            apt-get update
             apt-get install python-pip
             pip install s3cmd
             curl -sSL https://get.haskellstack.org/ | sh
