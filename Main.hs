@@ -40,7 +40,8 @@ main = hakyll $ do
         compile $ do
             posts <- loadContent p
 
-            let ctx = mconcat
+            let
+                ctx = mconcat
                     [ listField "posts" (postCtx tags) (return posts)
                     , constField "title" tag
                     , defaultContext
@@ -56,7 +57,8 @@ main = hakyll $ do
         compile $ do
             posts <- loadContent "posts/*"
 
-            let ctx = mconcat
+            let
+                ctx = mconcat
                     [ listField "posts" (postCtx tags) (return posts)
                     , constField "title" $ "archives on " <> siteTitle
                     , defaultContext
@@ -72,7 +74,8 @@ main = hakyll $ do
         compile $ do
             posts <- take 10 <$> loadContent "posts/*"
 
-            let ctx = mconcat
+            let
+                ctx = mconcat
                     [ listField "posts" (postCtx tags) (return posts)
                     , constField "title" siteTitle
                     , defaultContext
@@ -88,7 +91,8 @@ main = hakyll $ do
         compile $ do
             posts <- loadContent "posts/*"
 
-            let ctx = mconcat
+            let
+                ctx = mconcat
                     [ listField "posts" feedItemCtx (return posts)
                     , constField "title" siteTitle
                     , constField "root" siteHost
@@ -108,11 +112,8 @@ siteTitle :: String
 siteTitle = "pbrisbin dot com"
 
 postCtx :: Tags -> Context String
-postCtx tags = mconcat
-    [ dateField "date" "%d %b %Y"
-    , tagsField "tags" tags
-    , defaultContext
-    ]
+postCtx tags =
+    mconcat [dateField "date" "%d %b %Y", tagsField "tags" tags, defaultContext]
 
 -- | Route @foo/bar/{prefix-}baz{.ext}@ to @foo/bar/baz/index.html@
 postRoute :: Routes
@@ -149,5 +150,6 @@ replaceIndexURLs host = replace (host <> "/.*/index.html") P.takeDirectory
 replace
     :: String             -- ^ Regular expression to match
     -> (String -> String) -- ^ Provide replacement given match
-    -> Item String -> Compiler (Item String)
+    -> Item String
+    -> Compiler (Item String)
 replace p f = return . fmap (replaceAll p f)
