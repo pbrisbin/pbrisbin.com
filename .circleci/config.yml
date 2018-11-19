@@ -55,3 +55,11 @@ jobs:
             if [ "$CIRCLE_BRANCH" = master ]; then
               make publish
             fi
+
+# Using workflows just to get access to shared secrets. Silly
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          context: org-global
