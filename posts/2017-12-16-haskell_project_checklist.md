@@ -30,10 +30,10 @@ on Circle 2.0", you'll just need the [`Makefile`](#makefile) and
 
 ```yaml
 ---
-resolver: lts-9.18
-packages:
-  - '.'
-extra-deps: []
+resolver: lts-12.19
+
+ghc-options:
+  "$locals": -fhide-source-paths
 ```
 
 **package.yaml**
@@ -41,7 +41,7 @@ extra-deps: []
 ```yaml
 ---
 name: {package-name}
-version: '0.0.0'
+version: 0.0.0.0  # EPOCH.MAJOR.MINOR.PATCH
 category:
 synopsis: Short synopsis
 description: >
@@ -126,35 +126,21 @@ tests:
     # ...
 
   doctest:
-    main: DocTest.hs
-    source-dirs: .
+    main: Main.hs
+    source-dirs: doctest
     dependencies:
       - doctest
-      - Glob
 ```
 
-**DocTest.hs**
-
-<div class="well">
-**NOTE**: [`doctest-discover`][doctest-discover] is supposed to do this, but
-unfortunately it's [broken][doctest-discover-issue].
-</div>
+**doctest/Main.hs**
 
 ```hs
 module Main (main) where
 
-import System.FilePath.Glob
 import Test.DocTest
 
 main :: IO ()
-main = do
-    let options =
-            -- For example
-            [ "-XOverloadedStrings"
-            ]
-
-    paths <- globDir1 (compile "**/*.hs") "src"
-    doctest $ options ++ paths
+main = doctest ["-XOverloadedStrings", "src"]
 ```
 
 Fill your Haddocks with executable examples.
@@ -222,6 +208,11 @@ newline: native
 
 The defaults for `weeder` are usually fine for me.
 
+<div class="well">
+If you're interested in having style fixes automatically resolved as part of
+your Pull Request process, check out [Restyled](https://restyled.io).
+</div>
+
 ## 6. Use Circle 2.0
 
 When you set up the project, make sure you say it's Haskell via the *Other*
@@ -240,10 +231,18 @@ jobs:
       - image: fpco/stack-build:lts-9.18
     steps:
       - checkout
+      - run:
+          name: Digest
+          command: |
+            # Bust cache on any tracked file changing. We'll still fall back to
+            # the most recent cache for this branch, or master though.
+            git ls-files | xargs md5sum > digest
+
       - restore_cache:
           keys:
-            - stack-{{ .Branch }}-{{ checksum "stack.yaml" }}
-            - stack-{{ .Branch }}
+            - stack-{{ .Branch }}-{{ checksum "digest" }}
+            - stack-{{ .Branch }}-
+            - stack-master-
             - stack-
       - run:
           name: Dependencies
@@ -252,7 +251,7 @@ jobs:
           name: Build
           command: make build
       - save_cache:
-          key: stack-{{ .Branch }}-{{ checksum "stack.yaml" }}
+          key: stack-{{ .Branch }}-{{ checksum "digest" }}
           paths:
             - ~/.stack
             - ./.stack-work
