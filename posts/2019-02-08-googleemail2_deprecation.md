@@ -48,9 +48,12 @@ This will result in:
 1. The API token no longer being present in the session post-authentication
 1. The `Creds` value seen in `authenticate` to differ
 
-The following is an example `authenticate` function with the goal of masking
-these differences at that point. That way, downstream code shouldn't have to
-change:
+If neither of these matter to you (or are trivial to deal with in your
+application), you are done.
+
+Assuming that's not the case, the following is an example `authenticate`
+function that masks these differences at that seam. That way, downstream code
+shouldn't have to change:
 
 ```hs
 -- OAuth2.Google provides the raw response from the /userinfo API call as a
