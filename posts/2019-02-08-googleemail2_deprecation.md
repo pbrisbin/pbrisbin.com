@@ -45,7 +45,7 @@ Actually changing plugins is as simple as you might expect:
 
 This will result in:
 
-1. An API token to no longer be present in the session post-authentication
+1. The API token no longer being present in the session post-authentication
 1. The `Creds` value seen in `authenticate` to differ
 
 The following is an example `authenticate` function with the goal of masking
