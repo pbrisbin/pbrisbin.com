@@ -86,7 +86,7 @@ authenticate creds = do
             , credsIdent = email user
             , credsExtra =
                 [ ("name", name user)
-                -- And any other fields you were relying on...
+                -- And any other fields you were relying on. See below.
                 ]
             }
 
@@ -95,10 +95,36 @@ authenticate creds = do
 
 This approach simplifies-- and makes explicit --the values you'll find in
 `credsExtra`. This may or may not be problematic to your application, but it is
-unavoidable. `GoogleEmail2` was requesting the deprecated `/plus/v1/people/me`
-endpoint and serializing the raw JSON `Value` into `[(Text, Text)]`.
-`OAuth2.Google`'s response data comes from the non-deprecated
-[`/userinfo`][userinfo] endpoint and (as shown above) you are encouraged to
-de-serialize the response to an actual type.
+unavoidable. `GoogleEmail2` was requesting a `Person` resource from the
+deprecated `/plus/v1/people/me` endpoint and serializing the entire JSON `Value`
+into `[(Text, Text)]` in [an ad hoc way][allPersonInfo]. The former will stop
+working some time in March and the latter is generally discouraged as a way of
+handling data in Haskell.
 
+[allPersonInfo]: http://hackage.haskell.org/package/yesod-auth-1.6.5/docs/src/Yesod.Auth.GoogleEmail2.html#allPersonInfo
+
+For migration purposes, this `Person` resource is [much richer][person] and so
+cannot be fully re-created from the simpler [`/userinfo`][userinfo] response
+that `OAuth2.Google` provides:
+
+[person]: https://developers.google.com/+/web/api/rest/latest/people#resource
 [userinfo]: https://developers.google.com/apis-explorer/#p/oauth2/v2/oauth2.userinfo.get
+
+```json
+{
+  "id": "999999999999999999999",
+  "email": "you@gmail.com",
+  "verified_email": true,
+  "name": "Your Name",
+  "given_name": "Your",
+  "family_name": "Name",
+  "link": "https://plus.google.com/999999999999999999999",
+  "picture": "https://lh3.googleusercontent.com/...",
+  "locale": "en"
+}
+```
+
+If you were relying on data not present here, you will need to make [additional
+API calls][people-api] to retrieve it.
+
+[people-api]: https://developers.google.com/people/api/rest/v1/people
