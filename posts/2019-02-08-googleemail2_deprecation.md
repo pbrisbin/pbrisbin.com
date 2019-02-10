@@ -56,31 +56,23 @@ function that masks these differences at that seam. That way, downstream code
 shouldn't have to change:
 
 ```hs
--- OAuth2.Google provides the raw response from the /userinfo API call as a
--- field in credsExtra. By decoding that field to a value of this type, you can
--- access (hopefully) any data you were previously using from the credsExtra
--- fields set by GoogleEmail2. What fields you need, how you want to structure
--- this type, and your preferred JSON library are all up to you; this is just an
--- example
 data GoogleUser
     = GoogleUser
     { name :: Text
     , email :: Text
+    -- And any other fields you need from /userinfo. See below.
     }
     deriving Generic
 
 instance FromJSON GoogleUser
 
 authenticate creds = do
-    -- NOTE: I'm using unsafe pattern matching to keep the example clear. You
-    -- should handle the Lefts and Nothings accordingly in your own code
-    Right user <- getUserResponseJSON creds
     Just (AccessToken token) <- getAccessToken creds
 
-    -- Address (1): save the token into the session
     setSession "_GOOGLE_ACCESS_TOKEN" token
 
-    -- Address (2): build a Creds value like we were seeing before
+    Right user <- getUserResponseJSON creds
+
     let updatedCreds = Creds
             { credsPlugin = "googleemail2"
             , credsIdent = email user
@@ -90,7 +82,7 @@ authenticate creds = do
                 ]
             }
 
-  -- Proceed as before, with updatedCreds
+    -- Proceed as before, but using updatedCreds
 ```
 
 This approach simplifies-- and makes explicit --the values you'll find in
