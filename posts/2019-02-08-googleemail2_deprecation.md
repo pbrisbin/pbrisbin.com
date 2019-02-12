@@ -49,7 +49,8 @@ Actually changing plugins is as simple as you might expect:
 This will result in:
 
 1. The API token no longer being present in the session post-authentication
-1. The `Creds` value seen in `authenticate` to differ
+1. The `Creds` value seen in `authenticate` to differ; most importantly, the
+   `credsIdent` value will no longer be the user's email address
 
 If neither of these matter to you (or are trivial to deal with in your
 application), you are done.
