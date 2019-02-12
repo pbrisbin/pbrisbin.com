@@ -35,13 +35,16 @@ differences between the plugins to know what to best do in your own codebase.
 
 Actually changing plugins is as simple as you might expect:
 
-```diff
--import Yesod.Auth.GoogleEmail2
-+import Yesod.Auth.OAuth2.Google
+1. Add the `yesod-auth-oauth2` package to your cabal file or `package.yaml`
+1. Update your `authPlugins`:
 
--authPlugins = [authGoogleEmailSaveToken clientId clientSecret]
-+authPlugins = [oauth2GoogleScoped ["email", "profile"] clientId clientSecret]
-```
+   ```diff
+   -import Yesod.Auth.GoogleEmail2
+   +import Yesod.Auth.OAuth2.Google
+
+   -authPlugins = [authGoogleEmailSaveToken clientId clientSecret]
+   +authPlugins = [oauth2GoogleScoped ["email", "profile"] clientId clientSecret]
+   ```
 
 This will result in:
 
