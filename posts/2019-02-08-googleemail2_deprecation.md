@@ -124,3 +124,7 @@ If you were relying on data not present here, you will need to make [additional
 API calls][people-api] to retrieve it.
 
 [people-api]: https://developers.google.com/people/api/rest/v1/people
+
+For an example of transitioning a real application, see [this commit][commit].
+
+[commit]: https://github.com/snoyberg/haskellers/commit/f77bba90d9684afb532639c68e64449523992535
