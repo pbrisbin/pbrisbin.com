@@ -60,6 +60,8 @@ function that masks these differences at that seam. That way, downstream code
 shouldn't have to change:
 
 ```hs
+import Yesod.Auth.OAuth2 (getAccessToken, getUserResponseJSON)
+
 data GoogleUser
     = GoogleUser
     { name :: Text
