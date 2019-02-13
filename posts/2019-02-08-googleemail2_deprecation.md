@@ -130,3 +130,18 @@ API calls][people-api] to retrieve it.
 For an example of transitioning a real application, see [this commit][commit].
 
 [commit]: https://github.com/snoyberg/haskellers/commit/f77bba90d9684afb532639c68e64449523992535
+
+<div class=well>
+**Addendum**: it's likely that after following these instructions, you'll
+encounter:
+
+```
+Error: redirect_uri_mismatch
+```
+
+when trying to log into your application.
+
+That would be because your OAuth2 application only allows redirects to
+the `googleemail2` plugin's callback URL. You'll just need to update that in the
+Developer Console to allow `.../auth/page/google/callback` too.
+</div>
