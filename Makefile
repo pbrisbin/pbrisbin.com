@@ -21,7 +21,7 @@ site:
 S3CMD ?= s3cmd
 
 .PHONY: diff
-diff:
+diff: build clean site
 	mkdir _released || $(RM) -r _released/*
 	$(S3CMD) sync s3://pbrisbin.com _released
 	diff --unified _released _site
