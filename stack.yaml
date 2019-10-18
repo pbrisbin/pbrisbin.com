@@ -1,2 +1,10 @@
----
-resolver: lts-11.16
+resolver: lts-14.10
+
+extra-deps:
+- hakyll-4.13.0.1@sha256:0f27d74feaedc96648ec5377ecec2b35dd677516c9667d179462a350f2075628,8817
+
+# Makes weeder work in stack-2
+ghc-options:
+  "$locals":
+    -ddump-to-file
+    -ddump-hi
