@@ -1,22 +1,24 @@
 all: setup build lint site
 
+STACK ?= stack
+
 .PHONY: setup
 setup:
-	stack build --dependencies-only
-	stack install --copy-compiler-tool hlint weeder
+	$(STACK) build --dependencies-only
+	$(STACK) install --copy-compiler-tool hlint weeder
 
 .PHONY: build
 build:
-	stack build --pedantic
+	$(STACK) build --pedantic
 
 .PHONY: lint
 lint:
-	stack exec hlint Main.hs
-	stack exec weeder .
+	$(STACK) exec hlint Main.hs
+	$(STACK) exec weeder .
 
 .PHONY: site
 site:
-	stack exec site build
+	$(STACK) exec site build
 
 S3CMD ?= s3cmd
 
@@ -39,11 +41,11 @@ publish:
 
 .PHONY: clean
 clean:
-	stack exec site clean
+	$(STACK) exec site clean
 
 .PHONY: watch
 watch:
-	stack exec site watch
+	$(STACK) exec site watch
 
 TITLE ?= "" # causes tab-completion
 

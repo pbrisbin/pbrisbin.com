@@ -5,6 +5,8 @@ jobs:
   build:
     docker:
       - image: fpco/stack-build:lts-14.10
+        environment:
+          STACK: stack --no-terminal
     steps:
       - checkout
       - run:
