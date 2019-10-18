@@ -1,0 +1,4 @@
+# vim: ft=ruby
+
+# Disable "First header" rule
+rules "~MD002"
