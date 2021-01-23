@@ -1,0 +1,35 @@
+name: Deploy
+
+on: push
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      S3CMD: aws s3
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.stack
+            ./.stack-work
+          key: ${{ runner.os }}-${{ hashFiles('stack.yaml') }}-${{ hashFiles('*.cabal') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ hashFiles('stack.yaml') }}-
+            ${{ runner.os }}-
+      - run: make build
+      - run: make lint
+      - run: make clean site
+      - run: make diff
+        continue-on-error: true
+
+      - if: endsWith(github.ref, '/master')
+        uses: reggionick/s3-deploy@v3
+        with:
+          folder: _site
+          bucket: pbrisbin.com
+          dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          delete-removed: true
