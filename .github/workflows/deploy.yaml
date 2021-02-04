@@ -28,7 +28,7 @@ jobs:
       - run: make diff
         continue-on-error: true
 
-      - if: endsWith(github.ref, '/master')
+      - if: endsWith(github.ref, '/main')
         uses: reggionick/s3-deploy@v3
         with:
           folder: _site
