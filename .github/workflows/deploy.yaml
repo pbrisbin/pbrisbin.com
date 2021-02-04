@@ -20,6 +20,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ hashFiles('stack.yaml') }}-
             ${{ runner.os }}-
+      - run: make setup
       - run: make build
       - run: make lint
       - run: make clean site
