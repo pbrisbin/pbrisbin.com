@@ -33,5 +33,6 @@ jobs:
         with:
           folder: _site
           bucket: pbrisbin.com
+          bucket-region: us-east-1
           dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
           delete-removed: true
