@@ -35,4 +35,5 @@ jobs:
           bucket: pbrisbin.com
           bucket-region: us-east-1
           dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          invalidation: '/*'
           delete-removed: true
