@@ -1,0 +1,26 @@
+#!/bin/sh
+set -eu
+
+if [ $# -eq 0 ]; then
+  echo "Usage: bin/new The Post's Title"
+  exit 64
+fi
+
+title=$*
+clean_title=$(echo "$title" | sed 's/[^0-9a-zA-Z_-]/_/g; s/.*/\L&/')
+path=posts/$(date +%Y-%m-%d)-$clean_title.md
+
+if [ -f "$path" ]; then
+  echo "$path exists already" >&2
+  exit 1
+fi
+
+cat >"$path" <<EOM
+---
+title: "$title"
+tags:
+---
+
+EOM
+
+exec "${VISUAL:-${EDITOR:-vi}}" "$path"
