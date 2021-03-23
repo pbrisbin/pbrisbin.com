@@ -8,8 +8,6 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      S3CMD: aws s3
-      STACK: stack --no-terminal
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -21,14 +19,29 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ hashFiles('stack.yaml') }}-
             ${{ runner.os }}-
-      - run: make setup
-      - run: make build
-      - run: make lint
-      - run: make clean site
-      - run: make diff
+
+      - name: Build
+        run: |
+          stack --no-terminal build --pedantic
+
+      - name: Lint
+        run: |
+          stack --no-terminal install --copy-compiler-tool hlint
+          stack --no-terminal exec hlint Main.hs
+
+      - name: Site
+        run: |
+          stack --no-terminal exec site build
+
+      - name: Diff
+        run: |
+          mkdir -p _released
+          aws s3 sync --delete s3://pbrisbin.com _released
+          diff --unified _released _site
         continue-on-error: true
 
-      - if: endsWith(github.ref, '/main')
+      - name: Deploy
+        if: endsWith(github.ref, '/main')
         uses: reggionick/s3-deploy@v3
         with:
           folder: _site
