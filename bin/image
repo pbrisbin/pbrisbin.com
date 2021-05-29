@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ ! -f "$1" ]; then
+  echo "Image file does not exist ($1)" >&2
+  exit 1
+fi
+
+image=$1
+name=$(basename "$image")
+bucket=images.pbrisbin.com
+
+choice=$(find posts -type f -print0 | fzf --read0)
+echo "$choice"
+
+if [ -n "$choice" ]; then
+  title=$(basename "$choice" .md | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//')
+  path=$title/$name
+
+  aws s3 cp --acl public-read "$image" "s3://$bucket/$path"
+
+  echo "![](https://images.pbrisbin.com/$path)" | xclip
+  echo "![](https://images.pbrisbin.com/$path)" | xclip -selection clipboard
+  echo "Markdown copied to clipboard"
+fi
