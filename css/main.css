@@ -57,8 +57,7 @@ pre code {
 }
 
 img {
-  margin: 5px;
-  margin-bottom: 25px;
+  margin: 5px auto 25px auto;
   max-width: 95%;
 
   -webkit-box-shadow: 2px 12px 20px #888;
@@ -70,6 +69,10 @@ blockquote {
   border-left: 3px solid #ebebeb;
   color: #808080;
   padding-left: 7px;
+}
+
+.center, .centered {
+  text-align: center;
 }
 
 .meta {
